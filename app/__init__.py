@@ -19,7 +19,6 @@ app.config.from_object(Config)
 app.config['SECRET KEY'] = Config.SECRET_KEY
 bootstrap = Bootstrap(app)
 
-
 # Retourne la base de données
 def get_db():
     db = getattr(g, '_database', None)

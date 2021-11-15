@@ -6,7 +6,7 @@ import os
 class Config(object):
     # YzNjbC0zNXQtYzRjaDM= est la cle secrete
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'YzNjbC0zNXQtYzRjaDM='
-
+    
     # La liste des piscines et installations aquatiques en format CSV
     urlPiscines = "https://data.montreal.ca/dataset/4604afb7-a7c4-4626-a3ca-e136158133f2/resource/cbdca706-569e-4b4a-805d-9af73af03b14/download/piscines.csv"
 
