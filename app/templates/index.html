@@ -1,0 +1,32 @@
+<!-- Page d'accueil -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Bienvenue</h1>
+    <form id="recherche" class="navbar-right" action="{{ url_for('index') }}" method="POST">
+        {{ form.hidden_tag() }}
+        <div" class="form-group">
+            {{ form.arrondissement.label }}
+            {{ form.arrondissement }}
+        </div>
+        {{ form.submit }}
+    </form>
+
+    <h2>Glissades</h2>
+    <div id="glissades"></div>
+    <hr>
+
+    <h2>Patinoires</h2>
+    <div id="patinoires"></div>
+    <hr>
+
+    <h2>Piscines</h2>
+    <div id="piscines"></div>
+    <hr>
+
+    <script type="text/javascript">
+        var arr = '{{ arrondissement }}'
+    </script>
+    <script type="text/javascript" src="/js/arrondissement.js"></script>
+
+{% endblock content %}

@@ -1,0 +1,29 @@
+#%RAML 1.0
+---
+title: REST API for Travail Session
+baseUri: http://localhost:5000
+mediaType: application/json
+
+/api:
+    /installations:
+        /{arrondissement}:
+            get:
+                description: Get the list of all installations that are in {arrondissement}
+                responses:
+                    200:
+                        description: Returns an installation that is in {arrondissement}
+                    404:
+                        description: There is not an installation that is in {arrondissement}
+    /noms_installations:
+        get:
+            description: Get a page with a form to find an installation by its name
+    
+    /installation:
+        /{nom}:
+            get:
+                description: Get an installation by it's name
+                responses:
+                    200:
+                        description: Returns an installation with this name: {nom}
+                    404:
+                        description: There is not an installation with this name: {nom}

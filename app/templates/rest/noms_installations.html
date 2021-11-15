@@ -1,0 +1,25 @@
+<!-- Page d'accueil -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Bienvenue</h1>
+    <form id="recherche" class="navbar-right" action="{{ url_for('rest.noms_installations') }}" method="POST">
+        {{ form.hidden_tag() }}
+        <div" class="form-group">
+            {{ form.nom_installation.label }}
+            {{ form.nom_installation }}
+        </div>
+        {{ form.submit }}
+    </form>
+    
+    {% if nom_installation %}
+        <h2>Information sur {{ nom_installation }}</h2>
+        <div id="installation"></div>
+        <hr>
+    {% endif %}
+
+    <script type="text/javascript">
+        var nom_installation = '{{ nom_installation }}'
+    </script>
+    <script type="text/javascript" src="/js/nom_installations.js"></script>
+{% endblock content %}

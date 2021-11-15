@@ -1,0 +1,12 @@
+<!-- Page d'erreurs -->
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="404">
+        <h2>ERREUR {{ error }}</h2>
+        {% if message %}
+            <h3>{{ message }}</h3>
+        {% endif %}
+        <p><a href="{{ url_for('index') }}">Retourner</a></p>
+    </div>
+{% endblock content %}
