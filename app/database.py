@@ -246,3 +246,18 @@ class Database:
         connect = self.get_connection()
         cursor = connect.cursor()
         cursor.execute("DELETE FROM glissade WHERE nom=?", (nom,))
+
+    def get_glissade(self, nom):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("SELECT * FROM glissade WHERE nom=?", (nom,))
+        return json.dumps(cursor.fetchone(), ensure_ascii=False)
+
+    def update_glissade(self, nom, ouvert, deblaye, condition):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        try:
+            cursor.execute("UPDATE glissade SET ouvert=?, deblaye=?, condition=? WHERE nom=?", (ouvert, deblaye, condition, nom))
+            connect.commit()
+        except:
+            connect.rollback()
