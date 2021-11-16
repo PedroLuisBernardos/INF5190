@@ -241,3 +241,8 @@ class Database:
             if (var == None):
                 var = cursor.execute("SELECT * FROM patinoire WHERE nom_pat=?", (nom,)).fetchone()
         return json.dumps(var, ensure_ascii=False)
+
+    def delete_glissade(self, nom):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("DELETE FROM glissade WHERE nom=?", (nom,))

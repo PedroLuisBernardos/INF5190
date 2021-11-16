@@ -7,6 +7,7 @@ from .database import Database
 from app.errors import bp as errors_bp
 from app.auth import bp as auth_bp
 from app.rest import bp as rest_bp
+from flask_json_schema import JsonSchema
 from apscheduler.schedulers.background import BackgroundScheduler
 import requests
 import csv
@@ -18,6 +19,7 @@ app = Flask(__name__, static_url_path="", static_folder="static")
 app.config.from_object(Config)
 app.config['SECRET KEY'] = Config.SECRET_KEY
 bootstrap = Bootstrap(app)
+schema = JsonSchema(app)
 
 # Retourne la base de données
 def get_db():
@@ -142,9 +144,9 @@ app.register_blueprint(errors_bp)
 app.register_blueprint(auth_bp)
 
 # Gestion des requetes REST
-app.register_blueprint(rest_bp)
+app.register_blueprint(rest_bp, url_prefix='/api')
 
 if __name__ == "__main__":
-    app.run('0.0.0.0', port=5000)
+    app.run('0.0.0.0', port=5000, debug=true)
 
 from app import views
