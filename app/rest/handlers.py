@@ -7,7 +7,6 @@ from flask.json import jsonify
 from werkzeug.utils import redirect
 from config import Config
 from app.rest import bp
-from app.rest.forms import NomInstallationForm
 from app import Database
 
 # Documentation de tous les services REST
@@ -16,37 +15,60 @@ def doc():
     return render_template("rest/doc.html", title="Documentation REST")
 
 
-# Affichage des installations selon un arrondissement
-@bp.route('/installations/<arrondissement>')
-def installations_arrondissement(arrondissement):
-    glissades = Database().find_glissade_arrondissement(arrondissement)
-    patinoires = Database().find_patinoire_arrondissement(arrondissement)
-    piscines = Database().find_piscine_arrondissement(arrondissement)
-    return {'glissades':glissades,'patinoires':patinoires,'piscines':piscines}
+# Affichage des installations
+# Un paramètre 'arrondissement' peut être specifie en parametres
+@bp.route('/api/installations/')
+def installations_arrondissement():
+    arrondissement = request.args.get("arrondissement")
+    if not arrondissement and request.args:
+        return {'error': 'Le seul paramètre possible est arrondissement'}, 400
+    elif 'arrondissement' in request.args:
+        glissades = Database().find_glissade_arrondissement(arrondissement)
+        patinoires = Database().find_patinoire_arrondissement(arrondissement)
+        piscines = Database().find_piscine_arrondissement(arrondissement)
+        if glissades == "[]" and patinoires == "[]" and piscines == "[]":
+            return {'error': 'Aucune installation n\'a été trouvée'}, 404
+        return {'glissades':glissades,'patinoires':patinoires,'piscines':piscines}
+    else:
+        glissades = Database().get_glissades()
+        patinoires = Database().get_patinoires()
+        piscines = Database().get_piscines()
+        if glissades == "[]" and patinoires == "[]" and piscines == "[]":
+            return {'error': 'Aucune installation n\'a été trouvée'}, 404
+        return {'glissades': glissades,'patinoires': patinoires,'piscines': piscines}
 
 
-@bp.route('/noms_installations/', methods=["GET", "POST"])
-def noms_installations():
-    form = NomInstallationForm()
-    if form.validate_on_submit():
-        new_form = NomInstallationForm()
-        nom_installation = form.nom_installation.data
-        return render_template("rest/noms_installations.html", title="Accueil",
-                               nom_installation=nom_installation, form=new_form)
-    return render_template('rest/noms_installations.html', title="Accueil",
-                           form=form)
-
-
-@bp.route('/installation/<nom>')
+@bp.route('/api/installation/<nom>')
 def info_nom_installation(nom):
-    return Database().get_info_by_nom_installation(nom)
+    nom = nom.encode('raw_unicode_escape').decode('utf-8')
+    info = Database().get_info_by_nom_installation(nom)
+    if info == "null":
+        return {'error': 'L\'installation n\'existe pas'}, 404
+    return info
 
 
-@bp.route('/delete/glissade/<nom>')
+@bp.route('/api/glissades')
+def glissades():
+    print(Database().get_glissades)
+    return Database().get_glissades()
+
+
+@bp.route('/api/glissade/<nom>', methods=['DELETE'])
 def delete_glissade(nom):
     try:
+        nom = nom.encode('raw_unicode_escape').decode('utf-8')
+        glissade = Database().get_glissade(nom)
+        if glissade == "null":
+            return {'error': 'La glissade n\'existe pas'}, 404
         Database().delete_glissade(nom)
-        return redirect(url_for('index'))
+        return glissade
     except:
-        error_string = 'Il y a eu une erreur avec la suppression de la glissade.'
-        return render_template('errors/error.html', title='Erreur', error=error_string)
+        return {'error': 'Il y a eu une erreur avec la suppression de la glissade'}, 500
+
+@bp.route('/api/glissade/<nom>')
+def get_glissade(nom):
+    nom = nom.encode('raw_unicode_escape').decode('utf-8')
+    glissade = Database().get_glissade(nom)
+    if glissade == "null":
+        return {'error': 'La glissade n\'existe pas'}, 404
+    return glissade

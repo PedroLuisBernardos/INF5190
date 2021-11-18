@@ -4,26 +4,132 @@ title: REST API for Travail Session
 baseUri: http://localhost:5000
 mediaType: application/json
 
+types:
+    Arrondissement:
+        properties:
+            nom_arr:
+                type: string
+                required: true
+            cle:
+                type: string
+                required: true
+            date_maj:
+                type: datetime
+                required: true
+    Glissade:
+        properties:
+            nom:
+                type: string
+                required: true
+            arrondissement:
+                type: Arrondissement
+                required: true
+            ouvert:
+                type: boolean
+                required: true
+            deblaye:
+                type: boolean
+                required: true
+            condition:
+                type: string
+                default: N/A
+    Patinoire:
+        properties:
+            nom_arr:
+                type: string
+                required: true
+            nom_pat:
+                type: string
+                required: true
+    Piscine:
+        properties:
+            id_uev:
+                type: integer
+                required: true
+            type:
+                type: string
+                required: true
+            nom:
+                type: string
+                required: true
+            arrondisse:
+                type: string
+                required: true
+            adresse:
+                type: string
+                required: true
+            propriete:
+                type: string
+            gestion:
+                type: string
+            point_x:
+                type: string
+                required: true
+            point_y:
+                type: string
+                required: true
+            equipeme:
+                type: string
+                required: true
+            longitude:
+                type: number
+                required: true
+            latitude:
+                type: number
+                required: true
+
 /api:
     /installations:
-        /{arrondissement}:
-            get:
-                description: Get the list of all installations that are in {arrondissement}
-                responses:
-                    200:
-                        description: Returns an installation that is in {arrondissement}
-                    404:
-                        description: There is not an installation that is in {arrondissement}
-    /noms_installations:
         get:
-            description: Get a page with a form to find an installation by its name
-    
+            description: Reçoit la liste de toutes les installations
+            queryParameters:
+                arrondissement:
+                    displayName: arrondissement
+                    type: string
+                    description: Si ajouté, reçoit la liste de toutes les installations selon cet `arrondissement`
+                    example: "/api/installations?arrondissement=Ahuntsic"
+                    required: false
+            responses:
+                200:
+                    description: Retourne une liste d'installations
+                400:
+                    description: Un paramètre différent d'`arrondissement` a été précisé
+                404:
+                    description: Aucune installation n'a été trouvée
     /installation:
         /{nom}:
             get:
-                description: Get an installation by it's name
+                description: Retourne toute l'information disponible sur l'installation qui a le nom passé dans l'url
+                example: "/api/installations/Ahuntsic"
                 responses:
                     200:
-                        description: Returns an installation with this name: {nom}
+                        description: L'installation existe et l'api retourne ses informations
                     404:
-                        description: There is not an installation with this name: {nom}
+                        description: L'installation n'existe pas
+    /glissades:
+        get:
+            description: Retourne toutes les glissades
+            responses:
+                200:
+                    description: Il y a au moins une glissade dans la base de donné et elle est retournée
+                404:
+                    description: Il n'y a aucune glissade dans la base de données
+    /glissade:
+        /{nom}:
+            delete:
+                description: Supprime la glissade qui a comme nom `nom`
+                example: "/api/glissade/Aire de glissade ,Don-Bosco"
+                responses:
+                    200:
+                        description: La glissade a été suprimée
+                    404:
+                        description: La glissade n'existe pas
+                    500:
+                        description: Il y a eu un problème avec la supression de la glissade
+            get:
+                description: Retourne la glissade qui a comme nom `nom`
+                responses:
+                    200:
+                        description: Retourne la glissade
+                    404:
+                        description: La glissade n'existe pas

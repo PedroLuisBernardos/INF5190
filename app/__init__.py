@@ -45,10 +45,10 @@ with app.app_context():
         schedule.start()
         # TODO update bd apres un chanegemtn??
     else:
-        SetUp.telecharger
-        SetUp.create_piscine_db
-        SetUp.create_patinoire_db
-        SetUp.create_glissade_db
+        SetUp.telecharger()
+        SetUp.create_piscine_db()
+        SetUp.create_patinoire_db()
+        SetUp.create_glissade_db()
 
 # Gestion des erreurs
 app.register_blueprint(errors_bp)
@@ -57,7 +57,7 @@ app.register_blueprint(errors_bp)
 app.register_blueprint(auth_bp)
 
 # Gestion des requetes REST
-app.register_blueprint(rest_bp, url_prefix='/api')
+app.register_blueprint(rest_bp)
 
 if __name__ == "__main__":
     app.run('0.0.0.0', port=5000, debug=true)

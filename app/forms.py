@@ -1,7 +1,7 @@
 # forms.py
 # Defini le formulaire du point A5
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField
+from wtforms import StringField, SubmitField, IntegerField, SelectField
 from wtforms.validators import NumberRange, DataRequired, Length
 from app import Database
 
@@ -28,3 +28,12 @@ class SchemaGlissadeForm(FlaskForm):
     condition = StringField('Condition', validators=[DataRequired(message=m)],
                             default="N/A")
     submit = SubmitField('Modifier')
+
+
+class NomInstallationForm(FlaskForm):
+    choix = Database().get_noms_installations().split('"')
+    choix = choix[1::2]
+    choix = choix[1:-1]
+    nom_installation = SelectField('Nom de l\'installation,',
+                                   choices=choix)
+    submit = SubmitField('Rechercher')

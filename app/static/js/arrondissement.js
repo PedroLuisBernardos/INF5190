@@ -15,11 +15,14 @@ async function arrondissementRecherche(arrondissement, id_table) {
     document.getElementById(id_table).appendChild(table);
 
     if (!(arrondissement === "")) {
-        await fetch("/api/installations/"+arrondissement)
+        await fetch("/api/installations/?arrondissement="+arrondissement)
         .then(response => response.text())
         .then(response => JSON.parse(response))
         .then(response => {
-            if (id_table === "glissades") {
+            if (response.error) {
+                console.log(response)
+                return response
+            } else if (id_table === "glissades") {
                 return JSON.parse(response.glissades)
             } else if (id_table === "patinoires" ) {
                 return JSON.parse(response.patinoires)
@@ -30,8 +33,7 @@ async function arrondissementRecherche(arrondissement, id_table) {
             }
         })
         .then(response => {
-            console.log(response)
-            if (response.length != 0) {
+            if (response.length != 0 && !response.error) {
                 headers(table, Object.keys(response[0]));
                 for( var i = 0; i < response.length; i++ ) {
                     var r = response[i];

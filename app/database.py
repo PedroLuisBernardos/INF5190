@@ -246,12 +246,31 @@ class Database:
         connect = self.get_connection()
         cursor = connect.cursor()
         cursor.execute("DELETE FROM glissade WHERE nom=?", (nom,))
+        connect.commit()
 
     def get_glissade(self, nom):
         connect = self.get_connection()
         cursor = connect.cursor()
         cursor.execute("SELECT * FROM glissade WHERE nom=?", (nom,))
         return json.dumps(cursor.fetchone(), ensure_ascii=False)
+
+    def get_glissades(self):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("SELECT * FROM glissade")
+        return json.dumps(cursor.fetchall(), ensure_ascii=False)
+
+    def get_patinoires(self):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("SELECT * FROM patinoire")
+        return json.dumps(cursor.fetchall(), ensure_ascii=False)
+
+    def get_piscines(self):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("SELECT * FROM piscine")
+        return json.dumps(cursor.fetchall(), ensure_ascii=False)
 
     def update_glissade(self, nom, ouvert, deblaye, condition):
         connect = self.get_connection()
