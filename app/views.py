@@ -5,10 +5,11 @@ from sqlite3.dbapi2 import TimeFromTicks
 from flask import render_template, redirect, url_for, session, request
 from app.database import Database
 from app import app, get_db, schema, Config
-from app.forms import ArrondissementForm, SchemaGlissadeForm, NomInstallationForm
+from app.forms import ArrondissementForm, NomInstallationForm
 
 
 # Page principale
+# Contient un formulaire pour afficher les installations selon un arrondissement
 @app.route('/', methods=["GET", "POST"])
 def index():
     form = ArrondissementForm()
@@ -19,16 +20,14 @@ def index():
                                arrondissement=arrondissement, form=new_form)
     return render_template("index.html", title="Accueil", form=form)
 
-@app.route('/api/update/glissade/<nom>', methods=["GET", "POST"])
-#@schema.validate(Config.schema)
+
+@app.route('/api/update/glissade/<nom>', methods=["PUT", "PATCH"])
+@schema.validate(Config.schema)
 def update_glissade_form(nom):
-    form = SchemaGlissadeForm()
-    if form.validate_on_submit() and request.method == 'POST':
-        Database().update_glissade(nom, form.ouvert.data, form.deblaye.data, form.condition.data)
-        return Database().get_glissade(nom)
-    return render_template("glissades_schema.html", title="Accueil", form=form)
+    return request.get_json()
 
 
+# Contient un formulaire pour afficher l'information d'une installation selon son nom
 @app.route('/noms_installations/', methods=["GET", "POST"])
 def noms_installations():
     form = NomInstallationForm()

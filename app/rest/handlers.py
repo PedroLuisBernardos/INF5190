@@ -65,6 +65,7 @@ def delete_glissade(nom):
     except:
         return {'error': 'Il y a eu une erreur avec la suppression de la glissade'}, 500
 
+
 @bp.route('/api/glissade/<nom>')
 def get_glissade(nom):
     nom = nom.encode('raw_unicode_escape').decode('utf-8')

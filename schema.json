@@ -1,18 +1,21 @@
 {
     "title": "Schema des glissades",
-    "description": "Défini un schema à respecter pour la modification des glissades",
     "type": "object",
-    "ouvert": {
-        "type": "number",
-        "minimum": 0,
-        "maximum": 1
+    "description": "Défini un schema à respecter pour la modification des glissades",
+    "properties": {
+        "ouvert": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "deblaye": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "condition": {
+            "type": "string"
+        }
     },
-    "deblaye": {
-        "type": "number",
-        "minimum": 0,
-        "maximum": 1
-    },
-    "condition": {
-        "type": "string"
-    }
+    "additionalProperties": false
 }
