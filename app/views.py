@@ -21,9 +21,9 @@ def index():
     return render_template("index.html", title="Accueil", form=form)
 
 
-@app.route('/api/update/glissade/<nom>', methods=["PUT", "PATCH"])
+@app.route('/api/glissade/<nom>', methods=["PUT", "PATCH"])
 @schema.validate(Config.schema)
-def update_glissade_form(nom):
+def update_glissade(nom):
     return request.get_json()
 
 

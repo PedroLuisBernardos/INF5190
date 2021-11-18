@@ -5,31 +5,35 @@ baseUri: http://localhost:5000
 mediaType: application/json
 
 types:
+    Installations:
+        properties:
+            glissades:
+                type: Glissade[]
+                required: true
+            patinoires:
+                type: Patinoire[]
+                required: true
+            piscines:
+                type: Piscine[]
+                required: true
     Arrondissement:
         properties:
             nom_arr:
                 type: string
-                required: true
             cle:
                 type: string
-                required: true
             date_maj:
                 type: datetime
-                required: true
     Glissade:
         properties:
             nom:
                 type: string
-                required: true
             arrondissement:
                 type: Arrondissement
-                required: true
             ouvert:
                 type: boolean
-                required: true
             deblaye:
                 type: boolean
-                required: true
             condition:
                 type: string
                 default: N/A
@@ -37,65 +41,66 @@ types:
         properties:
             nom_arr:
                 type: string
-                required: true
             nom_pat:
                 type: string
-                required: true
     Piscine:
         properties:
             id_uev:
                 type: integer
-                required: true
             type:
                 type: string
-                required: true
             nom:
                 type: string
-                required: true
             arrondisse:
                 type: string
-                required: true
             adresse:
                 type: string
-                required: true
             propriete:
                 type: string
             gestion:
                 type: string
             point_x:
                 type: string
-                required: true
             point_y:
                 type: string
-                required: true
             equipeme:
                 type: string
-                required: true
             longitude:
                 type: number
-                required: true
             latitude:
                 type: number
-                required: true
+    Error:
+        properties:
+            error:
+                type: string
 
 /api:
     /installations:
         get:
-            description: Reçoit la liste de toutes les installations
+            description: Retourne la liste de toutes les installations
             queryParameters:
                 arrondissement:
                     displayName: arrondissement
                     type: string
-                    description: Si ajouté, reçoit la liste de toutes les installations selon cet `arrondissement`
+                    description: Si ajouté, retourne la liste de toutes les installations selon cet `arrondissement`
                     example: "/api/installations?arrondissement=Ahuntsic"
                     required: false
             responses:
                 200:
                     description: Retourne une liste d'installations
+                    body:
+                        application/json:
+                            type: Installations
                 400:
                     description: Un paramètre différent d'`arrondissement` a été précisé
+                    body:
+                        application/json:
+                            type: Error
                 404:
                     description: Aucune installation n'a été trouvée
+                    body:
+                        application/json:
+                            type: Error
     /installation:
         /{nom}:
             get:
@@ -104,16 +109,28 @@ types:
                 responses:
                     200:
                         description: L'installation existe et l'api retourne ses informations
+                        body:
+                            application/json:
+                                description: L'installation est soit une glissade, soit une patinoire soit une piscine
                     404:
                         description: L'installation n'existe pas
+                        body:
+                        application/json:
+                            type: Error
     /glissades:
         get:
             description: Retourne toutes les glissades
             responses:
                 200:
                     description: Il y a au moins une glissade dans la base de donné et elle est retournée
+                    body:
+                        application/json:
+                            type: Glissade[]
                 404:
                     description: Il n'y a aucune glissade dans la base de données
+                    body:
+                        application/json:
+                            type: Error
     /glissade:
         /{nom}:
             delete:
@@ -122,14 +139,77 @@ types:
                 responses:
                     200:
                         description: La glissade a été suprimée
+                        body:
+                            application/json:
+                                type: Glissade
                     404:
                         description: La glissade n'existe pas
+                        body:
+                        application/json:
+                            type: Error
                     500:
                         description: Il y a eu un problème avec la supression de la glissade
+                        body:
+                        application/json:
+                            type: Error
             get:
                 description: Retourne la glissade qui a comme nom `nom`
                 responses:
                     200:
                         description: Retourne la glissade
+                        body:
+                        application/json:
+                            type: Glissade
                     404:
                         description: La glissade n'existe pas
+                        body:
+                        application/json:
+                            type: Error
+            put:
+                description: Modifie toutes les valeurs de la glissade
+                example: {'TODO': 'TODO'}
+                responses:
+                    200:
+                        description: La glissade a été modifiée
+                        body:
+                            application/json:
+                                type: Glissade
+                    400:
+                        description: Le JSON envoyé ne respecte pas le schema
+                        body:
+                            application/json:
+                                type: Glissade
+                    404:
+                        description: La glissade n'existe pas
+                        body:
+                        application/json:
+                            type: Error
+                    500:
+                        description: Il y a eu une erreur en modifiant la glissade
+                        body:
+                        application/json:
+                            type: Error
+            patch:
+                description: Modifie quelques valeurs de la glissade
+                example: {'TODO': 'TODO'}
+                responses:
+                    200:
+                        description: La glissade a été modifiée
+                        body:
+                            application/json:
+                                type: Glissade
+                    400:
+                        description: Le JSON envoyé ne respecte pas le schema
+                        body:
+                            application/json:
+                                type: Glissade
+                    404:
+                        description: La glissade n'existe pas
+                        body:
+                        application/json:
+                            type: Error
+                    500:
+                        description: Il y a eu une erreur en modifiant la glissade
+                        body:
+                        application/json:
+                            type: Error
