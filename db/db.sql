@@ -45,12 +45,3 @@ CREATE TABLE piscine (
     latitude REAL,
     PRIMARY KEY (style, nom)
 );
-
-CREATE TABLE user (
-    id INTEGER PRIMARY KEY,
-    user VARCHAR(30) NOT NULL,
-    email VARCHAR(50) NOT NULL,
-    salt VARCHAR(32) NOT NULL,
-    hash VARCHAR(128) NOT NULL,
-    arrondissements TEXT
-);

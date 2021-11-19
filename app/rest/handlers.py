@@ -49,9 +49,19 @@ def info_nom_installation(nom):
 
 @bp.route('/api/glissades')
 def glissades():
-    if Database().get_glissades() == "[]":
+    glissades = Database().get_glissades()
+    if glissades == "[]":
         return {'error': 'Il n\'y a aucune glissade'}, 404
-    return Database().get_glissades()
+    return glissades
+
+
+@bp.route('/api/glissade/<nom>')
+def get_glissade(nom):
+    nom = nom.encode('raw_unicode_escape').decode('utf-8')
+    glissade = Database().get_glissade(nom)
+    if glissade == "null":
+        return {'error': 'La glissade n\'existe pas'}, 404
+    return glissade
 
 
 @bp.route('/api/glissade/<nom>', methods=['DELETE'])
@@ -65,12 +75,3 @@ def delete_glissade(nom):
         return glissade
     except:
         return {'error': 'Il y a eu une erreur avec la suppression de la glissade'}, 500
-
-
-@bp.route('/api/glissade/<nom>')
-def get_glissade(nom):
-    nom = nom.encode('raw_unicode_escape').decode('utf-8')
-    glissade = Database().get_glissade(nom)
-    if glissade == "null":
-        return {'error': 'La glissade n\'existe pas'}, 404
-    return glissade

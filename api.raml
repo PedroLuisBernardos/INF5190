@@ -24,6 +24,17 @@ types:
                 type: string
             date_maj:
                 type: datetime
+    ArrondissementPatch:
+        properties:
+            nom_arr:
+                type: string
+                required: false
+            cle:
+                type: string
+                required: false
+            date_maj:
+                type: datetime
+                required: false
     Glissade:
         properties:
             nom:
@@ -36,6 +47,24 @@ types:
                 type: boolean
             condition:
                 type: string
+                default: N/A
+    GlissadePatch:
+        properties:
+            nom:
+                type: string
+                required: false
+            arrondissement:
+                type: ArrondissementPatch
+                required: false
+            ouvert:
+                type: boolean
+                required: false
+            deblaye:
+                type: boolean
+                required: false
+            condition:
+                type: string
+                required: false
                 default: N/A
     Patinoire:
         properties:
@@ -148,20 +177,20 @@ types:
                             application/json:
                                 description: L'installation est soit une glissade, soit une patinoire soit une piscine
                             example: |
-                                [
-                                    4030363,
-                                    "Jeu d'eau",
-                                    "Parc Beaulac",
-                                    "Saint-Laurent",
-                                    "1 145, Rue Élizabeth",
-                                    "Municipale",
-                                    "Municipale",
-                                    "290934,0231",
-                                    "5042211675",
-                                    "",
-                                    -73.677489,
-                                    45.51968
-                                ]
+                                {
+                                    "id_uev": 4030363,
+                                    "type": "Jeu d'eau",
+                                    "nom": "Parc Beaulac",
+                                    "arrondisse": "Saint-Laurent",
+                                    "adresse": "1 145, Rue Élizabeth",
+                                    "propriete": "Municipale",
+                                    "gestion": "Municipale",
+                                    "point_x": "290934,0231",
+                                    "point_y": "5042211675",
+                                    "equipeme": "",
+                                    "long": -73.677489,
+                                    "lat": 45.51968
+                                }
                     404:
                         description: L'installation n'existe pas
                         body:
@@ -182,20 +211,28 @@ types:
                             type: Glissade[]
                         example: |
                             [
-                                [
-                                    "Aire de glissade ,Don-Bosco",
-                                    0,
-                                    0,
-                                    "N/A",
-                                    "Rivière-des-Prairies - Pointe-aux-Trembles"
-                                ],
-                                [
-                                    "Aire de glissade,Saint-Jean-Baptiste",
-                                    0,
-                                    0,
-                                    "N/A",
-                                    "Rivière-des-Prairies - Pointe-aux-Trembles"
-                                ]
+                                {
+                                    "nom": "Aire de glissade ,Don-Bosco",
+                                    "arrondissement": {
+                                    "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
+                                    "cle": "rdp",
+                                    "date_maj": "2021-10-18 13:45:13"
+                                    },
+                                    "ouvert": 0,
+                                    "deblaye": 0,
+                                    "condition": "N/A"
+                                },
+                                {
+                                    "nom": "Aire de glissade,François-Vaillancourt",
+                                    "arrondissement": {
+                                    "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
+                                    "cle": "rdp",
+                                    "date_maj": "2021-10-18 13:45:13"
+                                    },
+                                    "ouvert": 0,
+                                    "deblaye": 0,
+                                    "condition": "N/A"
+                                }
                             ]
                 404:
                     description: Il n'y a aucune glissade dans la base de données
@@ -218,13 +255,17 @@ types:
                             application/json:
                                 type: Glissade
                                 example: |
-                                    [
-                                        "Aire de glissade,Saint-Jean-Baptiste",
-                                        0,
-                                        0,
-                                        "N/A",
-                                        "Rivière-des-Prairies - Pointe-aux-Trembles"
-                                    ]
+                                    {
+                                        "nom": "Aire de glissade ,Don-Bosco",
+                                        "arrondissement": {
+                                            "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
+                                            "cle": "rdp",
+                                            "date_maj": "2021-10-18 13:45:13"
+                                        },
+                                        "ouvert": 0,
+                                        "deblaye": 0,
+                                        "condition": "N/A"
+                                    }
                     404:
                         description: La glissade n'existe pas
                         body:
@@ -252,13 +293,17 @@ types:
                             application/json:
                                 type: Glissade
                                 example: |
-                                    [
-                                        "Aire de glissade ,Don-Bosco",
-                                        0,
-                                        0,
-                                        "N/A",
-                                        "Rivière-des-Prairies - Pointe-aux-Trembles"
-                                    ]
+                                    {
+                                        "nom": "Aire de glissade ,Don-Bosco",
+                                        "arrondissement": {
+                                            "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
+                                            "cle": "rdp",
+                                            "date_maj": "2021-10-18 13:45:13"
+                                        },
+                                        "ouvert": 0,
+                                        "deblaye": 0,
+                                        "condition": "N/A"
+                                    }
                     404:
                         description: La glissade n'existe pas
                         body:
@@ -270,14 +315,39 @@ types:
                                     }
             put:
                 description: Modifie toutes les valeurs de la glissade
-                example: {'TODO': 'TODO'}
+                body:
+                    application/json:
+                        type: Glissade
+                        example: |
+                            {
+                                "nom": "nouveau nom",
+                                "arrondissement": {
+                                    "nom_arr": "nouveau nom",
+                                    "cle": "nouvelle cle",
+                                    "date_maj": "nouvelle date"
+                                },
+                                "ouvert": 1,
+                                "deblaye": 1,
+                                "condition": "nouvelle condition"
+                            }
                 responses:
                     200:
                         description: La glissade a été modifiée
                         body:
                             application/json:
                                 type: Glissade
-                                example: {'TODO': 'TODO'}
+                                example: |
+                                    {
+                                        "nom": "nouveau nom",
+                                        "arrondissement": {
+                                            "nom_arr": "nouveau nom",
+                                            "cle": "nouvelle cle",
+                                            "date_maj": "nouvelle date"
+                                        },
+                                        "ouvert": 0,
+                                        "deblaye": 0,
+                                        "condition": "N/A"
+                                    }
                     400:
                         description: Le JSON envoyé ne respecte pas le schema
                         body:
@@ -307,14 +377,32 @@ types:
                                     }
             patch:
                 description: Modifie quelques valeurs de la glissade
-                example: {'TODO': 'TODO'}
+                body:
+                    application/json:
+                        type: GlissadePatch
+                        example: |
+                            {
+                                "nom": "nouveau nom",
+                                "ouvert": 1
+                            }
                 responses:
                     200:
                         description: La glissade a été modifiée
                         body:
                             application/json:
                                 type: Glissade
-                                example: {'todo':'todo'}
+                                example: |
+                                    {
+                                        "nom": "nouveau nom",
+                                        "arrondissement": {
+                                            "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
+                                            "cle": "rdp",
+                                            "date_maj": "2021-10-18 13:45:13"
+                                        },
+                                        "ouvert": 1,
+                                        "deblaye": 0,
+                                        "condition": "N/A"
+                                    }
                     400:
                         description: Le JSON envoyé ne respecte pas le schema
                         body:

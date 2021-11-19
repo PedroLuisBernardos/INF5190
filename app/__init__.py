@@ -5,7 +5,6 @@ from config import Config
 from flask_bootstrap import Bootstrap
 from .database import Database
 from app.errors import bp as errors_bp
-from app.auth import bp as auth_bp
 from app.rest import bp as rest_bp
 from flask_json_schema import JsonSchema
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -52,9 +51,6 @@ with app.app_context():
 
 # Gestion des erreurs
 app.register_blueprint(errors_bp)
-
-# Gestion de l'authentification
-app.register_blueprint(auth_bp)
 
 # Gestion des requetes REST
 app.register_blueprint(rest_bp)
