@@ -91,32 +91,84 @@ types:
                     body:
                         application/json:
                             type: Installations
+                            example: |
+                                {
+                                    "glissades": {
+                                        "nom": "Aire de glissade ,Don-Bosco",
+                                        "arrondissement": {
+                                        "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
+                                        "cle": "rdp",
+                                        "date_maj": "2021-10-18 13:45:13"
+                                        },
+                                        "ouvert": 0,
+                                        "deblaye": 0,
+                                        "condition": "N/A"
+                                    },
+                                    "patinoires": [
+                                        {
+                                        "nom_arr": "Ahuntsic - Cartierville",
+                                        "nom_pat": "Aire de glissade, Ahuntsic ()"
+                                        },
+                                        {
+                                        "nom_arr": "Ahuntsic - Cartierville",
+                                        "nom_pat": "Aire de glissade, Des Hirondelles ()"
+                                        }
+                                    ],
+                                    "piscines": []
+                                }
                 400:
                     description: Un paramètre différent d'`arrondissement` a été précisé
                     body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "Le seul paramètre possible est arrondissement"
+                                }
                 404:
                     description: Aucune installation n'a été trouvée
                     body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "Aucune installation n'a été trouvée"
+                                }
     /installation:
         /{nom}:
             get:
                 description: Retourne toute l'information disponible sur l'installation qui a le nom passé dans l'url
-                example: "/api/installations/Ahuntsic"
+                example: "/api/installations/Parc Beaulac"
                 responses:
                     200:
                         description: L'installation existe et l'api retourne ses informations
                         body:
                             application/json:
                                 description: L'installation est soit une glissade, soit une patinoire soit une piscine
+                            example: |
+                                [
+                                    4030363,
+                                    "Jeu d'eau",
+                                    "Parc Beaulac",
+                                    "Saint-Laurent",
+                                    "1 145, Rue Élizabeth",
+                                    "Municipale",
+                                    "Municipale",
+                                    "290934,0231",
+                                    "5042211675",
+                                    "",
+                                    -73.677489,
+                                    45.51968
+                                ]
                     404:
                         description: L'installation n'existe pas
                         body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "Aucune installation n'a été trouvée"
+                                }
     /glissades:
         get:
             description: Retourne toutes les glissades
@@ -126,11 +178,32 @@ types:
                     body:
                         application/json:
                             type: Glissade[]
+                        example: |
+                            [
+                                [
+                                    "Aire de glissade ,Don-Bosco",
+                                    0,
+                                    0,
+                                    "N/A",
+                                    "Rivière-des-Prairies - Pointe-aux-Trembles"
+                                ],
+                                [
+                                    "Aire de glissade,Saint-Jean-Baptiste",
+                                    0,
+                                    0,
+                                    "N/A",
+                                    "Rivière-des-Prairies - Pointe-aux-Trembles"
+                                ]
+                            ]
                 404:
                     description: Il n'y a aucune glissade dans la base de données
                     body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "Il n'y a aucune glissade"
+                                }
     /glissade:
         /{nom}:
             delete:
@@ -142,16 +215,32 @@ types:
                         body:
                             application/json:
                                 type: Glissade
+                                example: |
+                                    [
+                                        "Aire de glissade,Saint-Jean-Baptiste",
+                                        0,
+                                        0,
+                                        "N/A",
+                                        "Rivière-des-Prairies - Pointe-aux-Trembles"
+                                    ]
                     404:
                         description: La glissade n'existe pas
                         body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "La glissade n'existe pas"
+                                }
                     500:
                         description: Il y a eu un problème avec la supression de la glissade
                         body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "Il y a eu une erreur avec la suppression de la glissade"
+                                }
             get:
                 description: Retourne la glissade qui a comme nom `nom`
                 responses:
@@ -160,11 +249,23 @@ types:
                         body:
                         application/json:
                             type: Glissade
+                            example: |
+                                [
+                                    "Aire de glissade ,Don-Bosco",
+                                    0,
+                                    0,
+                                    "N/A",
+                                    "Rivière-des-Prairies - Pointe-aux-Trembles"
+                                ]
                     404:
                         description: La glissade n'existe pas
                         body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "La glissade n'existe pas"
+                                }
             put:
                 description: Modifie toutes les valeurs de la glissade
                 example: {'TODO': 'TODO'}
@@ -174,21 +275,34 @@ types:
                         body:
                             application/json:
                                 type: Glissade
+                                example: {'TODO': 'TODO'}
                     400:
                         description: Le JSON envoyé ne respecte pas le schema
                         body:
                             application/json:
                                 type: Glissade
+                                example: |
+                                    {
+                                        "error": "Le fichier JSON envoyé ne respecte pas le schema"
+                                    }
                     404:
                         description: La glissade n'existe pas
                         body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "La glissade n'existe pas"
+                                }
                     500:
                         description: Il y a eu une erreur en modifiant la glissade
                         body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "Il y a eu une erreur avec la modification de la glissade"
+                                }
             patch:
                 description: Modifie quelques valeurs de la glissade
                 example: {'TODO': 'TODO'}
@@ -198,18 +312,31 @@ types:
                         body:
                             application/json:
                                 type: Glissade
+                                example: {'todo':'todo'}
                     400:
                         description: Le JSON envoyé ne respecte pas le schema
                         body:
                             application/json:
                                 type: Glissade
+                                example: |
+                                    {
+                                        "error": "Le fichier JSON envoyé ne respecte pas le schema"
+                                    }
                     404:
                         description: La glissade n'existe pas
                         body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "La glissade n'existe pas"
+                                }
                     500:
                         description: Il y a eu une erreur en modifiant la glissade
                         body:
                         application/json:
                             type: Error
+                            example: |
+                                {
+                                    "error": "Il y a eu une erreur avec la modification de la glissade"
+                                }

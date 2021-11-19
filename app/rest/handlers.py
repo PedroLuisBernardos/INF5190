@@ -43,13 +43,14 @@ def info_nom_installation(nom):
     nom = nom.encode('raw_unicode_escape').decode('utf-8')
     info = Database().get_info_by_nom_installation(nom)
     if info == "null":
-        return {'error': 'L\'installation n\'existe pas'}, 404
+        return {'error': 'Aucune installation n\'a été trouvée'}, 404
     return info
 
 
 @bp.route('/api/glissades')
 def glissades():
-    print(Database().get_glissades)
+    if Database().get_glissades() == "[]":
+        return {'error': 'Il n\'y a aucune glissade'}, 404
     return Database().get_glissades()
 
 

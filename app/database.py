@@ -45,7 +45,6 @@ class Database:
         except:
             connect.rollback()
             
-
     # Recherche si une glissade existe selon la cle primaire
     def is_glissade(self, nom):
         cursor = self.get_connection().cursor()
@@ -63,7 +62,6 @@ class Database:
             connect.commit()
         except:
             connect.rollback()
-
 
     # Recherche si une glissade existe selon la cle primaire
     def is_arrondissement(self, nom_arr):
