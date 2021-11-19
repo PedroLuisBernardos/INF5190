@@ -93,7 +93,8 @@ types:
                             type: Installations
                             example: |
                                 {
-                                    "glissades": {
+                                    "glissades": [
+                                        {
                                         "nom": "Aire de glissade ,Don-Bosco",
                                         "arrondissement": {
                                         "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
@@ -103,7 +104,8 @@ types:
                                         "ouvert": 0,
                                         "deblaye": 0,
                                         "condition": "N/A"
-                                    },
+                                        }
+                                    ],
                                     "patinoires": [
                                         {
                                         "nom_arr": "Ahuntsic - Cartierville",
@@ -163,12 +165,12 @@ types:
                     404:
                         description: L'installation n'existe pas
                         body:
-                        application/json:
-                            type: Error
-                            example: |
-                                {
-                                    "error": "Aucune installation n'a été trouvée"
-                                }
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "Aucune installation n'a été trouvée"
+                                    }
     /glissades:
         get:
             description: Retourne toutes les glissades
@@ -226,46 +228,46 @@ types:
                     404:
                         description: La glissade n'existe pas
                         body:
-                        application/json:
-                            type: Error
-                            example: |
-                                {
-                                    "error": "La glissade n'existe pas"
-                                }
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "La glissade n'existe pas"
+                                    }
                     500:
                         description: Il y a eu un problème avec la supression de la glissade
                         body:
-                        application/json:
-                            type: Error
-                            example: |
-                                {
-                                    "error": "Il y a eu une erreur avec la suppression de la glissade"
-                                }
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "Il y a eu une erreur avec la suppression de la glissade"
+                                    }
             get:
                 description: Retourne la glissade qui a comme nom `nom`
                 responses:
                     200:
                         description: Retourne la glissade
                         body:
-                        application/json:
-                            type: Glissade
-                            example: |
-                                [
-                                    "Aire de glissade ,Don-Bosco",
-                                    0,
-                                    0,
-                                    "N/A",
-                                    "Rivière-des-Prairies - Pointe-aux-Trembles"
-                                ]
+                            application/json:
+                                type: Glissade
+                                example: |
+                                    [
+                                        "Aire de glissade ,Don-Bosco",
+                                        0,
+                                        0,
+                                        "N/A",
+                                        "Rivière-des-Prairies - Pointe-aux-Trembles"
+                                    ]
                     404:
                         description: La glissade n'existe pas
                         body:
-                        application/json:
-                            type: Error
-                            example: |
-                                {
-                                    "error": "La glissade n'existe pas"
-                                }
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "La glissade n'existe pas"
+                                    }
             put:
                 description: Modifie toutes les valeurs de la glissade
                 example: {'TODO': 'TODO'}
@@ -288,21 +290,21 @@ types:
                     404:
                         description: La glissade n'existe pas
                         body:
-                        application/json:
-                            type: Error
-                            example: |
-                                {
-                                    "error": "La glissade n'existe pas"
-                                }
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "La glissade n'existe pas"
+                                    }
                     500:
                         description: Il y a eu une erreur en modifiant la glissade
                         body:
-                        application/json:
-                            type: Error
-                            example: |
-                                {
-                                    "error": "Il y a eu une erreur avec la modification de la glissade"
-                                }
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "Il y a eu une erreur avec la modification de la glissade"
+                                    }
             patch:
                 description: Modifie quelques valeurs de la glissade
                 example: {'TODO': 'TODO'}
@@ -325,18 +327,18 @@ types:
                     404:
                         description: La glissade n'existe pas
                         body:
-                        application/json:
-                            type: Error
-                            example: |
-                                {
-                                    "error": "La glissade n'existe pas"
-                                }
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "La glissade n'existe pas"
+                                    }
                     500:
                         description: Il y a eu une erreur en modifiant la glissade
                         body:
-                        application/json:
-                            type: Error
-                            example: |
-                                {
-                                    "error": "Il y a eu une erreur avec la modification de la glissade"
-                                }
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "Il y a eu une erreur avec la modification de la glissade"
+                                    }
