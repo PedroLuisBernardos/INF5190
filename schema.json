@@ -3,6 +3,25 @@
     "type": "object",
     "description": "Défini un schema à respecter pour la modification des glissades",
     "properties": {
+        "nom": {
+            "type": "string"
+        },
+        "arrondissement": {
+            "type": "object",
+            "properties": {
+                "nom_arr": {
+                    "type": "string"
+                },
+                "cle": {
+                    "type": "string"
+                },
+                "date_maj": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "\\d{4}(.\\d{2}){2}(\\s|T)(\\d{2}.){2}\\d{2}"
+                }
+            }
+        },
         "ouvert": {
             "type": "number",
             "minimum": 0,

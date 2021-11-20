@@ -76,6 +76,8 @@ class Database:
         connect = self.get_connection()
         cursor = connect.cursor()
         cursor.execute("SELECT * FROM glissade WHERE nom=?", (nom,))
+        if cursor.fetchone() == None:
+            return None
         return json.dumps(Database().construire_json_glissade(cursor.fetchone()), ensure_ascii=False)
 
     # Retourne toutes les glissades
@@ -86,13 +88,40 @@ class Database:
         return json.dumps(Database().construire_json_glissade(cursor.fetchall()), ensure_ascii=False)
 
     # Modifie une glissade
-    # TODO: patch
-    def update_glissade(self, nom, ouvert, deblaye, condition):
+    def update_glissade(self, nom_request, nom, nom_arr_request, nom_arr, cle, date_maj, ouvert, deblaye, condition):
         connect = self.get_connection()
         cursor = connect.cursor()
         try:
-            cursor.execute("UPDATE glissade SET ouvert=?, deblaye=?, condition=? WHERE nom=?", (ouvert, deblaye, condition, nom))
-            connect.commit()
+            print(1)
+            if nom != None:
+                cursor.execute("UPDATE glissade SET nom=? WHERE nom=?", (nom, nom_request))
+                connect.commit()
+            print(2)
+            if nom_arr != None:
+                cursor.execute("UPDATE arrondissement SET nom_arr=? WHERE nom_arr=?", (nom_arr, nom_arr_request,))
+                connect.commit()
+            print(3)
+            if cle != None:
+                cursor.execute("UPDATE arrondissement SET cle=? WHERE nom_arr=?", (cle, nom_arr_request))
+                connect.commit()
+            print(4)
+            if date_maj != None:
+                cursor.execute("UPDATE arrondissement SET date_maj=? WHERE nom_arr=?", (date_maj, nom_arr_request))
+                connect.commit()
+            print(5)
+            if ouvert != None:
+                cursor.execute("UPDATE glissade SET ouvert=? WHERE nom=?", (ouvert, nom_request))
+                connect.commit()
+            print(6)
+            if deblaye != None:
+                cursor.execute("UPDATE glissade SET deblaye=? WHERE nom=?", (deblaye, nom_request))
+                connect.commit()
+            print(7)
+            if condition != None:
+                cursor.execute("UPDATE glissade SET condition=? WHERE nom=?", (condition, nom_request))
+                connect.commit()
+            print(8)
+            return Database().get_glissade(nom)
         except:
             connect.rollback()
 
