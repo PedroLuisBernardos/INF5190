@@ -24,6 +24,8 @@ types:
                 type: string
             date_maj:
                 type: datetime
+                description: Doit respecter le format ISO8601: YYYY-MM-DD HH-MM-SS
+                example: 2021-10-18 13:45:13
     ArrondissementPatch:
         properties:
             nom_arr:
@@ -34,6 +36,8 @@ types:
                 required: false
             date_maj:
                 type: datetime
+                description: Doit respecter le format ISO8601: YYYY-MM-DD HH-MM-SS
+                example: 2021-10-18 13:45:13
                 required: false
     Glissade:
         properties:
@@ -43,8 +47,10 @@ types:
                 type: Arrondissement
             ouvert:
                 type: boolean
+                description: Peut uniquement être 0 ou 1
             deblaye:
                 type: boolean
+                description: Peut uniquement être 0 ou 1
             condition:
                 type: string
                 default: N/A
@@ -58,9 +64,11 @@ types:
                 required: false
             ouvert:
                 type: boolean
+                description: Peut uniquement être 0 ou 1
                 required: false
             deblaye:
                 type: boolean
+                description: Peut uniquement être 0 ou 1
                 required: false
             condition:
                 type: string
@@ -314,7 +322,7 @@ types:
                                         "error": "La glissade n'existe pas"
                                     }
             put:
-                description: Modifie toutes les valeurs de la glissade
+                description: Modifie toutes les valeurs de la glissade.
                 body:
                     application/json:
                         type: Glissade
@@ -324,7 +332,7 @@ types:
                                 "arrondissement": {
                                     "nom_arr": "nouveau nom",
                                     "cle": "nouvelle cle",
-                                    "date_maj": "nouvelle date"
+                                    "date_maj": "2021-10-19 13:45:13"
                                 },
                                 "ouvert": 1,
                                 "deblaye": 1,
@@ -352,10 +360,10 @@ types:
                         description: Le JSON envoyé ne respecte pas le schema
                         body:
                             application/json:
-                                type: Glissade
+                                type: Error
                                 example: |
                                     {
-                                        {'error': 'Vous devez préciser uniquement tous les champs de façon correcte vu que vous envoyez une requête PUT'}
+                                        "error": "Vous devez préciser uniquement tous les champs de façon correcte car vous envoyez une requête PUT"
                                     }
                     404:
                         description: La glissade n'existe pas
@@ -430,3 +438,19 @@ types:
                                     {
                                         "error": "Il y a eu une erreur avec la modification de la glissade"
                                     }
+    /patinoires:
+        get:
+    /patinoire:
+        /{nom}:
+            get:
+            delete:
+            put:
+            patch:
+    /piscines:
+        get:
+    /piscine:
+        /{nom}:
+            get:
+            delete:
+            put:
+            patch:

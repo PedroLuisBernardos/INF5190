@@ -17,5 +17,11 @@ class Config(object):
     # La liste des aires de jeux d'hiver (glissades) en format XML
     urlGlissades = "http://www2.ville.montreal.qc.ca/services_citoyens/pdf_transfert/L29_GLISSADE.xml"
 
-    with open("schema.json", "r") as f:
-        schema = json.load(f)
+    with open("Schemas/glissades.json", "r") as f:
+        schema_glissades = json.load(f)
+    
+    with open("Schemas/patinoires.json", "r") as f:
+        schema_patinoires = json.load(f)
+
+    with open("Schemas/piscines.json", "r") as f:
+        schema_piscines = json.load(f)

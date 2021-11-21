@@ -23,17 +23,18 @@ def index():
 
 # Modifie une glissade selon un JSON recu
 @app.route('/api/glissade/<nom_request>', methods=["PUT", "PATCH"])
-@schema.validate(Config.schema)
+@schema.validate(Config.schema_glissades)
 def update_glissade(nom_request):
+    # Si la glissade existe
     if get_db().get_glissade(nom_request) != "null":
         nom = None
-        nom_arr_request = json.loads(get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
         nom_arr = None
         cle = None
         date_maj = None
         ouvert = None
         deblaye = None
         condition = None
+
         if 'nom' in request.get_json():
             nom = request.get_json()['nom']
         if 'arrondissement' in request.get_json():
@@ -49,11 +50,30 @@ def update_glissade(nom_request):
             deblaye = request.get_json()['deblaye']
         if 'condition' in request.get_json():
             condition = request.get_json()['condition']
+
         if nom == None or nom_arr == None or cle == None or date_maj == None or ouvert == None or deblaye == None or condition == None and request.method == 'PUT':
-            return {'error': 'Vous devez préciser tous les champs vu que vous envoyez une requête PUT'}, 400
+            return {'error': 'Vous devez préciser tous les champs car vous envoyez une requête PUT'}, 400
+
+        nom_arr_request = json.loads(get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
         return Database().update_glissade(nom_request, nom, nom_arr_request, nom_arr, cle, date_maj, ouvert, deblaye, condition)
     else:
         return {'error': 'La glissade n\'existe pas'}, 404
+
+
+# Modifie une patinoire selon un JSON recu
+#TODO
+@app.route('/api/patinoire/<nom_request>', methods=["PUT", "PATCH"])
+@schema.validate(Config.schema_patinoires)
+def update_patinoires(nom_request):
+    return nom_request
+
+
+# Modifie une piscine selon un JSON recu
+#TODO
+@app.route('/api/pisicne/<nom_request>', methods=["PUT", "PATCH"])
+@schema.validate(Config.schema_piscines)
+def update_piscines(nom_request):
+    return nom_request
 
 
 # Contient un formulaire pour afficher l'information d'une installation selon son nom

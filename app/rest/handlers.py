@@ -75,3 +75,33 @@ def delete_glissade(nom):
         return glissade
     except:
         return {'error': 'Il y a eu une erreur avec la suppression de la glissade'}, 500
+
+
+@bp.route('/api/patinoires')
+def patinoires():
+    return ''
+
+
+@bp.route('/api/patinoire/<nom>')
+def get_patinoire(nom):
+    return ''
+
+
+@bp.route('/api/patinoire/<nom>', methods=['DELETE'])
+def delete_patinoire(nom):
+    return ''
+
+
+@bp.route('/api/piscines')
+def piscines():
+    return ''
+
+
+@bp.route('/api/piscine/<nom>')
+def get_piscine(nom):
+    return ''
+
+
+@bp.route('/api/piscine/<nom>', methods=['DELETE'])
+def delete_piscine(nom):
+    return ''
