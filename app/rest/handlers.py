@@ -57,7 +57,7 @@ def glissades():
 
 @bp.route('/api/glissade/<nom>')
 def get_glissade(nom):
-    nom = nom.encode('raw_unicode_escape').decode('utf-8')
+    # nom = nom.encode('raw_unicode_escape').decode('utf-8')
     glissade = Database().get_glissade(nom)
     if glissade == "null":
         return {'error': 'La glissade n\'existe pas'}, 404

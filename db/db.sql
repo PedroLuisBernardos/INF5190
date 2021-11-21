@@ -9,7 +9,7 @@ CREATE TABLE glissade (
 
 CREATE TABLE arrondissement (
     nom_arr VARCHAR(255) PRIMARY KEY,
-    cle VARCHAR(3),
+    cle VARCHAR(5),
     date_maj TEXT
 );
 

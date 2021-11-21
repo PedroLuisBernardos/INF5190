@@ -7,7 +7,7 @@ from flask import render_template, redirect, url_for, session, request
 from app.database import Database
 from app import app, get_db, schema, Config
 from app.forms import ArrondissementForm, NomInstallationForm
-
+import json
 
 # Page principale
 # Contient un formulaire pour afficher les installations selon un arrondissement
@@ -21,15 +21,13 @@ def index():
                                arrondissement=arrondissement, form=new_form)
     return render_template("index.html", title="Accueil", form=form)
 
-import json
 # Modifie une glissade selon un JSON recu
 @app.route('/api/glissade/<nom_request>', methods=["PUT", "PATCH"])
 @schema.validate(Config.schema)
 def update_glissade(nom_request):
-    print()
-    if get_db().get_glissade(nom_request) != None:
+    if get_db().get_glissade(nom_request) != "null":
         nom = None
-        nom_arr_request = json.loads(get_db().get_glissade(nom_request))
+        nom_arr_request = json.loads(get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
         nom_arr = None
         cle = None
         date_maj = None
@@ -51,7 +49,8 @@ def update_glissade(nom_request):
             deblaye = request.get_json()['deblaye']
         if 'condition' in request.get_json():
             condition = request.get_json()['condition']
-        # ISO8601, exemple: 2021-10-18 13:45:13
+        if nom == None or nom_arr == None or cle == None or date_maj == None or ouvert == None or deblaye == None or condition == None and request.method == 'PUT':
+            return {'error': 'Vous devez préciser tous les champs vu que vous envoyez une requête PUT'}, 400
         return Database().update_glissade(nom_request, nom, nom_arr_request, nom_arr, cle, date_maj, ouvert, deblaye, condition)
     else:
         return {'error': 'La glissade n\'existe pas'}, 404
