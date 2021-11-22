@@ -96,7 +96,7 @@ class Database:
             if nom != None:
                 cursor.execute("UPDATE glissade SET nom=? WHERE nom=?", (nom, nom_request))
             if nom_arr != None:
-                cursor.execute("UPDATE arrondissement SET nom_arr=? WHERE nom_arr=?", (nom_arr, nom_arr_request,))
+                cursor.execute("UPDATE arrondissement SET nom_arr=? WHERE nom_arr=?", (nom_arr, nom_arr_request))
             if cle != None:
                 cursor.execute("UPDATE arrondissement SET cle=? WHERE nom_arr=?", (cle, nom_arr_request))
             if date_maj != None:
@@ -108,8 +108,6 @@ class Database:
             if condition != None:
                 cursor.execute("UPDATE glissade SET condition=? WHERE nom=?", (condition, nom_request))
             connect.commit()
-            print(nom)
-            print(nom_request)
             return Database().get_glissade(nom)
         except:
             connect.rollback()
@@ -186,6 +184,23 @@ class Database:
                        ('%'+requete+'%',))
         return json.dumps(Database().construire_json_patinoire(cursor.fetchall()), ensure_ascii=False)
 
+    # Supprime une patinoire
+    def delete_patinoire(self, nom):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("DELETE FROM patinoire WHERE nom_pat=?", (nom,))
+        connect.commit()
+
+    # Retourne une patinoire selon son nom
+    def get_patinoire(self, nom):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("SELECT * FROM patinoire WHERE nom_pat=?", (nom,))
+        data = cursor.fetchone()
+        if data == None:
+            return "null"
+        return json.dumps(Database().construire_json_patinoire(data), ensure_ascii=False)
+
     # Retourne toutes les patinoires
     def get_patinoires(self):
         connect = self.get_connection()
@@ -194,6 +209,20 @@ class Database:
         if cursor.fetchone() == None:
             return None
         return json.dumps(cursor.fetchall(), ensure_ascii=False)
+
+    # Modifie une patinoire
+    def update_patinoire(self, nom_request, nom_pat, nom_arr):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        try:
+            if nom_pat != None:
+                cursor.execute("UPDATE patinoire SET nom_pat=? WHERE nom_pat=?", (nom_pat, nom_request))
+            if nom_arr != None:
+                cursor.execute("UPDATE patinoire SET nom_arr=? WHERE nom_pat=?", (nom_arr, nom_request))
+            connect.commit()
+            return Database().get_patinoire(nom_pat)
+        except:
+            connect.rollback()
 
     """ Recherche si une condition existe, je l'ai commenté vu que je ne l'utilise pas
     def is_condition(self, date_heure, ouvert, deblaye, arrose, resurface,
@@ -276,6 +305,23 @@ class Database:
                        ('%'+requete+'%',))
         return json.dumps(Database().construire_json_piscine(cursor.fetchall()), ensure_ascii=False)
 
+    # Supprime une piscine
+    def delete_piscine(self, nom):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("DELETE FROM piscine WHERE nom=?", (nom,))
+        connect.commit()
+
+    # Retourne une piscine selon son nom
+    def get_piscine(self, nom):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("SELECT * FROM piscine WHERE nom=?", (nom,))
+        data = cursor.fetchone()
+        if data == None:
+            return "null"
+        return json.dumps(Database().construire_json_piscine(data), ensure_ascii=False)
+
     # Retourne toutes les piscines
     def get_piscines(self):
         connect = self.get_connection()
@@ -284,6 +330,40 @@ class Database:
         if cursor.fetchone() == None:
             return None
         return json.dumps(Database().construire_json_piscine(cursor.fetchall()), ensure_ascii=False)
+
+    # Modifie une piscine
+    def update_piscine(self, nom_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        try:
+            if id_uev != None:
+                cursor.execute("UPDATE piscine SET id_uev=? WHERE nom=?", (id_uev, nom_request))
+            if style != None:
+                cursor.execute("UPDATE piscine SET style=? WHERE nom=?", (style, nom_request))
+            if nom != None:
+                cursor.execute("UPDATE piscine SET nom=? WHERE nom=?", (nom, nom_request))
+            if arrondisse != None:
+                cursor.execute("UPDATE piscine SET arrondisse=? WHERE nom=?", (arrondisse, nom_request))
+            if adresse != None:
+                cursor.execute("UPDATE piscine SET adresse=? WHERE nom=?", (adresse, nom_request))
+            if propriete != None:
+                cursor.execute("UPDATE piscine SET propriete=? WHERE nom=?", (propriete, nom_request))
+            if gestion != None:
+                cursor.execute("UPDATE piscine SET gestion=? WHERE nom=?", (gestion, nom_request))
+            if point_x != None:
+                cursor.execute("UPDATE piscine SET point_x=? WHERE nom=?", (point_x, nom_request))
+            if point_y != None:
+                cursor.execute("UPDATE piscine SET point_y=? WHERE nom=?", (point_y, nom_request))
+            if equipeme != None:
+                cursor.execute("UPDATE piscine SET equipeme=? WHERE nom=?", (equipeme, nom_request))
+            if longitude != None:
+                cursor.execute("UPDATE piscine SET longitude=? WHERE nom=?", (longitude, nom_request))
+            if latitude != None:
+                cursor.execute("UPDATE piscine SET latitude=? WHERE nom=?", (latitude, nom_request))
+            connect.commit()
+            return Database().get_piscine(nom)
+        except:
+            connect.rollback()
 
     # Retourne tous les noms de toutes les installations
     def get_noms_installations(self):

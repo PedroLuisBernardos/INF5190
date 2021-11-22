@@ -1,0 +1,15 @@
+{
+    "title": "Schema des patinoires",
+    "type": "object",
+    "description": "Défini un schema à respecter pour la modification des patinoitres",
+    "properties": {
+        "nom_arr": {
+            "type": "string"
+        },
+        "nom_pat": {
+            "type": "string"
+        }
+    },
+    "required": ["nom_arr", "nom_pat"],
+    "additionalProperties": false
+}

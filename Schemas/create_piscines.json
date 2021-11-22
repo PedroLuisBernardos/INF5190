@@ -1,0 +1,45 @@
+{
+    "title": "Schema des piscines",
+    "type": "object",
+    "description": "Défini un schema à respecter pour la modification des piscines",
+    "properties": {
+        "id_uev": {
+            "type": "number"
+        },
+        "style": {
+            "type": "string"
+        },
+        "nom": {
+            "type": "string"
+        },
+        "arrondisse": {
+            "type": "string"
+        },
+        "adresse": {
+            "type": "string"
+        },
+        "propriete": {
+            "type": "string"
+        },
+        "gestion": {
+            "type": "string"
+        },
+        "point_x": {
+            "type": "number"
+        },
+        "point_y": {
+            "type": "number"
+        },
+        "equipeme": {
+            "type": "string"
+        },
+        "longitude": {
+            "type": "number"
+        },
+        "latitude": {
+            "type": "number"
+        }
+    },
+    "required": ["id_uev", "nom", "arrondisse", "adresse", "propriete", "gestion", "point_x", "point_y", "equipeme", "longitude", "latitude"],
+    "additionalProperties": false
+}

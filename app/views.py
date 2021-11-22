@@ -21,10 +21,31 @@ def index():
                                arrondissement=arrondissement, form=new_form)
     return render_template("index.html", title="Accueil", form=form)
 
-# Modifie une glissade selon un JSON recu
-@app.route('/api/glissade/<nom_request>', methods=["PUT", "PATCH"])
-@schema.validate(Config.schema_glissades)
-def update_glissade(nom_request):
+# Modifie entierement une glissade selon un JSON recu
+@app.route('/api/glissade/<nom_request>', methods=["PUT"])
+@schema.validate(Config.schema_create_glissades)
+def update_glissade_put(nom_request):
+    # Si la glissade existe
+    if get_db().get_glissade(nom_request) != "null":
+
+        nom = request.get_json()['nom']
+        nom_arr = request.get_json()['arrondissement']['nom_arr']
+        cle = request.get_json()['arrondissement']['cle']
+        date_maj = request.get_json()['arrondissement']['date_maj']
+        ouvert = request.get_json()['ouvert']
+        deblaye = request.get_json()['deblaye']
+        condition = request.get_json()['condition']
+        nom_arr_request = json.loads(get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
+
+        return Database().update_glissade(nom_request, nom, nom_arr_request, nom_arr, cle, date_maj, ouvert, deblaye, condition)
+    else:
+        return {'error': 'La glissade n\'existe pas'}, 404
+
+
+# Modifie partiellement une glissade selon un JSON recu
+@app.route('/api/glissade/<nom_request>', methods=["PATCH"])
+@schema.validate(Config.schema_update_glissades)
+def update_glissade_patch(nom_request):
     # Si la glissade existe
     if get_db().get_glissade(nom_request) != "null":
         nom = None
@@ -51,28 +72,42 @@ def update_glissade(nom_request):
         if 'condition' in request.get_json():
             condition = request.get_json()['condition']
 
-        if nom == None or nom_arr == None or cle == None or date_maj == None or ouvert == None or deblaye == None or condition == None and request.method == 'PUT':
-            return {'error': 'Vous devez préciser tous les champs car vous envoyez une requête PUT'}, 400
-
         nom_arr_request = json.loads(get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
+
         return Database().update_glissade(nom_request, nom, nom_arr_request, nom_arr, cle, date_maj, ouvert, deblaye, condition)
     else:
         return {'error': 'La glissade n\'existe pas'}, 404
 
 
-# Modifie une patinoire selon un JSON recu
+# Modifie entierement une patinoire selon un JSON recu
 #TODO
-@app.route('/api/patinoire/<nom_request>', methods=["PUT", "PATCH"])
-@schema.validate(Config.schema_patinoires)
-def update_patinoires(nom_request):
+@app.route('/api/patinoire/<nom_request>', methods=["PUT"])
+@schema.validate(Config.schema_create_patinoires)
+def update_patinoires_put(nom_request):
     return nom_request
 
 
-# Modifie une piscine selon un JSON recu
+# Modifie entierement une piscine selon un JSON recu
 #TODO
-@app.route('/api/pisicne/<nom_request>', methods=["PUT", "PATCH"])
-@schema.validate(Config.schema_piscines)
-def update_piscines(nom_request):
+@app.route('/api/pisicne/<nom_request>', methods=["PUT"])
+@schema.validate(Config.schema_create_piscines)
+def update_piscines_put(nom_request):
+    return nom_request
+
+
+# Modifie partiellement une patinoire selon un JSON recu
+#TODO
+@app.route('/api/patinoire/<nom_request>', methods=["PATCH"])
+@schema.validate(Config.schema_update_patinoires)
+def update_patinoires_patch(nom_request):
+    return nom_request
+
+
+# Modifie partiellement une piscine selon un JSON recu
+#TODO
+@app.route('/api/pisicne/<nom_request>', methods=["PATCH"])
+@schema.validate(Config.schema_update_piscines)
+def update_piscines_patch(nom_request):
     return nom_request
 
 
