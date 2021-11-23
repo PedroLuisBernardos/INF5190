@@ -1,6 +1,6 @@
 # handlers.py
 # Defini les erreurs possibles
-from flask import render_template, jsonify
+from flask import render_template
 from app.errors import bp
 
 @bp.errorhandler(404)

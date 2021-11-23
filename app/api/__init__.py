@@ -2,6 +2,6 @@
 # Defini le blueprint des requetes REST
 from flask import Blueprint
 
-bp = Blueprint('rest', __name__)
+bp = Blueprint('api', __name__)
 
-from app.rest import handlers
+from app.api import routes

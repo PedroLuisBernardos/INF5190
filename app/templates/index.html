@@ -3,7 +3,7 @@
 
 {% block content %}
     <h1>Bienvenue</h1>
-    <form id="recherche" class="navbar-right" action="{{ url_for('index') }}" method="POST">
+    <form id="recherche" class="navbar-right" action="{{ url_for('main.index') }}" method="POST">
         {{ form.hidden_tag() }}
         <div" class="form-group">
             {{ form.arrondissement.label }}

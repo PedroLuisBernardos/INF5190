@@ -1,7 +1,10 @@
+from flask import Blueprint
 import requests
 import csv
 from app import Config, get_db
 import xml.etree.ElementTree as ET
+
+bp = Blueprint('setup', __name__)
 
 class SetUp:
     # Telecharge les fichiers CSV et XML pour la base de donnees

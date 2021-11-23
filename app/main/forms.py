@@ -1,8 +1,8 @@
 # forms.py
 # Defini le formulaire du point A5
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField, SelectField
-from wtforms.validators import NumberRange, DataRequired, Length
+from wtforms import StringField, SubmitField, SelectField
+from wtforms.validators import DataRequired, Length
 from app import Database
 
 
