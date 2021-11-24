@@ -130,25 +130,95 @@ def update_glissade_patch(nom_request):
 
 @bp.route('/patinoires')
 def patinoires():
-    return ''
+    patinoires = database.Database().get_patinoires()
+    if patinoires == "[]":
+        return {'error': 'Il n\'y a aucune patinoire'}, 404
+    return patinoires
 
 
 @bp.route('/patinoire/<nom>')
 def get_patinoire(nom):
-    return ''
+    # nom = nom.encode('raw_unicode_escape').decode('utf-8')
+    patinoire = database.Database().get_patinoire(nom)
+    if patinoire == "null":
+        return {'error': 'La patinoire n\'existe pas'}, 404
+    return patinoire
 
 
 @bp.route('/patinoire/<nom>', methods=['DELETE'])
 def delete_patinoire(nom):
-    return ''
-
+    try:
+        nom = nom.encode('raw_unicode_escape').decode('utf-8')
+        patinoire = database.Database().get_patinoire(nom)
+        if patinoire == "null":
+            return {'error': 'La patinoire n\'existe pas'}, 404
+        database.Database().delete_patinoire(nom)
+        return patinoire
+    except:
+        return {'error': 'Il y a eu une erreur avec la suppression de la patinoire'}, 500
 
 # Modifie entierement une patinoire selon un JSON recu
-#TODO
 @bp.route('/patinoire/<nom_request>', methods=["PUT"])
 @schema.validate(Config.schema_create_patinoires)
 def update_patinoires_put(nom_request):
-    return nom_request
+    # Si la patinoire existe
+    if current_app.get_db().get_patinoire(nom_request) != "null":
+
+        nom_pat = request.get_json()['nom_pat']
+        nom_arr = request.get_json()['nom_arr']
+
+        return database.Database().update_glissade(nom_request, nom_pat, nom_arr)
+    else:
+        return {'error': 'La patinoire n\'existe pas'}, 404
+
+
+# Modifie partiellement une patinoire selon un JSON recu
+@bp.route('/patinoire/<nom_request>', methods=["PATCH"])
+@schema.validate(Config.schema_update_patinoires)
+def update_patinoires_patch(nom_request):
+    # Si la patinoire existe
+    if current_app.get_db().get_patinoire(nom_request) != "null":
+        nom_pat = None
+        nom_arr = None
+
+        if 'nom_pat' in request.get_json():
+            nom_pat = request.get_json()['nom_pat']
+        if 'nom_arr' in request.get_json():
+            nom_arr = request.get_json()['nom_arr']
+
+        return database.Database().update_patinoire(nom_request, nom_pat, nom_arr)
+    else:
+        return {'error': 'La patinoire n\'existe pas'}, 404
+
+
+@bp.route('/piscines')
+def piscines():
+    piscines = database.Database().get_piscines()
+    if piscines == "[]":
+        return {'error': 'Il n\'y a aucune piscine'}, 404
+    return piscines
+
+
+@bp.route('/piscine/<nom>')
+def get_piscine(nom):
+    # nom = nom.encode('raw_unicode_escape').decode('utf-8')
+    piscine = database.Database().get_piscine(nom)
+    if piscine == "null":
+        return {'error': 'La piscine n\'existe pas'}, 404
+    return piscine
+
+
+@bp.route('/piscine/<nom>', methods=['DELETE'])
+def delete_piscine(nom):
+    try:
+        nom = nom.encode('raw_unicode_escape').decode('utf-8')
+        piscine = database.Database().get_piscine(nom)
+        if piscine == "null":
+            return {'error': 'La piscine n\'existe pas'}, 404
+        database.Database().delete_piscine(nom)
+        return piscine
+    except:
+        return {'error': 'Il y a eu une erreur avec la suppression de la piscine'}, 500
 
 
 # Modifie entierement une piscine selon un JSON recu
@@ -156,29 +226,6 @@ def update_patinoires_put(nom_request):
 @bp.route('/pisicne/<nom_request>', methods=["PUT"])
 @schema.validate(Config.schema_create_piscines)
 def update_piscines_put(nom_request):
-    return nom_request
-
-
-@bp.route('/piscines')
-def piscines():
-    return ''
-
-
-@bp.route('/piscine/<nom>')
-def get_piscine(nom):
-    return ''
-
-
-@bp.route('/piscine/<nom>', methods=['DELETE'])
-def delete_piscine(nom):
-    return ''
-
-
-# Modifie partiellement une patinoire selon un JSON recu
-#TODO
-@bp.route('/patinoire/<nom_request>', methods=["PATCH"])
-@schema.validate(Config.schema_update_patinoires)
-def update_patinoires_patch(nom_request):
     return nom_request
 
 

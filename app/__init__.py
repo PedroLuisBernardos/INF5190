@@ -17,21 +17,20 @@ def create_app(config_class=Config):
     bootstrap.init_app(app)
     schema.init_app(app)
 
-    from app.api import bp as api_bp
-    from app.errors import bp as errors_bp
-    from app.main import bp as main_bp
-    from app.setup import bp as setup_bp
-
     # Gestion des erreurs
+    from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
 
     # Gestion des requetes REST
+    from app.api import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
 
     # Gestion des autres routes
+    from app.main import bp as main_bp
     app.register_blueprint(main_bp)
 
     # Gestion du setup
+    from app.setup import bp as setup_bp
     app.register_blueprint(setup_bp)
 
     return app
