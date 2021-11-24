@@ -1,10 +1,10 @@
-from flask import Blueprint
+from typing import Set
 import requests
 import csv
 from app import Config, get_db
 import xml.etree.ElementTree as ET
-
-bp = Blueprint('setup', __name__)
+from os.path import exists
+from apscheduler.schedulers.background import BackgroundScheduler
 
 class SetUp:
     # Telecharge les fichiers CSV et XML pour la base de donnees
@@ -91,3 +91,18 @@ class SetUp:
                 check_db = get_db().is_glissade(nom)
                 if len(check_db) == 0:
                     get_db().add_glissade(nom, ouvert, deblaye, condition, nom_arr)
+
+    def run():
+        # Creer la base de donnees
+        if (exists("app/static/piscines.csv") and
+            exists("app/static/patinoires.xml") and
+                exists("app/static/glissades.xml")):
+            schedule = BackgroundScheduler(daemon=True)
+            schedule.add_job(SetUp().telecharger, 'cron', day='*', hour='0')
+            schedule.start()
+            # TODO update bd apres un chanegemtn??
+        else:
+            SetUp.telecharger()
+            SetUp.create_piscine_db()
+            SetUp.create_patinoire_db()
+            SetUp.create_glissade_db()

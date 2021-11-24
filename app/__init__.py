@@ -1,5 +1,6 @@
 # __init__.py
-from flask import Flask, current_app, g
+from typing import Set
+from flask import Flask, g
 from flask_bootstrap import Bootstrap
 from flask_json_schema import JsonSchema
 from .database import Database
@@ -29,10 +30,6 @@ def create_app(config_class=Config):
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
 
-    # Gestion du setup
-    from app.setup import bp as setup_bp
-    app.register_blueprint(setup_bp)
-
     return app
 
 # Retourne la base de données
@@ -50,3 +47,6 @@ def close_connection(exception):
     if db is not None:
         db.disconnect()
 """
+
+from app.scheduler import SetUp
+SetUp.run()

@@ -39,10 +39,10 @@ footer {
     right:0px;
   }
 
-#image_update:hover {
+.image_update:hover {
     background: rgba(0, 128, 0, 0.226);
 }
 
-#image_delete:hover {
+.image_delete:hover {
     background: rgba(255, 0, 0, 0.233);
 }
