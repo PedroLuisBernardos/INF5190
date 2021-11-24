@@ -208,7 +208,7 @@ class Database:
         cursor.execute("SELECT * FROM patinoire")
         if cursor.fetchone() == None:
             return None
-        return json.dumps(cursor.fetchall(), ensure_ascii=False)
+        return json.dumps(Database().construire_json_patinoire(cursor.fetchall()), ensure_ascii=False)
 
     # Modifie une patinoire
     def update_patinoire(self, nom_request, nom_pat, nom_arr):

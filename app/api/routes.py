@@ -167,7 +167,7 @@ def update_patinoires_put(nom_request):
         nom_pat = request.get_json()['nom_pat']
         nom_arr = request.get_json()['nom_arr']
 
-        return database.Database().update_glissade(nom_request, nom_pat, nom_arr)
+        return database.Database().update_patinoire(nom_request, nom_pat, nom_arr)
     else:
         return {'error': 'La patinoire n\'existe pas'}, 404
 
@@ -222,16 +222,85 @@ def delete_piscine(nom):
 
 
 # Modifie entierement une piscine selon un JSON recu
-#TODO
 @bp.route('/pisicne/<nom_request>', methods=["PUT"])
 @schema.validate(Config.schema_create_piscines)
 def update_piscines_put(nom_request):
-    return nom_request
+    # Si la pisicne existe
+    if current_app.get_db().get_pisicne(nom_request) != "null":
 
+        if 'id_uev' in request.get_json():
+            id_uev = request.get_json()['id_uev']
+        if 'style' in request.get_json():
+            style = request.get_json()['style']
+        if 'nom' in request.get_json():
+            nom = request.get_json()['nom']
+        if 'arrondisse' in request.get_json():
+            arrondisse = request.get_json()['arrondisse']
+        if 'adresse' in request.get_json():
+            adresse = request.get_json()['adresse']
+        if 'propriete' in request.get_json():
+            propriete = request.get_json()['propriete']
+        if 'gestion' in request.get_json():
+            gestion = request.get_json()['gestion']
+        if 'point_x' in request.get_json():
+            point_x = request.get_json()['point_x']
+        if 'point_y' in request.get_json():
+            point_y = request.get_json()['point_y']
+        if 'equipeme' in request.get_json():
+            equipeme = request.get_json()['equipeme']
+        if 'longitude' in request.get_json():
+            longitude = request.get_json()['longitude']
+        if 'latitude' in request.get_json():
+            latitude = request.get_json()['latitude']
+
+        return database.Database().update_pisicne(nom_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
+    else:
+        return {'error': 'La pisicne n\'existe pas'}, 404
 
 # Modifie partiellement une piscine selon un JSON recu
-#TODO
 @bp.route('/pisicne/<nom_request>', methods=["PATCH"])
 @schema.validate(Config.schema_update_piscines)
 def update_piscines_patch(nom_request):
-    return nom_request
+    # Si la pisicne existe
+    if current_app.get_db().get_pisicne(nom_request) != "null":
+        id_uev = None
+        style = None
+        nom = None
+        arrondisse = None
+        adresse = None
+        propriete = None
+        gestion = None
+        point_x = None
+        point_y = None
+        equipeme = None
+        longitude = None
+        latitude = None
+
+        if 'id_uev' in request.get_json():
+            id_uev = request.get_json()['id_uev']
+        if 'style' in request.get_json():
+            style = request.get_json()['style']
+        if 'nom' in request.get_json():
+            nom = request.get_json()['nom']
+        if 'arrondisse' in request.get_json():
+            arrondisse = request.get_json()['arrondisse']
+        if 'adresse' in request.get_json():
+            adresse = request.get_json()['adresse']
+        if 'propriete' in request.get_json():
+            propriete = request.get_json()['propriete']
+        if 'gestion' in request.get_json():
+            gestion = request.get_json()['gestion']
+        if 'point_x' in request.get_json():
+            point_x = request.get_json()['point_x']
+        if 'point_y' in request.get_json():
+            point_y = request.get_json()['point_y']
+        if 'equipeme' in request.get_json():
+            equipeme = request.get_json()['equipeme']
+        if 'longitude' in request.get_json():
+            longitude = request.get_json()['longitude']
+        if 'latitude' in request.get_json():
+            latitude = request.get_json()['latitude']
+
+        return database.Database().update_pisicne(nom_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
+    else:
+        return {'error': 'La pisicne n\'existe pas'}, 404
