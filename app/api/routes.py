@@ -4,7 +4,7 @@ from flask import render_template, current_app
 from flask.globals import request
 from config import Config
 from app.api import bp
-from app import database, schema
+from app import database, schema, get_db
 import json
 
 # Affichage des installations
@@ -74,7 +74,7 @@ def delete_glissade(nom):
 @schema.validate(Config.schema_create_glissades)
 def update_glissade_put(nom_request):
     # Si la glissade existe
-    if current_app.get_db().get_glissade(nom_request) != "null":
+    if get_db().get_glissade(nom_request) != "null":
 
         nom = request.get_json()['nom']
         nom_arr = request.get_json()['arrondissement']['nom_arr']
@@ -83,7 +83,7 @@ def update_glissade_put(nom_request):
         ouvert = request.get_json()['ouvert']
         deblaye = request.get_json()['deblaye']
         condition = request.get_json()['condition']
-        nom_arr_request = json.loads(current_app.get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
+        nom_arr_request = json.loads(get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
 
         return database.Database().update_glissade(nom_request, nom, nom_arr_request, nom_arr, cle, date_maj, ouvert, deblaye, condition)
     else:
@@ -95,7 +95,7 @@ def update_glissade_put(nom_request):
 @schema.validate(Config.schema_update_glissades)
 def update_glissade_patch(nom_request):
     # Si la glissade existe
-    if current_app.get_db().get_glissade(nom_request) != "null":
+    if get_db().get_glissade(nom_request) != "null":
         nom = None
         nom_arr = None
         cle = None
@@ -120,12 +120,11 @@ def update_glissade_patch(nom_request):
         if 'condition' in request.get_json():
             condition = request.get_json()['condition']
 
-        nom_arr_request = json.loads(current_app.get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
+        nom_arr_request = json.loads(get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
 
         return database.Database().update_glissade(nom_request, nom, nom_arr_request, nom_arr, cle, date_maj, ouvert, deblaye, condition)
     else:
         return {'error': 'La glissade n\'existe pas'}, 404
-
 
 
 @bp.route('/patinoires')
@@ -148,7 +147,7 @@ def get_patinoire(nom):
 @bp.route('/patinoire/<nom>', methods=['DELETE'])
 def delete_patinoire(nom):
     try:
-        nom = nom.encode('raw_unicode_escape').decode('utf-8')
+        # nom = nom.encode('raw_unicode_escape').decode('utf-8')
         patinoire = database.Database().get_patinoire(nom)
         if patinoire == "null":
             return {'error': 'La patinoire n\'existe pas'}, 404
@@ -162,7 +161,7 @@ def delete_patinoire(nom):
 @schema.validate(Config.schema_create_patinoires)
 def update_patinoires_put(nom_request):
     # Si la patinoire existe
-    if current_app.get_db().get_patinoire(nom_request) != "null":
+    if get_db().get_patinoire(nom_request) != "null":
 
         nom_pat = request.get_json()['nom_pat']
         nom_arr = request.get_json()['nom_arr']
@@ -177,7 +176,7 @@ def update_patinoires_put(nom_request):
 @schema.validate(Config.schema_update_patinoires)
 def update_patinoires_patch(nom_request):
     # Si la patinoire existe
-    if current_app.get_db().get_patinoire(nom_request) != "null":
+    if get_db().get_patinoire(nom_request) != "null":
         nom_pat = None
         nom_arr = None
 
@@ -211,7 +210,7 @@ def get_piscine(nom):
 @bp.route('/piscine/<nom>', methods=['DELETE'])
 def delete_piscine(nom):
     try:
-        nom = nom.encode('raw_unicode_escape').decode('utf-8')
+        # nom = nom.encode('raw_unicode_escape').decode('utf-8')
         piscine = database.Database().get_piscine(nom)
         if piscine == "null":
             return {'error': 'La piscine n\'existe pas'}, 404
@@ -222,11 +221,11 @@ def delete_piscine(nom):
 
 
 # Modifie entierement une piscine selon un JSON recu
-@bp.route('/pisicne/<nom_request>', methods=["PUT"])
+@bp.route('/piscine/<nom_request>', methods=["PUT"])
 @schema.validate(Config.schema_create_piscines)
 def update_piscines_put(nom_request):
-    # Si la pisicne existe
-    if current_app.get_db().get_pisicne(nom_request) != "null":
+    # Si la piscine existe
+    if get_db().get_piscine(nom_request) != "null":
 
         if 'id_uev' in request.get_json():
             id_uev = request.get_json()['id_uev']
@@ -253,16 +252,16 @@ def update_piscines_put(nom_request):
         if 'latitude' in request.get_json():
             latitude = request.get_json()['latitude']
 
-        return database.Database().update_pisicne(nom_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
+        return database.Database().update_piscine(nom_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
     else:
-        return {'error': 'La pisicne n\'existe pas'}, 404
+        return {'error': 'La piscine n\'existe pas'}, 404
 
 # Modifie partiellement une piscine selon un JSON recu
-@bp.route('/pisicne/<nom_request>', methods=["PATCH"])
+@bp.route('/piscine/<nom_request>', methods=["PATCH"])
 @schema.validate(Config.schema_update_piscines)
 def update_piscines_patch(nom_request):
-    # Si la pisicne existe
-    if current_app.get_db().get_pisicne(nom_request) != "null":
+    # Si la piscine existe
+    if get_db().get_piscine(nom_request) != "null":
         id_uev = None
         style = None
         nom = None
@@ -301,6 +300,6 @@ def update_piscines_patch(nom_request):
         if 'latitude' in request.get_json():
             latitude = request.get_json()['latitude']
 
-        return database.Database().update_pisicne(nom_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
+        return database.Database().update_piscine(nom_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
     else:
-        return {'error': 'La pisicne n\'existe pas'}, 404
+        return {'error': 'La piscine n\'existe pas'}, 404

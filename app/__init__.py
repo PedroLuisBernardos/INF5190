@@ -12,18 +12,6 @@ app.config['SECRET KEY'] = Config.SECRET_KEY
 bootstrap = Bootstrap(app)
 schema = JsonSchema(app)
 
-# Gestion des erreurs
-from app.errors import bp as errors_bp
-app.register_blueprint(errors_bp)
-
-# Gestion des requetes REST
-from app.api import bp as api_bp
-app.register_blueprint(api_bp, url_prefix='/api')
-
-# Gestion des autres routes
-from app.main import bp as main_bp
-app.register_blueprint(main_bp)
-
 with app.app_context():
     # Retourne la base de données
     def get_db():
@@ -42,3 +30,15 @@ with app.app_context():
     # Telecharge
     from app.scheduler import SetUp
     SetUp.run()
+
+# Gestion des erreurs
+from app.errors import bp as errors_bp
+app.register_blueprint(errors_bp)
+
+# Gestion des requetes REST
+from app.api import bp as api_bp
+app.register_blueprint(api_bp, url_prefix='/api')
+
+# Gestion des autres routes
+from app.main import bp as main_bp
+app.register_blueprint(main_bp)

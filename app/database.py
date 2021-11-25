@@ -93,10 +93,6 @@ class Database:
         connect = self.get_connection()
         cursor = connect.cursor()
         try:
-            if nom != None:
-                cursor.execute("UPDATE glissade SET nom=? WHERE nom=?", (nom, nom_request))
-            if nom_arr != None:
-                cursor.execute("UPDATE arrondissement SET nom_arr=? WHERE nom_arr=?", (nom_arr, nom_arr_request))
             if cle != None:
                 cursor.execute("UPDATE arrondissement SET cle=? WHERE nom_arr=?", (cle, nom_arr_request))
             if date_maj != None:
@@ -107,7 +103,13 @@ class Database:
                 cursor.execute("UPDATE glissade SET deblaye=? WHERE nom=?", (deblaye, nom_request))
             if condition != None:
                 cursor.execute("UPDATE glissade SET condition=? WHERE nom=?", (condition, nom_request))
+            if nom != None:
+                cursor.execute("UPDATE glissade SET nom=? WHERE nom=?", (nom, nom_request))
+            if nom_arr != None:
+                cursor.execute("UPDATE arrondissement SET nom_arr=? WHERE nom_arr=?", (nom_arr, nom_arr_request))
             connect.commit()
+            if (nom == None):
+                return Database().get_glissade(nom_request)
             return Database().get_glissade(nom)
         except:
             connect.rollback()
@@ -215,11 +217,13 @@ class Database:
         connect = self.get_connection()
         cursor = connect.cursor()
         try:
-            if nom_pat != None:
-                cursor.execute("UPDATE patinoire SET nom_pat=? WHERE nom_pat=?", (nom_pat, nom_request))
             if nom_arr != None:
                 cursor.execute("UPDATE patinoire SET nom_arr=? WHERE nom_pat=?", (nom_arr, nom_request))
+            if nom_pat != None:
+                cursor.execute("UPDATE patinoire SET nom_pat=? WHERE nom_pat=?", (nom_pat, nom_request))
             connect.commit()
+            if (nom_pat == None):
+                return Database().get_patinoire(nom_request)
             return Database().get_patinoire(nom_pat)
         except:
             connect.rollback()
@@ -340,8 +344,6 @@ class Database:
                 cursor.execute("UPDATE piscine SET id_uev=? WHERE nom=?", (id_uev, nom_request))
             if style != None:
                 cursor.execute("UPDATE piscine SET style=? WHERE nom=?", (style, nom_request))
-            if nom != None:
-                cursor.execute("UPDATE piscine SET nom=? WHERE nom=?", (nom, nom_request))
             if arrondisse != None:
                 cursor.execute("UPDATE piscine SET arrondisse=? WHERE nom=?", (arrondisse, nom_request))
             if adresse != None:
@@ -360,7 +362,11 @@ class Database:
                 cursor.execute("UPDATE piscine SET longitude=? WHERE nom=?", (longitude, nom_request))
             if latitude != None:
                 cursor.execute("UPDATE piscine SET latitude=? WHERE nom=?", (latitude, nom_request))
+            if nom != None:
+                cursor.execute("UPDATE piscine SET nom=? WHERE nom=?", (nom, nom_request))
             connect.commit()
+            if (nom == None):
+                return Database().get_piscine(nom_request)
             return Database().get_piscine(nom)
         except:
             connect.rollback()
