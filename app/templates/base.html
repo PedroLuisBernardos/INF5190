@@ -5,12 +5,15 @@
     {% block head %}
         {% block metas %}
             <meta charset="UTF-8">
+            <meta name="description" content="API qui lit des données sur des installations et affiche leur informations pour mon projet de session">
+            <meta name="keywords" content="installations, glissades, patinoires, piscines, arrondissement, nom">
+            <meta name="author" content="Pedro Luis Bernardos">
         {% endblock %}
         <!-- Titre -->
         {% if title %}
             <title>{{ title }} - Projet de session</title>
         {% else %}
-            <title>TP1</title>
+            <title>Projet de session</title>
         {% endif %}
         {% block styles %}
             <!-- Bootstrap -->
@@ -42,8 +45,9 @@
         <footer class="text-center text-lg-start bg-light text-muted">
             <!-- Copyright -->
             <div class="p-4 text-center">
-            © 2021 Copyright:
-            <a class="text-reset fw-bold" href="https://www.linkedin.com/in/pedro-luis-bernardos/" target="_blank">Pedro Luis Bernardos</a>
+                © INF5190 Hiver 2021 Copyright:
+                <a class="text-reset fw-bold" href="https://www.linkedin.com/in/pedro-luis-bernardos/" target="_blank">Pedro Luis Bernardos</a>
+                <div>Icon made from <a href="http://www.onlinewebfonts.com/icon">Icon Fonts</a> is licensed by CC BY 3.0</div>
             </div>
         </footer>
     {% endblock %}

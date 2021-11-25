@@ -13,7 +13,7 @@ def index():
         arrondissement = form.arrondissement.data
         return render_template("index.html", title="Accueil",
                                arrondissement=arrondissement, form=new_form)
-    return render_template("index.html", title="Accueil", form=form)
+    return render_template("index.html", title="Installations selon arrondissement", form=form)
 
 
 # Documentation de tous les services REST
@@ -31,5 +31,5 @@ def noms_installations():
         nom_installation = form.nom_installation.data
         return render_template("noms_installations.html", title="Accueil",
                                nom_installation=nom_installation, form=new_form)
-    return render_template('noms_installations.html', title="Accueil",
+    return render_template('noms_installations.html', title="Installation selon nom",
                            form=form)

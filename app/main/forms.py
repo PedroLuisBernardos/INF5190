@@ -5,7 +5,6 @@ from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length
 from app import Database
 
-
 # Défini un formulaire pour la saisie de contacts
 class ArrondissementForm(FlaskForm):
     m = "Veuillez entrer un nom d'arrondissement"

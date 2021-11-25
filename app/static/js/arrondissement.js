@@ -87,7 +87,7 @@ async function arrondissementRecherche(arrondissement, type_installation) {
                     var button_update = document.createElement('button');
                     button_update.type = 'button';
                     button_update.className = 'btn-styled';
-                    button_update.innerHTML = '<img src="update.png" width=20 height=20/>';
+                    button_update.innerHTML = '<img src="update.png" alt="Icone pour la modification" width=20 height=20/>';
                     button_update.class = 'image_update';
                     button_update.id = primaryKey + '_update';
                     cell.scope = 'row';
@@ -102,7 +102,7 @@ async function arrondissementRecherche(arrondissement, type_installation) {
                     var button_delete = document.createElement('button');
                     button_delete.type = 'button';
                     button_delete.className = 'btn-styled';
-                    button_delete.innerHTML = '<img src="delete.png" width=20 height=20/>';
+                    button_delete.innerHTML = '<img src="delete.png" alt="Icone pour la suppression" width=20 height=20/>';
                     button_delete.class = 'image_delete';
                     button_delete.id = primaryKey + '_delete';
                     cell.scope = 'row';
