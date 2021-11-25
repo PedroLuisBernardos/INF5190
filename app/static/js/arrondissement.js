@@ -87,8 +87,10 @@ async function arrondissementRecherche(arrondissement, type_installation) {
                         }
                     })
 
-                    nom = getNom(r, type_installation)
-                    primaryKey = getPrimaryKey(r, type_installation)
+                    var nom = getNom(r, type_installation);
+                    //var primaryKey = getPrimaryKey(r, type_installation);
+                    var type_inst = type_installation.slice(0, type_installation.length-1);
+
                     // Ajout du bouton de modification
                     var cell = row.insertCell();
                     var button_update = document.createElement('button');
@@ -96,13 +98,13 @@ async function arrondissementRecherche(arrondissement, type_installation) {
                     button_update.className = 'btn-styled';
                     button_update.innerHTML = '<img src="update.png" alt="Icone pour la modification" width=20 height=20/>';
                     button_update.class = 'image_update';
-                    button_update.id = primaryKey + '_update';
+                    //button_update.id = primaryKey + '_update';
                     cell.scope = 'row';
                     cell.appendChild(button_update);
 
-                    document.getElementById(primaryKey+'_update').addEventListener("click", (nom, type_installation) => {
-                        alert(nom + type_installation);
-                    });
+                    //document.getElementById(primaryKey+'_update').addEventListener("click", (nom, type_installation) => {
+                    //    alert(nom + type_installation);
+                    //});
 
                     // Ajout du bouton de suppression
                     cell = row.insertCell();
@@ -111,21 +113,11 @@ async function arrondissementRecherche(arrondissement, type_installation) {
                     button_delete.className = 'btn-styled';
                     button_delete.innerHTML = '<img src="delete.png" alt="Icone pour la suppression" width=20 height=20/>';
                     button_delete.class = 'image_delete';
-                    button_delete.id = primaryKey + '_delete';
+                    button_delete.id = 'image_delete';
+                    button_delete.name = '_delete';
+                    button_delete.value = "/api/"+type_inst+"/"+nom;
                     cell.scope = 'row';
                     cell.appendChild(button_delete);
-
-                    var type_inst = type_installation.slice(0, type_installation.length-1);
-                    var url = "/api/"+type_inst+"/"+nom
-
-                    document.getElementById(primaryKey+'_delete').addEventListener("click", function() {
-                        fetch(url, {method:'DELETE'})
-                        .then(response => response.text())
-                        .then(response => JSON.parse(response))
-                        .then(response => {
-                            alert(response);
-                        })
-                    });
                 }
             }
         })
