@@ -310,17 +310,17 @@ class Database:
         return json.dumps(Database().construire_json_piscine(cursor.fetchall()), ensure_ascii=False)
 
     # Supprime une piscine
-    def delete_piscine(self, nom):
+    def delete_piscine(self, nom, style):
         connect = self.get_connection()
         cursor = connect.cursor()
-        cursor.execute("DELETE FROM piscine WHERE nom=?", (nom,))
-        #connect.commit()
+        cursor.execute("DELETE FROM piscine WHERE nom=? AND style=?", (nom, style))
+        connect.commit()
 
     # Retourne une piscine selon son nom
-    def get_piscine(self, nom):
+    def get_piscine(self, nom, style):
         connect = self.get_connection()
         cursor = connect.cursor()
-        cursor.execute("SELECT * FROM piscine WHERE nom=?", (nom,))
+        cursor.execute("SELECT * FROM piscine WHERE nom=? AND style=?", (nom, style))
         data = cursor.fetchone()
         if data == None:
             return "null"
@@ -336,7 +336,7 @@ class Database:
         return json.dumps(Database().construire_json_piscine(cursor.fetchall()), ensure_ascii=False)
 
     # Modifie une piscine
-    def update_piscine(self, nom_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude):
+    def update_piscine(self, nom_request, style_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude):
         connect = self.get_connection()
         cursor = connect.cursor()
         try:
@@ -344,6 +344,8 @@ class Database:
                 cursor.execute("UPDATE piscine SET id_uev=? WHERE nom=?", (id_uev, nom_request))
             if style != None:
                 cursor.execute("UPDATE piscine SET style=? WHERE nom=?", (style, nom_request))
+            else:
+                style = style_request
             if arrondisse != None:
                 cursor.execute("UPDATE piscine SET arrondisse=? WHERE nom=?", (arrondisse, nom_request))
             if adresse != None:
@@ -364,10 +366,10 @@ class Database:
                 cursor.execute("UPDATE piscine SET latitude=? WHERE nom=?", (latitude, nom_request))
             if nom != None:
                 cursor.execute("UPDATE piscine SET nom=? WHERE nom=?", (nom, nom_request))
+            else:
+                nom = nom_request
             connect.commit()
-            if (nom == None):
-                return Database().get_piscine(nom_request)
-            return Database().get_piscine(nom)
+            return Database().get_piscine(nom, style)
         except:
             connect.rollback()
 

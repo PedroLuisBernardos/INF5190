@@ -14,9 +14,8 @@ CREATE TABLE arrondissement (
 );
 
 CREATE TABLE patinoire (
-    nom_arr VARCHAR(255),
-    nom_pat VARCHAR(255),
-    PRIMARY KEY (nom_arr, nom_pat)
+    nom_arr VARCHAR(255) PRIMARY KEY,
+    nom_pat VARCHAR(255)
 );
 
 CREATE TABLE condition (

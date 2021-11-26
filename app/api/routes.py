@@ -198,34 +198,34 @@ def piscines():
     return piscines
 
 
-@bp.route('/piscine/<nom>')
-def get_piscine(nom):
+@bp.route('/piscine/<style>/<nom>')
+def get_piscine(nom, style):
     # nom = nom.encode('raw_unicode_escape').decode('utf-8')
-    piscine = database.Database().get_piscine(nom)
+    piscine = database.Database().get_piscine(nom, style)
     if piscine == "null":
         return {'error': 'La piscine n\'existe pas'}, 404
     return piscine
 
 
-@bp.route('/piscine/<nom>', methods=['DELETE'])
-def delete_piscine(nom):
+@bp.route('/piscine/<style>/<nom>', methods=['DELETE'])
+def delete_piscine(nom, style):
     try:
         # nom = nom.encode('raw_unicode_escape').decode('utf-8')
-        piscine = database.Database().get_piscine(nom)
+        piscine = database.Database().get_piscine(nom, style)
         if piscine == "null":
             return {'error': 'La piscine n\'existe pas'}, 404
-        database.Database().delete_piscine(nom)
+        database.Database().delete_piscine(nom, style)
         return piscine
     except:
         return {'error': 'Il y a eu une erreur avec la suppression de la piscine'}, 500
 
 
 # Modifie entierement une piscine selon un JSON recu
-@bp.route('/piscine/<nom_request>', methods=["PUT"])
+@bp.route('/piscine/<style_request>/<nom_request>', methods=["PUT"])
 @schema.validate(Config.schema_create_piscines)
-def update_piscines_put(nom_request):
+def update_piscines_put(nom_request, style_request):
     # Si la piscine existe
-    if get_db().get_piscine(nom_request) != "null":
+    if get_db().get_piscine(nom_request, style_request) != "null":
 
         if 'id_uev' in request.get_json():
             id_uev = request.get_json()['id_uev']
@@ -252,16 +252,16 @@ def update_piscines_put(nom_request):
         if 'latitude' in request.get_json():
             latitude = request.get_json()['latitude']
 
-        return database.Database().update_piscine(nom_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
+        return database.Database().update_piscine(nom_request, style_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
     else:
         return {'error': 'La piscine n\'existe pas'}, 404
 
 # Modifie partiellement une piscine selon un JSON recu
-@bp.route('/piscine/<nom_request>', methods=["PATCH"])
+@bp.route('/piscine/<style_request>/<nom_request>', methods=["PATCH"])
 @schema.validate(Config.schema_update_piscines)
-def update_piscines_patch(nom_request):
+def update_piscines_patch(nom_request, style_request):
     # Si la piscine existe
-    if get_db().get_piscine(nom_request) != "null":
+    if get_db().get_piscine(nom_request, style_request) != "null":
         id_uev = None
         style = None
         nom = None
@@ -300,6 +300,6 @@ def update_piscines_patch(nom_request):
         if 'latitude' in request.get_json():
             latitude = request.get_json()['latitude']
 
-        return database.Database().update_piscine(nom_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
+        return database.Database().update_piscine(nom_request, style_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
     else:
         return {'error': 'La piscine n\'existe pas'}, 404
