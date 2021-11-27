@@ -8,7 +8,7 @@ run: install
 
 raml:
 	npm i -g raml2html
-	raml2html api.raml > app/templates/rest/doc.html
+	raml2html api.raml > app/templates/api/doc.html
 
 clean:
 	rm app/static/*.xml

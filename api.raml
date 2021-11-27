@@ -1,6 +1,6 @@
 #%RAML 1.0
 ---
-title: REST API for Travail Session
+title: REST API pour le travail de session du cours INF5190
 baseUri: http://localhost:5000
 mediaType: application/json
 
@@ -323,7 +323,7 @@ types:
                                         "error": "Il y a eu une erreur avec la suppression de la glissade"
                                     }
             put:
-                description: Modifie toutes les valeurs de la glissade.
+                description: Modifie toutes les valeurs de la glissade
                 example: "api/glisade/Aire de glissade ,Don-Bosco"
                 body:
                     application/json:
@@ -485,6 +485,15 @@ types:
                                     {
                                         "nom_arr": "Anjou",
                                         "nom_pat": "Anneau de glace, Parc Lucie-Bruneau (PPL)"
+                                    }
+                    404:
+                        description: La patinoire n'existe pas
+                        body:
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "La patinoire n'existe pas"
                                     }
             delete:
                 description: Supprime la patinoire qui a comme nom `nom_pat`
@@ -692,7 +701,7 @@ types:
                                             "lat": 45.640521
                                         }          
                 delete:
-                    description: Supprime la piscine qui a comme nom `nom`
+                    description: Supprime la piscine qui a comme nom `nom` et comme type `type`
                     example: "api/piscine/Pataugeoire/Saint-Jean-Baptiste"
                     responses:
                         200:
@@ -734,7 +743,7 @@ types:
                                             "error": "Il y a eu une erreur avec la suppression de la piscine"
                                         }
                 put:
-                    description: Modifie toutes les valeurs de la piscine.
+                    description: Modifie toutes les valeurs de la piscine qui a comme nom `nom` et comme type `type`
                     example: "api/piscine/Pataugeoire/Saint-Jean-Baptiste"
                     body:
                         application/json:
@@ -803,7 +812,7 @@ types:
                                             "error": "Il y a eu une erreur avec la modification de la piscine"
                                         }
                 patch:
-                    description: Modifie quelques valeurs de la piscine
+                    description: Modifie quelques valeurs de la piscine qui a comme nom `nom` et comme type `type`
                     example: "api/piscine/Pataugeoire/Saint-Jean-Baptiste"
                     body:
                         application/json:
