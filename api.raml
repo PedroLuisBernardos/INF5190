@@ -255,6 +255,7 @@ types:
         /{nom}:
             get:
                 description: Retourne la glissade qui a comme nom `nom`
+                example: "api/glisade/Aire de glissade ,Don-Bosco"
                 responses:
                     200:
                         description: Retourne la glissade
@@ -323,6 +324,7 @@ types:
                                     }
             put:
                 description: Modifie toutes les valeurs de la glissade.
+                example: "api/glisade/Aire de glissade ,Don-Bosco"
                 body:
                     application/json:
                         type: Glissade
@@ -385,6 +387,7 @@ types:
                                     }
             patch:
                 description: Modifie quelques valeurs de la glissade
+                example: "api/glisade/Aire de glissade ,Don-Bosco"
                 body:
                     application/json:
                         type: GlissadePatch
@@ -471,6 +474,7 @@ types:
         /{nom_pat}:
             get:
                 description: Retourne la patinoire qui a comme nom `nom_pat`
+                example: "/api/patinoire/Anneau de glace, Parc Lucie-Bruneau (PPL)"
                 responses:
                     200:
                         description: Retourne la patinoire
@@ -483,8 +487,134 @@ types:
                                         "nom_pat": "Anneau de glace, Parc Lucie-Bruneau (PPL)"
                                     }
             delete:
+                description: Supprime la patinoire qui a comme nom `nom_pat`
+                example: "/api/patinoire/Anneau de glace, Parc Lucie-Bruneau (PPL)"
+                responses:
+                    200:
+                        description: La patinoire a été suprimée
+                        body:
+                            application/json:
+                                type: Patinoire
+                                example: |
+                                    {
+                                        "nom_arr": "Anjou",
+                                        "nom_pat": "Anneau de glace, Parc Lucie-Bruneau (PPL)"
+                                    }
+                    404:
+                        description: La patinoire n'existe pas
+                        body:
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "La patinoire n'existe pas"
+                                    }
+                    500:
+                        description: Il y a eu un problème avec la supression de la patinoire
+                        body:
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "Il y a eu une erreur avec la suppression de la patinoire"
+                                    }
             put:
+                description: Modifie toutes les valeurs de la patinoire
+                example: "/api/patinoire/Anneau de glace, Parc Lucie-Bruneau (PPL)"
+                body:
+                    application/json:
+                        type: Patinoire
+                        example: |
+                            {
+                                "nom_arr": "Nouvelle valeur arr",
+                                "nom_pat": "Nouvelle valeur nom"
+                            }
+                responses:
+                    200:
+                        description: La patinoire a été modifiée
+                        body:
+                            application/json:
+                                type: Patinoire
+                                example: |
+                                    {
+                                        "nom_arr": "nouveau arr",
+                                        "nom_pat": "nouveau nom"
+                                    }
+                    400:
+                        description: Le JSON envoyé ne respecte pas le schema
+                        body:
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "Le fichier JSON envoyé ne respecte pas le schema"
+                                    }
+                    404:
+                        description: La patinoire n'existe pas
+                        body:
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "La patinoire n'existe pas"
+                                    }
+                    500:
+                        description: Il y a eu une erreur en modifiant la patinoire
+                        body:
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "Il y a eu une erreur avec la modification de la patinoire"
+                                    }
             patch:
+                description: Modifie quelques valeurs de la patinoire
+                example: "/api/patinoire/Anneau de glace, Parc Lucie-Bruneau (PPL)"
+                body:
+                    application/json:
+                        type: PatinoirePatch
+                        example: |
+                            {
+                                "nom_arr": "nouveau arr",
+                            }
+                responses:
+                    200:
+                        description: La patinoire a été modifiée
+                        body:
+                            application/json:
+                                type: Patinoire
+                                example: |
+                                    {
+                                        "nom_pat": "Anneau de glace, Parc Lucie-Bruneau (PPL)",
+                                        "nom_pat": "nouveau arr",
+                                    }
+                    400:
+                        description: Le JSON envoyé ne respecte pas le schema
+                        body:
+                            application/json:
+                                type: Patinoire
+                                example: |
+                                    {
+                                        "error": "Le fichier JSON envoyé ne respecte pas le schema"
+                                    }
+                    404:
+                        description: La patinoire n'existe pas
+                        body:
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "La patinoire n'existe pas"
+                                    }
+                    500:
+                        description: Il y a eu une erreur en modifiant la patinoire
+                        body:
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "Il y a eu une erreur avec la modification de la patinoire"
+                                    }
     /piscines:
         get:
             description: Retourne toutes les piscines
@@ -539,6 +669,7 @@ types:
             /{nom}:
                 get:
                     description: Retourne la piscine qui a comme nom `nom` et comme type `type`
+                    example: "api/piscine/Pataugeoire/Saint-Jean-Baptiste"
                     responses:
                         200:
                             description: Retourne la piscine
@@ -561,5 +692,161 @@ types:
                                             "lat": 45.640521
                                         }          
                 delete:
+                    example: "api/piscine/Pataugeoire/Saint-Jean-Baptiste"
+                    description: Supprime la glissade qui a comme nom `nom`
+                    example: "/api/glissade/Aire de glissade ,Don-Bosco"
+                    responses:
+                        200:
+                            description: La glissade a été suprimée
+                            body:
+                                application/json:
+                                    type: Glissade
+                                    example: |
+                                        {
+                                            "nom": "Aire de glissade ,Don-Bosco",
+                                            "arrondissement": {
+                                                "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
+                                                "cle": "rdp",
+                                                "date_maj": "2021-10-18 13:45:13"
+                                            },
+                                            "ouvert": 0,
+                                            "deblaye": 0,
+                                            "condition": "N/A"
+                                        }
+                        404:
+                            description: La glissade n'existe pas
+                            body:
+                                application/json:
+                                    type: Error
+                                    example: |
+                                        {
+                                            "error": "La glissade n'existe pas"
+                                        }
+                        500:
+                            description: Il y a eu un problème avec la supression de la glissade
+                            body:
+                                application/json:
+                                    type: Error
+                                    example: |
+                                        {
+                                            "error": "Il y a eu une erreur avec la suppression de la glissade"
+                                        }
                 put:
+                    description: Modifie toutes les valeurs de la glissade.
+                    example: "api/piscine/Pataugeoire/Saint-Jean-Baptiste"
+                    body:
+                        application/json:
+                            type: Glissade
+                            example: |
+                                {
+                                    "nom": "nouveau nom",
+                                    "arrondissement": {
+                                        "nom_arr": "nouveau nom",
+                                        "cle": "nouvelle cle",
+                                        "date_maj": "2021-10-19 13:45:13"
+                                    },
+                                    "ouvert": 1,
+                                    "deblaye": 1,
+                                    "condition": "nouvelle condition"
+                                }
+                    responses:
+                        200:
+                            description: La glissade a été modifiée
+                            body:
+                                application/json:
+                                    type: Glissade
+                                    example: |
+                                        {
+                                            "nom": "nouveau nom",
+                                            "arrondissement": {
+                                                "nom_arr": "nouveau nom",
+                                                "cle": "nouvelle cle",
+                                                "date_maj": "nouvelle date"
+                                            },
+                                            "ouvert": 0,
+                                            "deblaye": 0,
+                                            "condition": "N/A"
+                                        }
+                        400:
+                            description: Le JSON envoyé ne respecte pas le schema
+                            body:
+                                application/json:
+                                    type: Error
+                                    example: |
+                                        {
+                                            "error": "Le fichier JSON envoyé ne respecte pas le schema"
+                                        }
+                        404:
+                            description: La glissade n'existe pas
+                            body:
+                                application/json:
+                                    type: Error
+                                    example: |
+                                        {
+                                            "error": "La glissade n'existe pas"
+                                        }
+                        500:
+                            description: Il y a eu une erreur en modifiant la glissade
+                            body:
+                                application/json:
+                                    type: Error
+                                    example: |
+                                        {
+                                            "error": "Il y a eu une erreur avec la modification de la glissade"
+                                        }
                 patch:
+                    description: Modifie quelques valeurs de la glissade
+                    example: "api/piscine/Pataugeoire/Saint-Jean-Baptiste"
+                    body:
+                        application/json:
+                            type: GlissadePatch
+                            example: |
+                                {
+                                    "nom": "nouveau nom",
+                                    "ouvert": 1
+                                }
+                    responses:
+                        200:
+                            description: La glissade a été modifiée
+                            body:
+                                application/json:
+                                    type: Glissade
+                                    example: |
+                                        {
+                                            "nom": "nouveau nom",
+                                            "arrondissement": {
+                                                "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
+                                                "cle": "rdp",
+                                                "date_maj": "2021-10-18 13:45:13"
+                                            },
+                                            "ouvert": 1,
+                                            "deblaye": 0,
+                                            "condition": "N/A"
+                                        }
+                        400:
+                            description: Le JSON envoyé ne respecte pas le schema
+                            body:
+                                application/json:
+                                    type: Glissade
+                                    example: |
+                                        {
+                                            "error": "Le fichier JSON envoyé ne respecte pas le schema"
+                                        }
+                        404:
+                            description: La glissade n'existe pas
+                            body:
+                                application/json:
+                                    type: Error
+                                    example: |
+                                        {
+                                            "error": "La glissade n'existe pas"
+                                        }
+                        500:
+                            description: Il y a eu une erreur en modifiant la glissade
+                            body:
+                                application/json:
+                                    type: Error
+                                    example: |
+                                        {
+                                            "error": "Il y a eu une erreur avec la modification de la glissade"
+                                        }
