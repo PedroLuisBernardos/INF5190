@@ -692,80 +692,88 @@ types:
                                             "lat": 45.640521
                                         }          
                 delete:
+                    description: Supprime la piscine qui a comme nom `nom`
                     example: "api/piscine/Pataugeoire/Saint-Jean-Baptiste"
-                    description: Supprime la glissade qui a comme nom `nom`
-                    example: "/api/glissade/Aire de glissade ,Don-Bosco"
                     responses:
                         200:
-                            description: La glissade a été suprimée
+                            description: La piscine a été suprimée
                             body:
                                 application/json:
-                                    type: Glissade
+                                    type: Piscine
                                     example: |
                                         {
-                                            "nom": "Aire de glissade ,Don-Bosco",
-                                            "arrondissement": {
-                                                "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
-                                                "cle": "rdp",
-                                                "date_maj": "2021-10-18 13:45:13"
-                                            },
-                                            "ouvert": 0,
-                                            "deblaye": 0,
-                                            "condition": "N/A"
+                                            "id_uev": 5015454,
+                                            "type": "Pataugeoire",
+                                            "nom": "Saint-Jean-Baptiste",
+                                            "arrondisse": "Rivière-des-Prairies–Pointe-aux-Trembles",
+                                            "adresse": "1 048, Boulevard Saint-Jean-Baptiste",
+                                            "propriete": "Municipale",
+                                            "gestion": "Municipale",
+                                            "point_x": "304846,2071",
+                                            "point_y": "5055625,72",
+                                            "equipeme": "",
+                                            "long": -73.49941,
+                                            "lat": 45.640521
                                         }
                         404:
-                            description: La glissade n'existe pas
+                            description: La piscine n'existe pas
                             body:
                                 application/json:
                                     type: Error
                                     example: |
                                         {
-                                            "error": "La glissade n'existe pas"
+                                            "error": "La piscine n'existe pas"
                                         }
                         500:
-                            description: Il y a eu un problème avec la supression de la glissade
+                            description: Il y a eu un problème avec la supression de la piscine
                             body:
                                 application/json:
                                     type: Error
                                     example: |
                                         {
-                                            "error": "Il y a eu une erreur avec la suppression de la glissade"
+                                            "error": "Il y a eu une erreur avec la suppression de la piscine"
                                         }
                 put:
-                    description: Modifie toutes les valeurs de la glissade.
+                    description: Modifie toutes les valeurs de la piscine.
                     example: "api/piscine/Pataugeoire/Saint-Jean-Baptiste"
                     body:
                         application/json:
-                            type: Glissade
+                            type: Piscine
                             example: |
                                 {
+                                    "id_uev": 0000000,
+                                    "type": "nouveau type",
                                     "nom": "nouveau nom",
-                                    "arrondissement": {
-                                        "nom_arr": "nouveau nom",
-                                        "cle": "nouvelle cle",
-                                        "date_maj": "2021-10-19 13:45:13"
-                                    },
-                                    "ouvert": 1,
-                                    "deblaye": 1,
-                                    "condition": "nouvelle condition"
+                                    "arrondisse": "nouvel arrondissement",
+                                    "adresse": "nouvelle adresse",
+                                    "propriete": "nouvelle propriete",
+                                    "gestion": "nouvelle gesiton",
+                                    "point_x": "000000,00",
+                                    "point_y": "000000,00",
+                                    "equipeme": "nouveaux equipements",
+                                    "long": 00.000000,
+                                    "lat": 00.000000
                                 }
                     responses:
                         200:
-                            description: La glissade a été modifiée
+                            description: La piscine a été modifiée
                             body:
                                 application/json:
-                                    type: Glissade
+                                    type: Piscine
                                     example: |
                                         {
+                                            "id_uev": 0000000,
+                                            "type": "nouveau type",
                                             "nom": "nouveau nom",
-                                            "arrondissement": {
-                                                "nom_arr": "nouveau nom",
-                                                "cle": "nouvelle cle",
-                                                "date_maj": "nouvelle date"
-                                            },
-                                            "ouvert": 0,
-                                            "deblaye": 0,
-                                            "condition": "N/A"
+                                            "arrondisse": "nouvel arrondissement",
+                                            "adresse": "nouvelle adresse",
+                                            "propriete": "nouvelle propriete",
+                                            "gestion": "nouvelle gesiton",
+                                            "point_x": "000000,00",
+                                            "point_y": "000000,00",
+                                            "equipeme": "nouveaux equipements",
+                                            "long": 00.000000,
+                                            "lat": 00.000000
                                         }
                         400:
                             description: Le JSON envoyé ne respecte pas le schema
@@ -777,76 +785,79 @@ types:
                                             "error": "Le fichier JSON envoyé ne respecte pas le schema"
                                         }
                         404:
-                            description: La glissade n'existe pas
+                            description: La piscine n'existe pas
                             body:
                                 application/json:
                                     type: Error
                                     example: |
                                         {
-                                            "error": "La glissade n'existe pas"
+                                            "error": "La piscine n'existe pas"
                                         }
                         500:
-                            description: Il y a eu une erreur en modifiant la glissade
+                            description: Il y a eu une erreur en modifiant la piscine
                             body:
                                 application/json:
                                     type: Error
                                     example: |
                                         {
-                                            "error": "Il y a eu une erreur avec la modification de la glissade"
+                                            "error": "Il y a eu une erreur avec la modification de la piscine"
                                         }
                 patch:
-                    description: Modifie quelques valeurs de la glissade
+                    description: Modifie quelques valeurs de la piscine
                     example: "api/piscine/Pataugeoire/Saint-Jean-Baptiste"
                     body:
                         application/json:
-                            type: GlissadePatch
+                            type: PiscinePatch
                             example: |
                                 {
-                                    "nom": "nouveau nom",
-                                    "ouvert": 1
+                                    "id_uev": "0000000",
+                                    "equipeme": "nouveaux equipements"
                                 }
                     responses:
                         200:
-                            description: La glissade a été modifiée
+                            description: La piscine a été modifiée
                             body:
                                 application/json:
-                                    type: Glissade
+                                    type: Piscine
                                     example: |
                                         {
-                                            "nom": "nouveau nom",
-                                            "arrondissement": {
-                                                "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
-                                                "cle": "rdp",
-                                                "date_maj": "2021-10-18 13:45:13"
-                                            },
-                                            "ouvert": 1,
-                                            "deblaye": 0,
-                                            "condition": "N/A"
+                                            "id_uev": 0000000,
+                                            "type": "Pataugeoire",
+                                            "nom": "Saint-Jean-Baptiste",
+                                            "arrondisse": "Rivière-des-Prairies–Pointe-aux-Trembles",
+                                            "adresse": "1 048, Boulevard Saint-Jean-Baptiste",
+                                            "propriete": "Municipale",
+                                            "gestion": "Municipale",
+                                            "point_x": "304846,2071",
+                                            "point_y": "5055625,72",
+                                            "equipeme": "nouveaux equipements",
+                                            "long": -73.49941,
+                                            "lat": 45.640521
                                         }
                         400:
                             description: Le JSON envoyé ne respecte pas le schema
                             body:
                                 application/json:
-                                    type: Glissade
+                                    type: Piscine
                                     example: |
                                         {
                                             "error": "Le fichier JSON envoyé ne respecte pas le schema"
                                         }
                         404:
-                            description: La glissade n'existe pas
+                            description: La piscine n'existe pas
                             body:
                                 application/json:
                                     type: Error
                                     example: |
                                         {
-                                            "error": "La glissade n'existe pas"
+                                            "error": "La piscine n'existe pas"
                                         }
                         500:
-                            description: Il y a eu une erreur en modifiant la glissade
+                            description: Il y a eu une erreur en modifiant la piscine
                             body:
                                 application/json:
                                     type: Error
                                     example: |
                                         {
-                                            "error": "Il y a eu une erreur avec la modification de la glissade"
+                                            "error": "Il y a eu une erreur avec la modification de la piscine"
                                         }
