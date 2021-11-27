@@ -253,6 +253,35 @@ types:
                                 }
     /glissade:
         /{nom}:
+            get:
+                description: Retourne la glissade qui a comme nom `nom`
+                responses:
+                    200:
+                        description: Retourne la glissade
+                        body:
+                            application/json:
+                                type: Glissade
+                                example: |
+                                    {
+                                        "nom": "Aire de glissade ,Don-Bosco",
+                                        "arrondissement": {
+                                            "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
+                                            "cle": "rdp",
+                                            "date_maj": "2021-10-18 13:45:13"
+                                        },
+                                        "ouvert": 0,
+                                        "deblaye": 0,
+                                        "condition": "N/A"
+                                    }
+                    404:
+                        description: La glissade n'existe pas
+                        body:
+                            application/json:
+                                type: Error
+                                example: |
+                                    {
+                                        "error": "La glissade n'existe pas"
+                                    }
             delete:
                 description: Supprime la glissade qui a comme nom `nom`
                 example: "/api/glissade/Aire de glissade ,Don-Bosco"
@@ -291,35 +320,6 @@ types:
                                 example: |
                                     {
                                         "error": "Il y a eu une erreur avec la suppression de la glissade"
-                                    }
-            get:
-                description: Retourne la glissade qui a comme nom `nom`
-                responses:
-                    200:
-                        description: Retourne la glissade
-                        body:
-                            application/json:
-                                type: Glissade
-                                example: |
-                                    {
-                                        "nom": "Aire de glissade ,Don-Bosco",
-                                        "arrondissement": {
-                                            "nom_arr": "Rivière-des-Prairies - Pointe-aux-Trembles",
-                                            "cle": "rdp",
-                                            "date_maj": "2021-10-18 13:45:13"
-                                        },
-                                        "ouvert": 0,
-                                        "deblaye": 0,
-                                        "condition": "N/A"
-                                    }
-                    404:
-                        description: La glissade n'existe pas
-                        body:
-                            application/json:
-                                type: Error
-                                example: |
-                                    {
-                                        "error": "La glissade n'existe pas"
                                     }
             put:
                 description: Modifie toutes les valeurs de la glissade.
@@ -440,17 +440,126 @@ types:
                                     }
     /patinoires:
         get:
+            description: Retourne toutes les patinoires
+            responses:
+                200:
+                    description: Il y a au moins une patinoire dans la base de donné et elle est retournée
+                    body:
+                        application/json:
+                            type: Patinoire[]
+                        example: |
+                            [
+                                {
+                                    "nom_arr": "Anjou",
+                                    "nom_pat": "Anneau de glace, Parc Lucie-Bruneau (PPL)"
+                                },
+                                {
+                                    "nom_arr": "Côte-des-Neiges - Notre-Dame-de-Grâce",
+                                    "nom_pat": "Aire de glissade, Parc Confédération ()"
+                                }
+                            ]
+                404:
+                    description: Il n'y a aucune patinoire dans la base de données
+                    body:
+                        application/json:
+                            type: Error
+                            example: |
+                                {
+                                    "error": "Il n'y a aucune patinoire"
+                                }
     /patinoire:
-        /{nom}:
+        /{nom_pat}:
             get:
+                description: Retourne la patinoire qui a comme nom `nom_pat`
+                responses:
+                    200:
+                        description: Retourne la patinoire
+                        body:
+                            application/json:
+                                type: Patinoire
+                                example: |
+                                    {
+                                        "nom_arr": "Anjou",
+                                        "nom_pat": "Anneau de glace, Parc Lucie-Bruneau (PPL)"
+                                    }
             delete:
             put:
             patch:
     /piscines:
         get:
+            description: Retourne toutes les piscines
+            responses:
+                200:
+                    description: Il y a au moins une piscine dans la base de donné et elle est retournée
+                    body:
+                        application/json:
+                            type: Piscine[]
+                        example: |
+                            [
+                                {
+                                    "id_uev": 5015454,
+                                    "type": "Pataugeoire",
+                                    "nom": "Saint-Jean-Baptiste",
+                                    "arrondisse": "Rivière-des-Prairies–Pointe-aux-Trembles",
+                                    "adresse": "1 048, Boulevard Saint-Jean-Baptiste",
+                                    "propriete": "Municipale",
+                                    "gestion": "Municipale",
+                                    "point_x": "304846,2071",
+                                    "point_y": "5055625,72",
+                                    "equipeme": "",
+                                    "long": -73.49941,
+                                    "lat": 45.640521
+                                },
+                                {
+                                    "id_uev": 1050716,
+                                    "type": "Jeu d'eau",
+                                    "nom": "Parc Normand Dawe",
+                                    "arrondisse": "Verdun",
+                                    "adresse": "1 060, Rue Woodland",
+                                    "propriete": "Municipale",
+                                    "gestion": "Municipale",
+                                    "point_x": "298647,5623",
+                                    "point_y": "5034733453",
+                                    "equipeme": "",
+                                    "long": -73.578667,
+                                    "lat": 45.4525
+                                }
+                            ]
+                404:
+                    description: Il n'y a aucune piscine dans la base de données
+                    body:
+                        application/json:
+                            type: Error
+                            example: |
+                                {
+                                    "error": "Il n'y a aucune piscine"
+                                }
     /piscine:
-        /{nom}:
-            get:
-            delete:
-            put:
-            patch:
+        /{type}:
+            /{nom}:
+                get:
+                    description: Retourne la piscine qui a comme nom `nom` et comme type `type`
+                    responses:
+                        200:
+                            description: Retourne la piscine
+                            body:
+                                application/json:
+                                    type: Piscine
+                                    example: |
+                                        {
+                                            "id_uev": 5015454,
+                                            "type": "Pataugeoire",
+                                            "nom": "Saint-Jean-Baptiste",
+                                            "arrondisse": "Rivière-des-Prairies–Pointe-aux-Trembles",
+                                            "adresse": "1 048, Boulevard Saint-Jean-Baptiste",
+                                            "propriete": "Municipale",
+                                            "gestion": "Municipale",
+                                            "point_x": "304846,2071",
+                                            "point_y": "5055625,72",
+                                            "equipeme": "",
+                                            "long": -73.49941,
+                                            "lat": 45.640521
+                                        }          
+                delete:
+                put:
+                patch:

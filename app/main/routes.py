@@ -11,7 +11,7 @@ def index():
     if form.validate_on_submit():
         new_form = ArrondissementForm()
         arrondissement = form.arrondissement.data
-        return render_template("index.html", title="Accueil",
+        return render_template("index.html", title="Installations selon arrondissement",
                                arrondissement=arrondissement, form=new_form)
     return render_template("index.html", title="Installations selon arrondissement", form=form)
 

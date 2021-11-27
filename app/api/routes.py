@@ -58,15 +58,12 @@ def get_glissade(nom):
 
 @bp.route('/glissade/<nom>', methods=['DELETE'])
 def delete_glissade(nom):
-    try:
-        nom = nom.encode('raw_unicode_escape').decode('utf-8')
-        glissade = database.Database().get_glissade(nom)
-        if glissade == "null":
-            return {'error': 'La glissade n\'existe pas'}, 404
-        database.Database().delete_glissade(nom)
-        return glissade
-    except:
-        return {'error': 'Il y a eu une erreur avec la suppression de la glissade'}, 500
+    #nom = nom.encode('raw_unicode_escape').decode('utf-8')
+    glissade = database.Database().get_glissade(nom)
+    if glissade == "null":
+        return {'error': 'La glissade n\'existe pas'}, 404
+    database.Database().delete_glissade(nom)
+    return glissade
 
 
 # Modifie entierement une glissade selon un JSON recu

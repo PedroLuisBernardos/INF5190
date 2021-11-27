@@ -191,7 +191,7 @@ class Database:
         connect = self.get_connection()
         cursor = connect.cursor()
         cursor.execute("DELETE FROM patinoire WHERE nom_pat=?", (nom,))
-        #connect.commit()
+        connect.commit()
 
     # Retourne une patinoire selon son nom
     def get_patinoire(self, nom):
