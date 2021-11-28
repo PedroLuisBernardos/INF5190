@@ -5,7 +5,7 @@ from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length
 from app import Database
 
-# Défini un formulaire pour la saisie de contacts
+# Defini un formualire pour la recherche d'installations selon un arrondissement
 class ArrondissementForm(FlaskForm):
     m = "Veuillez entrer un nom d'arrondissement"
     e = "Vous devez entrer entre 1 et 100 caractères"
@@ -16,6 +16,7 @@ class ArrondissementForm(FlaskForm):
     submit = SubmitField('Rechercher')
 
 
+# Defini un formualire pour la recherche d'informations sur une installation selon son nom
 class NomInstallationForm(FlaskForm):
     choix = Database().get_noms_installations().split('"')
     choix = choix[1::2]

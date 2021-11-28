@@ -33,24 +33,9 @@ function getNom(r, type_installation) {
 }
 
 // Modifie l'installation
-function modifier(url, type_inst) {
-    return fetch(url, {method:'PUT'})
-    .then(response => response.text())
-    .then(response => JSON.parse(response))
-    .then(response => {
-        var nom_installation;
-        var nom_arrondissement;
-        if (type_inst == "patinoire") {
-            nom_installation = response.nom_pat;
-            nom_arrondissement = response.nom_arr;
-        } else if (type_inst == "piscine") {
-            nom_installation = response.nom;
-            nom_arrondissement = response.arrondisse;
-        } else if (type_inst == "glissade") {
-            nom_installation = response.nom;
-            nom_arrondissement = response.nom_arr;
-        }
-    });
+function modifier(nom, type_inst) {
+    var url = "/api/update/"+type_inst+"/"+nom;
+    window.location.replace(url);
 }
 
 // Supprime l'installation
@@ -119,7 +104,7 @@ async function arrondissementRecherche(arrondissement, type_installation) {
                     var nom = getNom(r, type_installation);
                     var type_inst = type_installation.slice(0, type_installation.length-1);
                     var url = "/api/"+type_inst+"/"+nom;
-
+                    
                     // Ajout du bouton de modification
                     var cell = row.insertCell();
                     var button_update = document.createElement('button');
@@ -129,7 +114,7 @@ async function arrondissementRecherche(arrondissement, type_installation) {
                     button_update.class = 'image_update';
                     cell.scope = 'row';
                     cell.appendChild(button_update);
-                    button_update.addEventListener('click', modifier.bind(null, url, type_inst));
+                    button_update.addEventListener('click', modifier.bind(null, nom, type_inst));
 
                     // Ajout du bouton de suppression
                     cell = row.insertCell();

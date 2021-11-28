@@ -1,0 +1,18 @@
+<!-- Page  -->
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+    <h1>Modifier {{ installation }}</h1>
+    <form id="recherche" class="form-group" action="{{ url_for('main.index') }}" method="POST">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        var arr = '{{ url }}'
+    </script>
+    <script type="text/javascript" src="/js/update.js"></script>
+
+{% endblock content %}

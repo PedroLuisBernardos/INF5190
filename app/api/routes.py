@@ -2,8 +2,10 @@
 # Defini les routes des requetes REST
 from flask import render_template, current_app
 from flask.globals import request
+from app.api.forms import GlissadeForm
 from config import Config
 from app.api import bp
+from app.api.forms import GlissadeForm, PatinoireForm, PiscineForm
 from app import database, schema, get_db
 import json
 
@@ -300,3 +302,28 @@ def update_piscines_patch(nom_request, style_request):
         return database.Database().update_piscine(nom_request, style_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
     else:
         return {'error': 'La piscine n\'existe pas'}, 404
+
+
+@bp.route('/update/glissade/<nom_request>')
+def update_glissade_form(nom_request):
+    form = GlissadeForm()
+    glissade = json.loads(database.Database().get_glissade(nom_request))
+    form.nom.default = glissade['nom']
+    form.nom_arr.default = glissade['arrondissement']['nom_arr']
+    form.cle.default = glissade['arrondissement']['cle']
+    form.date_maj.default = glissade['arrondissement']['date_maj']
+    form.ouvert.default = glissade['ouvert']
+    form.deblaye.default = glissade['deblaye']
+    form.condition.default = glissade['condition']
+    form.process()
+    return render_template("api/modifier.html", title='Modification de la glissade', installation='glissade', form=form, url='/api/glissade/'+nom_request)
+
+
+@bp.route('/update/patinoire/<nom_request>')
+def update_patinoire_form(nom_request):
+    return render_template("api/modifier.html", title='Modification de la patinoire', installation='patinoire', form=form)
+
+
+@bp.route('/update/piscine/<style_request>/<nom_request>')
+def update_piscine_form(nom_request, style_request):
+    return render_template("api/modifier.html", title='Modification de la piscine', installation='piscine', form=form)
