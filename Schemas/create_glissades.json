@@ -20,7 +20,9 @@
                     "format": "date-time",
                     "pattern": "\\d{4}(.\\d{2}){2}(\\s|T)(\\d{2}.){2}\\d{2}"
                 }
-            }
+            },
+            "required": ["nom_arr", "cle", "date_maj"],
+            "additionalProperties": false
         },
         "ouvert": {
             "type": "number",
@@ -36,6 +38,6 @@
             "type": "string"
         }
     },
-    "required": ["nom", "arrondissement", "nom_arr", "cle", "date_maj", "ouvert", "deblaye", "condition"],
+    "required": ["nom", "arrondissement", "ouvert", "deblaye", "condition"],
     "additionalProperties": false
 }
