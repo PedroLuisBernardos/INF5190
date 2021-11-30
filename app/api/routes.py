@@ -225,7 +225,6 @@ def delete_piscine(nom, style):
 def update_piscines_put(nom_request, style_request):
     # Si la piscine existe
     if get_db().get_piscine(nom_request, style_request) != "null":
-
         if 'id_uev' in request.get_json():
             id_uev = request.get_json()['id_uev']
         if 'style' in request.get_json():
@@ -316,14 +315,34 @@ def update_glissade_form(nom_request):
     form.deblaye.default = glissade['deblaye']
     form.condition.default = glissade['condition']
     form.process()
-    return render_template("api/modifier.html", title='Modification de la glissade', installation='glissade', form=form, url='/api/glissade/'+nom_request)
+    return render_template("api/modifier.html", title='Modification de la glissade', installation='glissade', form=form, url='/api/glissade/')
 
 
 @bp.route('/update/patinoire/<nom_request>')
 def update_patinoire_form(nom_request):
-    return render_template("api/modifier.html", title='Modification de la patinoire', installation='patinoire', form=form)
+    form = PatinoireForm()
+    patinoire = json.loads(database.Database().get_patinoire(nom_request))
+    form.nom_pat.default = patinoire['nom_pat']
+    form.nom_arr.default = patinoire['nom_arr']
+    form.process()
+    return render_template("api/modifier.html", title='Modification de la patinoire', installation='patinoire', form=form, url='/api/patinoire/')
 
 
 @bp.route('/update/piscine/<style_request>/<nom_request>')
 def update_piscine_form(nom_request, style_request):
-    return render_template("api/modifier.html", title='Modification de la piscine', installation='piscine', form=form)
+    form = PiscineForm()
+    piscine = json.loads(database.Database().get_piscine(nom_request, style_request))
+    form.id_uev.default = piscine['id_uev']
+    form.style.default = piscine['type']
+    form.nom.default = piscine['nom']
+    form.arrondisse.default = piscine['arrondisse']
+    form.adresse.default = piscine['adresse']
+    form.propriete.default = piscine['propriete']
+    form.gestion.default = piscine['gestion']
+    form.point_x.default = piscine['point_x']
+    form.point_y.default = piscine['point_y']
+    form.equipeme.default = piscine['equipeme']
+    form.longitude.default = piscine['long']
+    form.latitude.default = piscine['lat']
+    form.process()
+    return render_template("api/modifier.html", title='Modification de la piscine', installation='piscine', form=form, url='/api/piscine/')

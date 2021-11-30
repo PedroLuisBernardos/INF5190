@@ -25,10 +25,10 @@
             "type": "string"
         },
         "point_x": {
-            "type": "number"
+            "type": "string"
         },
         "point_y": {
-            "type": "number"
+            "type": "string"
         },
         "equipeme": {
             "type": "string"
