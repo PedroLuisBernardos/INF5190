@@ -54,10 +54,9 @@ class PiscineForm(FlaskForm):
                              Length(min=1, max=255, message=e)])
     arrondisse = StringField('Nom', validators=[DataRequired(message=m),
                              Length(min=1, max=255, message=e)])
-    adresse = StringField('Nom', validators=[DataRequired(message=m)])
-    propriete = StringField('Nom', validators=[DataRequired(message=m)])
-    gestion = StringField('Nom', validators=[DataRequired(message=m),
-                             Length(min=1, max=255, message=e)])
+    adresse = StringField('Nom')
+    propriete = StringField('Nom')
+    gestion = StringField('Nom')
     point_x = StringField('Nom', validators=[DataRequired(message=m)])
     point_y = StringField('Nom', validators=[DataRequired(message=m)])
     equipeme = StringField('Nom', validators=[DataRequired(message=m),

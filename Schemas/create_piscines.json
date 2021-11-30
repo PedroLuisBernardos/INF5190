@@ -40,6 +40,6 @@
             "type": "number"
         }
     },
-    "required": ["id_uev", "nom", "arrondisse", "adresse", "propriete", "gestion", "point_x", "point_y", "equipeme", "longitude", "latitude"],
+    "required": ["id_uev", "nom", "arrondisse", "point_x", "point_y", "equipeme", "longitude", "latitude"],
     "additionalProperties": false
 }

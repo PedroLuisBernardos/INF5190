@@ -80,6 +80,14 @@ types:
                 type: string
             nom_pat:
                 type: string
+    PatinoirePatch:
+        properties:
+            nom_arr:
+                type: string
+                required: false
+            nom_pat:
+                type: string
+                required: false
     Piscine:
         properties:
             id_uev:
@@ -92,10 +100,13 @@ types:
                 type: string
             adresse:
                 type: string
+                required: false
             propriete:
                 type: string
+                required: false
             gestion:
                 type: string
+                required: false
             point_x:
                 type: string
             point_y:
@@ -106,6 +117,44 @@ types:
                 type: number
             latitude:
                 type: number
+    PiscinePatch:
+        properties:
+            id_uev:
+                type: integer
+                required: false
+            type:
+                type: string
+                required: false
+            nom:
+                type: string
+                required: false
+            arrondisse:
+                type: string
+                required: false
+            adresse:
+                type: string
+                required: false
+            propriete:
+                type: string
+                required: false
+            gestion:
+                type: string
+                required: false
+            point_x:
+                type: string
+                required: false
+            point_y:
+                type: string
+                required: false
+            equipeme:
+                type: string
+                required: false
+            longitude:
+                type: number
+                required: false
+            latitude:
+                type: number
+                required: false
     Error:
         properties:
             error:
