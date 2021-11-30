@@ -1,4 +1,8 @@
-document.getElementById("recherche").addEventListener("submit", function() {
+/**
+ * Handler pour l'envoit du formulaire
+ * @param {SubmitEvent} event
+ */
+document.getElementById("recherche").addEventListener("submit", function(event) {
     var url_fetch = url
     var json_installation = new Object();
     if (installation === 'glissade') {
@@ -43,11 +47,5 @@ document.getElementById("recherche").addEventListener("submit", function() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(json_installation)
     })
-    .then(response => response.text())
-    .then(response => JSON.parse(response))
-    .then(response => {
-        console.log(response)
-        // event.target.submit();
-        window.location.replace(url);
-    });
+    .then(document.getElementById("recherche").submit())
 })

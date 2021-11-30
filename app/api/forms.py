@@ -30,7 +30,7 @@ class GlissadeForm(FlaskForm):
     condition = StringField('Condition', validators=[DataRequired(message=m),
                                                      Length(min=1,
                                                      max=255, message=e)])
-    submit = SubmitField('Modifier')
+    modifier = SubmitField('Modifier')
 
     # Valier le format de la date
     def validate_date_maj(self, date_maj):
@@ -51,7 +51,7 @@ class PatinoireForm(FlaskForm):
     nom_arr = StringField('Nom de l\'arrondissement',
                           validators=[DataRequired(message=m),
                                       Length(min=1, max=255, message=e)])
-    submit = SubmitField('Modifier')
+    modifier = SubmitField('Modifier')
 
 
 class PiscineForm(FlaskForm):
@@ -77,6 +77,6 @@ class PiscineForm(FlaskForm):
                              validators=[DataRequired(message=m)])
     latitude = DecimalField('Latitude', places=6,
                             validators=[DataRequired(message=m)])
-    submit = SubmitField('Modifier')
+    modifier = SubmitField('Modifier')
 
     # TODO validate format points et lat/long

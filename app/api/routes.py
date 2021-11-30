@@ -1,6 +1,6 @@
 # handlers.py
 # Defini les routes des requetes REST
-from flask import render_template, current_app
+from flask import render_template, redirect
 from flask.globals import request
 from app.api.forms import GlissadeForm
 from config import Config
@@ -404,3 +404,10 @@ def update_piscine_form(nom_request, style_request):
                            form=form, url='/api/piscine/',
                            nom_request=nom_request,
                            style_request=style_request)
+
+
+# Après envoit du formulaire
+# TODO
+@bp.route('/update/send_form', methods=['POST'])
+def send_form():
+    return redirect('/')
