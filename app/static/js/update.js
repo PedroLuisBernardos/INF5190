@@ -5,6 +5,8 @@
 //}
 
 document.getElementById("recherche").addEventListener("submit", function() {
+    var url_fetch = url
+    console.log(url_fetch)
     var json_installation = new Object();
     if (installation === 'glissade') {
         var arrondissement = new Object();
@@ -18,11 +20,13 @@ document.getElementById("recherche").addEventListener("submit", function() {
         json_installation.condition = document.getElementById("condition").value;
 
         url = url + document.getElementById("nom").value
+        url_fetch = url_fetch + nom_request
     } else if (installation === 'patinoire') {
         json_installation.nom_pat = document.getElementById("nom_pat").value;
         json_installation.nom_arr = document.getElementById("nom_arr").value;
 
         url = url + document.getElementById("nom_pat").value
+        url_fetch = url_fetch + nom_request
     } else if (installation === 'piscine') {
         json_installation.id_uev = parseInt(document.getElementById("id_uev").value);
         json_installation.style = document.getElementById("style").value;
@@ -38,9 +42,11 @@ document.getElementById("recherche").addEventListener("submit", function() {
         json_installation.latitude = parseFloat(document.getElementById("latitude").value);
 
         url = url + document.getElementById("style").value + '/' + document.getElementById("nom").value
+        url_fetch = url_fetch + style_request + '/' + nom_request
     }
+    console.log(url_fetch)
     event.preventDefault()
-    fetch(url, {
+    fetch(url_fetch, {
         method:'PUT',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(json_installation)

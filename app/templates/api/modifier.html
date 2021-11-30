@@ -13,8 +13,10 @@
     <script type="text/javascript">
         var url = '{{ url }}'
         var installation = '{{ installation }}'
-        var nom = '{{ nom }}'
-        var style = '{{ style }}'
+        var nom_request = '{{ nom_request }}'
+        '{% if style_request %}'
+        var style_request = '{{ style_request }}'
+        '{% endif %}'
     </script>
     <script type="text/javascript" src="/js/update.js"></script>
 

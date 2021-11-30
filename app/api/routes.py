@@ -315,7 +315,7 @@ def update_glissade_form(nom_request):
     form.deblaye.default = glissade['deblaye']
     form.condition.default = glissade['condition']
     form.process()
-    return render_template("api/modifier.html", title='Modification de la glissade', installation='glissade', form=form, url='/api/glissade/')
+    return render_template("api/modifier.html", title='Modification de la glissade', installation='glissade', form=form, url='/api/glissade/', nom_request=nom_request)
 
 
 @bp.route('/update/patinoire/<nom_request>')
@@ -325,7 +325,7 @@ def update_patinoire_form(nom_request):
     form.nom_pat.default = patinoire['nom_pat']
     form.nom_arr.default = patinoire['nom_arr']
     form.process()
-    return render_template("api/modifier.html", title='Modification de la patinoire', installation='patinoire', form=form, url='/api/patinoire/')
+    return render_template("api/modifier.html", title='Modification de la patinoire', installation='patinoire', form=form, url='/api/patinoire/', nom_request=nom_request)
 
 
 @bp.route('/update/piscine/<style_request>/<nom_request>')
@@ -345,4 +345,4 @@ def update_piscine_form(nom_request, style_request):
     form.longitude.default = piscine['long']
     form.latitude.default = piscine['lat']
     form.process()
-    return render_template("api/modifier.html", title='Modification de la piscine', installation='piscine', form=form, url='/api/piscine/')
+    return render_template("api/modifier.html", title='Modification de la piscine', installation='piscine', form=form, url='/api/piscine/', nom_request=nom_request, style_request=style_request)

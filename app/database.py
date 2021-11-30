@@ -339,9 +339,7 @@ class Database:
     def update_piscine(self, nom_request, style_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude):
         connect = self.get_connection()
         cursor = connect.cursor()
-        print("here")
         try:
-            print("t*****ry")
             if id_uev != None:
                 cursor.execute("UPDATE piscine SET id_uev=? WHERE nom=?", (id_uev, nom_request))
             if style != None:
@@ -371,10 +369,8 @@ class Database:
             else:
                 nom = nom_request
             connect.commit()
-            print("return????")
             return Database().get_piscine(nom, style)
         except:
-            print("except!!!!!!!!!!1")
             connect.rollback()
 
     # Retourne tous les noms de toutes les installations
