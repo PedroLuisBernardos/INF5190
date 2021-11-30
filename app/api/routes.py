@@ -9,29 +9,35 @@ from app.api.forms import GlissadeForm, PatinoireForm, PiscineForm
 from app import database, schema, get_db
 import json
 
+
 # Affichage des installations
 # Un paramètre 'arrondissement' peut être specifie en parametres
 @bp.route('/installations')
 def installations_arrondissement():
-    arrondissement = request.args.get("arrondissement")
-    if not arrondissement and request.args:
+    arr = request.args.get("arrondissement")
+    if not arr and request.args:
         return {'error': 'Le seul paramètre possible est arrondissement'}, 400
     elif 'arrondissement' in request.args:
-        glissades = database.Database().find_glissade_arrondissement(arrondissement)
-        patinoires = database.Database().find_patinoire_arrondissement(arrondissement)
-        piscines = database.Database().find_piscine_arrondissement(arrondissement)
+        glissades = database.Database().find_glissade_arrondissement(arr)
+        patinoires = database.Database().find_patinoire_arrondissement(arr)
+        piscines = database.Database().find_piscine_arrondissement(arr)
         if glissades == "[]" and patinoires == "[]" and piscines == "[]":
             return {'error': 'Aucune installation n\'a été trouvée'}, 404
-        return {'glissades':glissades,'patinoires':patinoires,'piscines':piscines}
+        return {'glissades': glissades,
+                'patinoires': patinoires,
+                'piscines': piscines}
     else:
         glissades = database.Database().get_glissades()
         patinoires = database.Database().get_patinoires()
         piscines = database.Database().get_piscines()
         if glissades == "[]" and patinoires == "[]" and piscines == "[]":
             return {'error': 'Aucune installation n\'a été trouvée'}, 404
-        return {'glissades': glissades,'patinoires': patinoires,'piscines': piscines}
+        return {'glissades': glissades,
+                'patinoires': patinoires,
+                'piscines': piscines}
 
 
+# GET toutes les installations
 @bp.route('/installation/<nom>')
 def info_nom_installation(nom):
     nom = nom.encode('raw_unicode_escape').decode('utf-8')
@@ -41,6 +47,7 @@ def info_nom_installation(nom):
     return info
 
 
+# GET toutes les glissades
 @bp.route('/glissades')
 def glissades():
     glissades = database.Database().get_glissades()
@@ -49,6 +56,7 @@ def glissades():
     return glissades
 
 
+# GET une glissade selon son <nom>
 @bp.route('/glissade/<nom>')
 def get_glissade(nom):
     # nom = nom.encode('raw_unicode_escape').decode('utf-8')
@@ -58,14 +66,19 @@ def get_glissade(nom):
     return glissade
 
 
+# DELETE une glissade selon son <nom>
 @bp.route('/glissade/<nom>', methods=['DELETE'])
 def delete_glissade(nom):
-    #nom = nom.encode('raw_unicode_escape').decode('utf-8')
-    glissade = database.Database().get_glissade(nom)
-    if glissade == "null":
-        return {'error': 'La glissade n\'existe pas'}, 404
-    database.Database().delete_glissade(nom)
-    return glissade
+    try:
+        # nom = nom.encode('raw_unicode_escape').decode('utf-8')
+        glissade = database.Database().get_glissade(nom)
+        if glissade == "null":
+            return {'error': 'La glissade n\'existe pas'}, 404
+        database.Database().delete_glissade(nom)
+        return glissade
+    except Exception:
+        return {'error': 'Il y a eu une erreur avec la '
+                'suppression de la glissade'}, 500
 
 
 # Modifie entierement une glissade selon un JSON recu
@@ -84,7 +97,10 @@ def update_glissade_put(nom_request):
         condition = request.get_json()['condition']
         nom_arr_request = json.loads(get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
 
-        return database.Database().update_glissade(nom_request, nom, nom_arr_request, nom_arr, cle, date_maj, ouvert, deblaye, condition)
+        return database.Database().update_glissade(nom_request, nom,
+                                                   nom_arr_request, nom_arr,
+                                                   cle, date_maj, ouvert,
+                                                   deblaye, condition)
     else:
         return {'error': 'La glissade n\'existe pas'}, 404
 
@@ -121,11 +137,15 @@ def update_glissade_patch(nom_request):
 
         nom_arr_request = json.loads(get_db().get_glissade(nom_request))['arrondissement']['nom_arr']
 
-        return database.Database().update_glissade(nom_request, nom, nom_arr_request, nom_arr, cle, date_maj, ouvert, deblaye, condition)
+        return database.Database().update_glissade(nom_request, nom,
+                                                   nom_arr_request, nom_arr,
+                                                   cle, date_maj, ouvert,
+                                                   deblaye, condition)
     else:
         return {'error': 'La glissade n\'existe pas'}, 404
 
 
+# GET toutes les patinoires
 @bp.route('/patinoires')
 def patinoires():
     patinoires = database.Database().get_patinoires()
@@ -134,6 +154,7 @@ def patinoires():
     return patinoires
 
 
+# GET une patinoire selon son <nom>
 @bp.route('/patinoire/<nom>')
 def get_patinoire(nom):
     # nom = nom.encode('raw_unicode_escape').decode('utf-8')
@@ -143,6 +164,7 @@ def get_patinoire(nom):
     return patinoire
 
 
+# DELETE une patinoire selon son <nom>
 @bp.route('/patinoire/<nom>', methods=['DELETE'])
 def delete_patinoire(nom):
     try:
@@ -152,8 +174,10 @@ def delete_patinoire(nom):
             return {'error': 'La patinoire n\'existe pas'}, 404
         database.Database().delete_patinoire(nom)
         return patinoire
-    except:
-        return {'error': 'Il y a eu une erreur avec la suppression de la patinoire'}, 500
+    except Exception:
+        return {'error': 'Il y a eu une erreur avec la '
+                'suppression de la patinoire'}, 500
+
 
 # Modifie entierement une patinoire selon un JSON recu
 @bp.route('/patinoire/<nom_request>', methods=["PUT"])
@@ -165,7 +189,8 @@ def update_patinoires_put(nom_request):
         nom_pat = request.get_json()['nom_pat']
         nom_arr = request.get_json()['nom_arr']
 
-        return database.Database().update_patinoire(nom_request, nom_pat, nom_arr)
+        return database.Database().update_patinoire(nom_request,
+                                                    nom_pat, nom_arr)
     else:
         return {'error': 'La patinoire n\'existe pas'}, 404
 
@@ -184,11 +209,13 @@ def update_patinoires_patch(nom_request):
         if 'nom_arr' in request.get_json():
             nom_arr = request.get_json()['nom_arr']
 
-        return database.Database().update_patinoire(nom_request, nom_pat, nom_arr)
+        return database.Database().update_patinoire(nom_request,
+                                                    nom_pat, nom_arr)
     else:
         return {'error': 'La patinoire n\'existe pas'}, 404
 
 
+# GET toutes les piscines
 @bp.route('/piscines')
 def piscines():
     piscines = database.Database().get_piscines()
@@ -197,6 +224,7 @@ def piscines():
     return piscines
 
 
+# GET une piscine selon son <style> et son <nom>
 @bp.route('/piscine/<style>/<nom>')
 def get_piscine(nom, style):
     # nom = nom.encode('raw_unicode_escape').decode('utf-8')
@@ -206,6 +234,7 @@ def get_piscine(nom, style):
     return piscine
 
 
+# DELETE une piscine selon son <style> et son <nom>
 @bp.route('/piscine/<style>/<nom>', methods=['DELETE'])
 def delete_piscine(nom, style):
     try:
@@ -215,8 +244,9 @@ def delete_piscine(nom, style):
             return {'error': 'La piscine n\'existe pas'}, 404
         database.Database().delete_piscine(nom, style)
         return piscine
-    except:
-        return {'error': 'Il y a eu une erreur avec la suppression de la piscine'}, 500
+    except Exception:
+        return {'error': 'Il y a eu une erreur avec la '
+                'suppression de la piscine'}, 500
 
 
 # Modifie entierement une piscine selon un JSON recu
@@ -250,9 +280,15 @@ def update_piscines_put(nom_request, style_request):
         if 'latitude' in request.get_json():
             latitude = request.get_json()['latitude']
 
-        return database.Database().update_piscine(nom_request, style_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
+        return database.Database().update_piscine(nom_request, style_request,
+                                                  id_uev, style, nom,
+                                                  arrondisse, adresse,
+                                                  propriete, gestion, point_x,
+                                                  point_y, equipeme,
+                                                  longitude, latitude)
     else:
         return {'error': 'La piscine n\'existe pas'}, 404
+
 
 # Modifie partiellement une piscine selon un JSON recu
 @bp.route('/piscine/<style_request>/<nom_request>', methods=["PATCH"])
@@ -298,11 +334,17 @@ def update_piscines_patch(nom_request, style_request):
         if 'latitude' in request.get_json():
             latitude = request.get_json()['latitude']
 
-        return database.Database().update_piscine(nom_request, style_request, id_uev, style, nom, arrondisse, adresse, propriete, gestion, point_x, point_y, equipeme, longitude, latitude)
+        return database.Database().update_piscine(nom_request, style_request,
+                                                  id_uev, style, nom,
+                                                  arrondisse, adresse,
+                                                  propriete, gestion, point_x,
+                                                  point_y, equipeme,
+                                                  longitude, latitude)
     else:
         return {'error': 'La piscine n\'existe pas'}, 404
 
 
+# Formulaire de modification de la glissade
 @bp.route('/update/glissade/<nom_request>')
 def update_glissade_form(nom_request):
     form = GlissadeForm()
@@ -315,9 +357,14 @@ def update_glissade_form(nom_request):
     form.deblaye.default = glissade['deblaye']
     form.condition.default = glissade['condition']
     form.process()
-    return render_template("api/modifier.html", title='Modification de la glissade', installation='glissade', form=form, url='/api/glissade/', nom_request=nom_request)
+    return render_template("api/modifier.html",
+                           title='Modification de la glissade',
+                           installation='glissade',
+                           form=form, url='/api/glissade/',
+                           nom_request=nom_request)
 
 
+# Formulaire de modification de la patinoire
 @bp.route('/update/patinoire/<nom_request>')
 def update_patinoire_form(nom_request):
     form = PatinoireForm()
@@ -325,13 +372,19 @@ def update_patinoire_form(nom_request):
     form.nom_pat.default = patinoire['nom_pat']
     form.nom_arr.default = patinoire['nom_arr']
     form.process()
-    return render_template("api/modifier.html", title='Modification de la patinoire', installation='patinoire', form=form, url='/api/patinoire/', nom_request=nom_request)
+    return render_template("api/modifier.html",
+                           title='Modification de la patinoire',
+                           installation='patinoire',
+                           form=form, url='/api/patinoire/',
+                           nom_request=nom_request)
 
 
+# Formulaire de modification de la piscine
 @bp.route('/update/piscine/<style_request>/<nom_request>')
 def update_piscine_form(nom_request, style_request):
     form = PiscineForm()
-    piscine = json.loads(database.Database().get_piscine(nom_request, style_request))
+    piscine = json.loads(database.Database().get_piscine(nom_request,
+                                                         style_request))
     form.id_uev.default = piscine['id_uev']
     form.style.default = piscine['type']
     form.nom.default = piscine['nom']
@@ -345,4 +398,9 @@ def update_piscine_form(nom_request, style_request):
     form.longitude.default = piscine['long']
     form.latitude.default = piscine['lat']
     form.process()
-    return render_template("api/modifier.html", title='Modification de la piscine', installation='piscine', form=form, url='/api/piscine/', nom_request=nom_request, style_request=style_request)
+    return render_template("api/modifier.html",
+                           title='Modification de la piscine',
+                           installation='piscine',
+                           form=form, url='/api/piscine/',
+                           nom_request=nom_request,
+                           style_request=style_request)

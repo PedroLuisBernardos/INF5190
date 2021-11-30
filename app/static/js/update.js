@@ -1,12 +1,5 @@
-// Supprime l'installation
-//async function update_inst(path) {
-  //  console.log(path)
- //   await 
-//}
-
 document.getElementById("recherche").addEventListener("submit", function() {
     var url_fetch = url
-    console.log(url_fetch)
     var json_installation = new Object();
     if (installation === 'glissade') {
         var arrondissement = new Object();
@@ -44,7 +37,6 @@ document.getElementById("recherche").addEventListener("submit", function() {
         url = url + document.getElementById("style").value + '/' + document.getElementById("nom").value
         url_fetch = url_fetch + style_request + '/' + nom_request
     }
-    console.log(url_fetch)
     event.preventDefault()
     fetch(url_fetch, {
         method:'PUT',
@@ -55,7 +47,7 @@ document.getElementById("recherche").addEventListener("submit", function() {
     .then(response => JSON.parse(response))
     .then(response => {
         console.log(response)
-        //event.target.submit();
+        event.target.submit();
         window.location.replace(url);
     });
 })

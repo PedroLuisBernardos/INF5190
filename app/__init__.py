@@ -1,5 +1,4 @@
 # __init__.py
-from typing import Set
 from flask import Flask, g
 from flask_bootstrap import Bootstrap
 from flask_json_schema import JsonSchema
