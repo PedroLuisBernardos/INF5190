@@ -47,7 +47,7 @@ document.getElementById("recherche").addEventListener("submit", function() {
     .then(response => JSON.parse(response))
     .then(response => {
         console.log(response)
-        event.target.submit();
+        // event.target.submit();
         window.location.replace(url);
     });
 })
