@@ -23,18 +23,15 @@ def installations_arrondissement():
         piscines = database.Database().find_piscine_arrondissement(arr)
         if glissades == "[]" and patinoires == "[]" and piscines == "[]":
             return {'error': 'Aucune installation n\'a été trouvée'}, 404
-        return {'glissades': glissades,
-                'patinoires': patinoires,
-                'piscines': piscines}
     else:
         glissades = database.Database().get_glissades()
         patinoires = database.Database().get_patinoires()
         piscines = database.Database().get_piscines()
         if glissades == "[]" and patinoires == "[]" and piscines == "[]":
             return {'error': 'Aucune installation n\'a été trouvée'}, 404
-        return {'glissades': glissades,
-                'patinoires': patinoires,
-                'piscines': piscines}
+    return {'glissades': glissades,
+            'patinoires': patinoires,
+            'piscines': piscines}
 
 
 # GET toutes les installations
@@ -347,7 +344,7 @@ def update_piscines_patch(nom_request, style_request):
 # Formulaire de modification de la glissade
 @bp.route('/update/glissade/<nom_request>')
 def update_glissade_form(nom_request):
-    form = GlissadeForm()
+    form = GlissadeForm(nom_request)
     glissade = json.loads(database.Database().get_glissade(nom_request))
     form.nom.default = glissade['nom']
     form.nom_arr.default = glissade['arrondissement']['nom_arr']
@@ -367,7 +364,7 @@ def update_glissade_form(nom_request):
 # Formulaire de modification de la patinoire
 @bp.route('/update/patinoire/<nom_request>')
 def update_patinoire_form(nom_request):
-    form = PatinoireForm()
+    form = PatinoireForm(nom_request)
     patinoire = json.loads(database.Database().get_patinoire(nom_request))
     form.nom_pat.default = patinoire['nom_pat']
     form.nom_arr.default = patinoire['nom_arr']
@@ -382,7 +379,7 @@ def update_patinoire_form(nom_request):
 # Formulaire de modification de la piscine
 @bp.route('/update/piscine/<style_request>/<nom_request>')
 def update_piscine_form(nom_request, style_request):
-    form = PiscineForm()
+    form = PiscineForm(nom_request, style_request)
     piscine = json.loads(database.Database().get_piscine(nom_request,
                                                          style_request))
     form.id_uev.default = piscine['id_uev']

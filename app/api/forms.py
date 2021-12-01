@@ -1,5 +1,6 @@
 # forms.py
 # Defini le formulaire du point A5
+from app.database import Database
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DecimalField
 from wtforms.validators import DataRequired, Length, ValidationError
@@ -32,6 +33,19 @@ class GlissadeForm(FlaskForm):
                                                      max=255, message=e)])
     modifier = SubmitField('Modifier')
 
+    # @Override du constructeur.
+    # Il a maintenant comme argument le nom courrant
+    def __init__(self, current_name, *args, **kwargs):
+        super(GlissadeForm, self).__init__(*args, **kwargs)
+        self.current_name = current_name
+
+    # Valider si le nom existe déjà
+    def validate_nom(self, nom):
+        if nom.data != self.current_name:
+            nom = Database().glissade_exists(nom)
+            if nom is not None:
+                raise ValidationError('Ce nom est déjà utilisé')
+
     # Valier le format de la date
     def validate_date_maj(self, date_maj):
         date_maj = date_maj.data
@@ -52,6 +66,19 @@ class PatinoireForm(FlaskForm):
                           validators=[DataRequired(message=m),
                                       Length(min=1, max=255, message=e)])
     modifier = SubmitField('Modifier')
+
+    # @Override du constructeur.
+    # Il a maintenant comme argument le nom courrant
+    def __init__(self, current_name, *args, **kwargs):
+        super(PatinoireForm, self).__init__(*args, **kwargs)
+        self.current_name = current_name
+
+    # Valider si le nom existe déjà
+    def validate_nom(self, nom_pat):
+        if nom_pat.data != self.current_name:
+            nom_pat = Database().patinoire_exists(nom_pat)
+            if nom_pat is not None:
+                raise ValidationError('Ce nom est déjà utilisé')
 
 
 class PiscineForm(FlaskForm):
@@ -78,5 +105,18 @@ class PiscineForm(FlaskForm):
     latitude = DecimalField('Latitude', places=6,
                             validators=[DataRequired(message=m)])
     modifier = SubmitField('Modifier')
+
+    # @Override du constructeur.
+    # Il a maintenant comme argument le nom courrant
+    def __init__(self, current_name, *args, **kwargs):
+        super(PiscineForm, self).__init__(*args, **kwargs)
+        self.current_name = current_name
+
+    # Valider si le nom existe déjà
+    def validate_nom(self, nom, style):
+        if nom.data != self.current_name:
+            nom = Database().piscine_exists(nom, style)
+            if nom is not None:
+                raise ValidationError('Ce nom est déjà utilisé')
 
     # TODO validate format points et lat/long

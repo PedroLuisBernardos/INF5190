@@ -135,6 +135,13 @@ class Database:
         except Exception:
             connect.rollback()
 
+    # Le nom de la glissade existe-t-il déjà ?
+    def glissade_exists(self, nom):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("SELECT * FROM glissade WHERE nom=?", (nom,))
+        return cursor.fetchone()
+
     # Recherche si un arrondissement existe selon la cle primaire
     def is_arrondissement(self, nom_arr):
         cursor = self.get_connection().cursor()
@@ -257,6 +264,13 @@ class Database:
             return Database().get_patinoire(nom_pat)
         except Exception:
             connect.rollback()
+
+    # Le nom de la patinoire existe-t-il déjà ?
+    def patinoire_exists(self, nom_pat):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("SELECT * FROM patinoire WHERE nom_pat=?", (nom_pat,))
+        return cursor.fetchone()
 
     """ Recherche si une condition existe,
     je l'ai commenté vu que je ne l'utilise pas
@@ -430,6 +444,14 @@ class Database:
             return Database().get_piscine(nom, style)
         except Exception:
             connect.rollback()
+
+    # Le nom de la piscine existe-t-il déjà ?
+    def piscine_exists(self, nom, style):
+        connect = self.get_connection()
+        cursor = connect.cursor()
+        cursor.execute("SELECT * FROM piscine WHERE nom=? AND style=?",
+                       (nom, style))
+        return cursor.fetchone()
 
     # Retourne tous les noms de toutes les installations
     def get_noms_installations(self):

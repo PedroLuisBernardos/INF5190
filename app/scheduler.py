@@ -1,4 +1,3 @@
-from typing import Set
 import requests
 import csv
 from app import Config, get_db

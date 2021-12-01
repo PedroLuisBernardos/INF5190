@@ -47,5 +47,5 @@ document.getElementById("recherche").addEventListener("submit", function(event) 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(json_installation)
     })
-    .then(document.getElementById("recherche").submit())
+    .then(response => document.getElementById("recherche").submit())
 })
