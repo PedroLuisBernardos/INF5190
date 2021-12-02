@@ -36,6 +36,9 @@
                         <li class="nav-item {% if request.url_rule.endpoint == 'main.noms_installations' %} active {% endif %}">
                             <a class="nav-link" href="{{ url_for('main.noms_installations') }}">Info sur installations</a>
                         </li>
+                        <li class="nav-item {% if request.url_rule.endpoint == 'main.doc' %} active {% endif %}">
+                            <a class="nav-link" href="{{ url_for('main.doc') }}">Documentation REST</a>
+                        </li>
                     </ul>
                 </div>
             </nav>

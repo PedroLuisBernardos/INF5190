@@ -1,13 +1,9 @@
 # forms.py
 # Defini le formulaire du point A5
-from app.database import Database
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DecimalField
-from wtforms.validators import DataRequired, Length, ValidationError, Required, NumberRange
-import re
 
 
-# TODO TOUTES LES VALIDATIONS NE SE FONT PAS
 class GlissadeForm(FlaskForm):
     nom = StringField('Nom')
     nom_arr = StringField('Nom de l\'arrondissement')

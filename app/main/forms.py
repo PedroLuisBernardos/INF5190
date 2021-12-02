@@ -25,5 +25,5 @@ class NomInstallationForm(FlaskForm):
     choix = choix[1::2]
     choix = choix[1:-1]
     nom_installation = SelectField('Nom de l\'installation,',
-                                   choices=choix)
+                                   choices=choix, )
     submit = SubmitField('Rechercher')

@@ -1,14 +1,12 @@
-<!-- Page d'affichage de l'information d'une installation selon son nom -->
 {% extends "base.html" %}
 
+<!-- Page d'affichage de l'information d'une installation selon son nom -->
 {% block content %}
     <h1>Bienvenue</h1>
     <form id="recherche" class="navbar-right" action="{{ url_for('main.noms_installations') }}" method="POST">
         {{ form.hidden_tag() }}
-        <div" class="form-group">
-            {{ form.nom_installation.label }}
-            {{ form.nom_installation }}
-        </div>
+        {{ form.nom_installation.label }}
+        {{ form.nom_installation }}
         {{ form.submit }}
     </form>
     
@@ -18,8 +16,8 @@
         <hr>
     {% endif %}
 
-    <script type="text/javascript">
+    <script>
         var nom_installation = '{{ nom_installation }}'
     </script>
-    <script type="text/javascript" src="/js/nom_installations.js"></script>
+    <script src="/js/nom_installations.js"></script>
 {% endblock content %}

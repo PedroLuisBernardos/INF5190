@@ -1,14 +1,12 @@
-<!-- Page d'accueil -->
 {% extends "base.html" %}
 
+<!-- Page d'affichage du tableau des installations selon un arrondissement -->
 {% block content %}
-    <h1>Bienvenue</h1>
+    <h1>Tableau d'installations selon un arrondissement</h1>
     <form id="recherche" class="form-group" action="{{ url_for('main.index') }}" method="POST">
         {{ form.hidden_tag() }}
-        <div" class="col-md-4">
-            {{ form.arrondissement.label }}
-            {{ form.arrondissement }}
-        </div>
+        {{ form.arrondissement.label }}
+        {{ form.arrondissement }}
         {{ form.submit }}
     </form>
 
@@ -24,9 +22,9 @@
     <div id="piscines"></div>
     <hr>
 
-    <script type="text/javascript">
+    <script>
         var arr = '{{ arrondissement }}'
     </script>
-    <script type="text/javascript" src="/js/arrondissement.js"></script>
+    <script src="/js/arrondissement.js"></script>
 
 {% endblock content %}
