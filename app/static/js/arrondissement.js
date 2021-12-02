@@ -1,4 +1,8 @@
-// Ajoute l'entete du tableau
+/**
+ * Ajoute l'entête du tableau
+ * @param {*} table tableau
+ * @param {*} keys clés de l'entête
+ */
 function headers(table, keys) {
     var row = table.insertRow();
     header_keys = Object.keys(keys[0]);
@@ -22,6 +26,12 @@ function headers(table, keys) {
     errase.appendChild(document.createTextNode('Suprimer')); 
 }
 
+/**
+ * Retourne le nom de l'installation
+ * @param {*} r objet contenant le nom
+ * @param {*} type_installation type d'installation
+ * @returns 
+ */
 function getNom(r, type_installation) {
     if (type_installation === "glissades") {
         return r[Object.keys(r)[0]];
@@ -32,13 +42,22 @@ function getNom(r, type_installation) {
     }
 }
 
-// Modifie l'installation
+/**
+ * Modifie une installation
+ * @param {*} nom selon son nom
+ * @param {*} type_inst et son type d'installation
+ */
 function modifier(nom, type_inst) {
     var url = "/api/update/"+type_inst+"/"+nom;
     window.location.replace(url);
 }
 
-// Supprime l'installation
+/**
+ * Supprime une installation
+ * @param {*} url URL pour la suppréssion
+ * @param {*} type_inst type d'installation à supprimer
+ * @returns retourne la méthode
+ */
 function supprimer(url, type_inst) {
     return fetch(url, {method:'DELETE'})
     .then(response => response.text())
@@ -61,7 +80,11 @@ function supprimer(url, type_inst) {
     });
 }
 
-// Lancee lorsque la recherche pour un arrondissement est lancee
+/**
+ * Construit la table des installations
+ * @param {*} arrondissement selon un arrondissement
+ * @param {*} type_installation et son type d'installation
+ */
 async function arrondissementRecherche(arrondissement, type_installation) {
     var table = document.createElement('table');
     table.className = 'table table-striped'

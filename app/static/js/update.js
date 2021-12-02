@@ -1,10 +1,47 @@
+/**
+ * Méthode qui retourne si l'installation existe
+ * @param {*} url l'url de l'isntallation
+ * @returns true elle existe, false elle n'exise pas
+ */
+async function nom_existe(url) {
+    let reponse = await fetch(url)
+    .then((response) => response.json()
+    .then(res => ({status: response.status, data: res})))
+    .then((apiResponse) => {
+        return apiResponse;
+    })
+    .catch((error) => {
+        console.error('Erreur:', error);
+    });
+    
+    if (reponse.status == 200) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Méthode qui valide le formulaire
+ * @param {*} json_installation JSON contenant les informations du formulaire
+ * @param {*} installation type d'installation
+ * @returns 
+ */
 function validateForm(json_installation, installation) {
     var validated;
+    var url;
 
     if (installation === 'glissade') {
         var nom = (json_installation.nom != null && json_installation.nom != "" && json_installation.nom.length <= 255)
         if (!nom) {
             alert("Vous devez entrer entre 1 et 255 caractères pour le nom de la glissade")
+        }
+
+        url = '/api/glissade/' + json_installation.nom;
+        var reponse = nom_existe(url);
+        console.log(reponse)
+        if (reponse) {
+            alert("Le nom de la glissade existe déjà")
         }
 
         var nom_arr = (json_installation.arrondissement.nom_arr != null && json_installation.arrondissement.nom_arr != "" && json_installation.arrondissement.nom_arr.length <= 255)
@@ -46,6 +83,12 @@ function validateForm(json_installation, installation) {
             alert("Vous devez entrer entre 1 et 255 caractères pour le nom de la patinoire")
         }
 
+        url = '/api/patinoire/' + json_installation.nom_pat;
+
+        if (nom_existe(url)) {
+            alert("Le nom de la patinoire existe déjà")
+        }
+
         var nom_arr = (json_installation.nom_arr != null && json_installation.nom_arr != "" && json_installation.nom_arr.length <= 255)
         if (!nom_arr) {
             alert("Vous devez entrer entre 1 et 255 caractères pour le nom de l'arrondissement")
@@ -67,6 +110,11 @@ function validateForm(json_installation, installation) {
         var nom = (json_installation.nom != null && json_installation.nom != "" && json_installation.nom.length <= 255)
         if (!nom) {
             alert("Vous devez entrer entre 1 et 255 caractères pour le nom de la piscine")
+        }
+
+        url = '/api/piscine/' + json_installation.style + '/' + json_installation.nom;
+        if (nom_existe(url)) {
+            alert("Le nom de la pisicne existe déjà")
         }
 
         var arrondisse = (json_installation.arrondisse != null && json_installation.arrondisse != "" && json_installation.arrondisse.length <= 255)
@@ -101,12 +149,14 @@ function validateForm(json_installation, installation) {
     return validated;
 }
 
+
+let formulaire = document.querySelector("form");
+formulaire.id = "recherche";
+
 /**
  * Handler pour l'envoit du formulaire
  * @param {SubmitEvent} event
  */
- let formulaire = document.querySelector("form");
- formulaire.id = "recherche";
 document.getElementById("recherche").addEventListener("submit", function(event) {
     var url_fetch = url
     var json_installation = new Object();

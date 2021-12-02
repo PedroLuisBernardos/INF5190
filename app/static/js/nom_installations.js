@@ -1,4 +1,7 @@
-//TODO gerer es tuples: Aire de Glissade, Saint Joseph
+/**
+ * Affiche les informations selon un nom d'installation
+ * @param {*} nom_installation nom d'installation choisi
+ */
 async function nomInstallationAffichage(nom_installation) {
     let installation = document.getElementById("installation");
     await fetch("/api/installation/"+nom_installation)
