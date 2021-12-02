@@ -1,3 +1,106 @@
+function validateForm(json_installation, installation) {
+    var validated;
+
+    if (installation === 'glissade') {
+        var nom = (json_installation.nom != null && json_installation.nom != "" && json_installation.nom.length <= 255)
+        if (!nom) {
+            alert("Vous devez entrer entre 1 et 255 caractères pour le nom de la glissade")
+        }
+
+        var nom_arr = (json_installation.arrondissement.nom_arr != null && json_installation.arrondissement.nom_arr != "" && json_installation.arrondissement.nom_arr.length <= 255)
+        if (!nom_arr) {
+            alert("Vous devez entrer entre 1 et 255 caractères pour le nom de l'arrondissement")
+        }
+
+        var cle = (json_installation.arrondissement.cle != null && json_installation.arrondissement.cle != "" && json_installation.arrondissement.cle.length <= 5)
+        if (!cle) {
+            alert("Vous devez entrer entre 1 et 5 caractères pour la clé de l'arrondissement")
+        }
+
+        var ISO8601 = new RegExp("/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/")
+        var date_maj = (ISO8601.test(json_installation.arrondissement.date_maj))
+        if (!date_maj) {
+            alert("Vous devez entrer une date respectant le format ISO8601, par exemple: 2021-10-18 13:45:13")
+        }
+
+        var ouvert = Number.isInteger(json_installation.ouvert) && (json_installation.ouvert == 0 || json_installation.ouvert == 1)
+        if (!ouvert) {
+            alert("Votre champ ouvert doit être 0 ou 1 uniquement")
+        }
+
+        var deblaye = Number.isInteger(json_installation.deblaye) && (json_installation.deblaye == 0 || json_installation.deblaye == 1)
+        if (!deblaye) {
+            alert("Votre champ deblaye doit être 0 ou 1 uniquement")
+        }
+
+        var condition = (json_installation.condition != null && json_installation.condition != "" && json_installation.condition.length <= 255)
+        if (!condition) {
+            alert("Vous devez entrer entre 1 et 255 caractères pour la condition de la glissade")
+        }
+
+        validated = nom && nom_arr && cle && date_maj && ouvert && deblaye && condition
+
+    } else if (installation === 'patinoire') {
+        var nom_pat = (json_installation.nom_pat != null && json_installation.nom_pat != "" && json_installation.nom_pat.length <= 255)
+        if (!nom_pat) {
+            alert("Vous devez entrer entre 1 et 255 caractères pour le nom de la patinoire")
+        }
+
+        var nom_arr = (json_installation.nom_arr != null && json_installation.nom_arr != "" && json_installation.nom_arr.length <= 255)
+        if (!nom_arr) {
+            alert("Vous devez entrer entre 1 et 255 caractères pour le nom de l'arrondissement")
+        }
+
+        validated = nom_pat && nom_arr
+
+    } else if (installation === 'piscine') {
+        var id_uev = Number.isInteger(json_installation.id_uev)
+        if (!id_uev) {
+            alert("Vous devez entrer un entier valide pour l'id_uev de la piscine")
+        }
+
+        var style = (json_installation.style != null && json_installation.style != "" && json_installation.style.length <= 255)
+        if (!style) {
+            alert("Vous devez entrer entre 1 et 255 caractères pour le type de la piscine")
+        }
+
+        var nom = (json_installation.nom != null && json_installation.nom != "" && json_installation.nom.length <= 255)
+        if (!nom) {
+            alert("Vous devez entrer entre 1 et 255 caractères pour le nom de la piscine")
+        }
+
+        var arrondisse = (json_installation.arrondisse != null && json_installation.arrondisse != "" && json_installation.arrondisse.length <= 255)
+        if (!arrondisse) {
+            alert("Vous devez entrer entre 1 et 255 caractères pour le nom de l'arrondissement")
+        }
+
+        var point_x = Number.isInteger(parseInt(json_installation.point_x))
+        if (!point_x) {
+            alert('Vous devez entrer un point_x de cette façon-ci: 304846,2071 ou 5039975909, par exemple')
+        }
+
+        var point_y = Number.isInteger(parseInt(json_installation.point_y))
+        if (!point_y) {
+            alert('Vous devez entrer un point_y de cette façon-ci: 304846,2071 ou 5039975909, par exemple')
+        }
+
+        var longitude_latitude = new RegExp("/^-?\d{2}\.\d{5,6}$/")
+        var longitude = (longitude_latitude.test(json_installation.longitude) && json_installation.longitude.length == 10)
+        if (!longitude) {
+            alert("Vous devez entrer une valeur valide, par exemple: -73.49941 ou 45.640521")
+        }
+
+        var latitude = (longitude_latitude.test(json_installation.latitude) && json_installation.longitude.length == 10)
+        if (!latitude) {
+            alert("Vous devez entrer une valeur valide, par exemple: -73.49941 ou 45.640521")
+        }
+
+        validated = id_uev && style && nom && arrondisse && point_x && point_y && longitude && latitude
+    }
+
+    return validated;
+}
+
 /**
  * Handler pour l'envoit du formulaire
  * @param {SubmitEvent} event
@@ -7,6 +110,7 @@
 document.getElementById("recherche").addEventListener("submit", function(event) {
     var url_fetch = url
     var json_installation = new Object();
+
     if (installation === 'glissade') {
         var arrondissement = new Object();
         json_installation.nom = document.getElementById("nom").value;
@@ -44,10 +148,14 @@ document.getElementById("recherche").addEventListener("submit", function(event) 
         url_fetch = url_fetch + style_request + '/' + nom_request
     }
     event.preventDefault()
-    fetch(url_fetch, {
-        method:'PUT',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(json_installation)
-    })
-    .then(response => document.getElementById("recherche").submit())
+    var validated = validateForm(json_installation, installation);
+
+    if (validated) {
+        fetch(url_fetch, {
+            method:'PUT',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(json_installation, installation)
+        })
+        .then(response => window.location.replace('/'))
+    }
 })

@@ -342,11 +342,9 @@ def update_piscines_patch(nom_request, style_request):
 
 
 # Formulaire de modification de la glissade
-@bp.route('/update/glissade/<nom_request>', methods=['GET', 'POST'])
+@bp.route('/update/glissade/<nom_request>')
 def update_glissade_form(nom_request):
-    form = GlissadeForm(nom_request)
-    if request.method == 'POST':
-        return redirect("/")
+    form = GlissadeForm()
     glissade = json.loads(database.Database().get_glissade(nom_request))
     form.nom.default = glissade['nom']
     form.nom_arr.default = glissade['arrondissement']['nom_arr']
@@ -366,13 +364,11 @@ def update_glissade_form(nom_request):
 # Formulaire de modification de la patinoire
 @bp.route('/update/patinoire/<nom_request>')
 def update_patinoire_form(nom_request):
-    form = PatinoireForm(nom_request)
+    form = PatinoireForm()
     patinoire = json.loads(database.Database().get_patinoire(nom_request))
     form.nom_pat.default = patinoire['nom_pat']
     form.nom_arr.default = patinoire['nom_arr']
     form.process()
-    if form.validate_on_submit():
-        redirect("/")
     return render_template("api/modifier.html",
                            title='Modification de la patinoire',
                            installation='patinoire',
@@ -383,7 +379,7 @@ def update_patinoire_form(nom_request):
 # Formulaire de modification de la piscine
 @bp.route('/update/piscine/<style_request>/<nom_request>')
 def update_piscine_form(nom_request, style_request):
-    form = PiscineForm(nom_request, style_request)
+    form = PiscineForm()
     piscine = json.loads(database.Database().get_piscine(nom_request,
                                                          style_request))
     form.id_uev.default = piscine['id_uev']
@@ -399,8 +395,6 @@ def update_piscine_form(nom_request, style_request):
     form.longitude.default = piscine['long']
     form.latitude.default = piscine['lat']
     form.process()
-    if form.validate_on_submit():
-        redirect("/")
     return render_template("api/modifier.html",
                            title='Modification de la piscine',
                            installation='piscine',
