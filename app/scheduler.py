@@ -96,11 +96,11 @@ class SetUp:
         # Creer la base de donnees
         if (exists("app/static/piscines.csv") and
             exists("app/static/patinoires.xml") and
-                exists("app/static/glissades.xml")):
+                exists("app/static/glissades.xml") and
+                exists("db/database.db")):
             schedule = BackgroundScheduler(daemon=True)
             schedule.add_job(SetUp().telecharger, 'cron', day='*', hour='0')
             schedule.start()
-            # TODO update bd apres un chanegemtn??
         else:
             SetUp.telecharger()
             SetUp.create_piscine_db()

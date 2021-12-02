@@ -1,8 +1,21 @@
+# Correction du Projet de session
+## Pedro Luis Bernardos
+## BERP01039907
+### INF5190-mercredi soir A21
+
+---
+
+## A1
+
+---
+
+
+
 SUPPRIMER gunicorn REQUIREMENTS.TXTX
 
 
-todo: form do regex
 todo: ajouter derniere condition patinoire
+
 
 
 Pedro 11:36 AM  -> /mnt/c/Users/pedro/Desktop/INF5190/app/api (main)

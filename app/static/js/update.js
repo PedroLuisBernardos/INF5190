@@ -207,6 +207,9 @@ document.getElementById("recherche").addEventListener("submit", async function(e
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(json_installation, installation)
         })
-        .then(response => window.location.replace('/'))
+        .then(response => {
+            alert("L'installation a été modifiée avec succès")
+            window.location.replace('/')
+        })
     }
 })
