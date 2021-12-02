@@ -342,9 +342,11 @@ def update_piscines_patch(nom_request, style_request):
 
 
 # Formulaire de modification de la glissade
-@bp.route('/update/glissade/<nom_request>')
+@bp.route('/update/glissade/<nom_request>', methods=['GET', 'POST'])
 def update_glissade_form(nom_request):
     form = GlissadeForm(nom_request)
+    if request.method == 'POST':
+        return redirect("/")
     glissade = json.loads(database.Database().get_glissade(nom_request))
     form.nom.default = glissade['nom']
     form.nom_arr.default = glissade['arrondissement']['nom_arr']
@@ -369,6 +371,8 @@ def update_patinoire_form(nom_request):
     form.nom_pat.default = patinoire['nom_pat']
     form.nom_arr.default = patinoire['nom_arr']
     form.process()
+    if form.validate_on_submit():
+        redirect("/")
     return render_template("api/modifier.html",
                            title='Modification de la patinoire',
                            installation='patinoire',
@@ -395,16 +399,11 @@ def update_piscine_form(nom_request, style_request):
     form.longitude.default = piscine['long']
     form.latitude.default = piscine['lat']
     form.process()
+    if form.validate_on_submit():
+        redirect("/")
     return render_template("api/modifier.html",
                            title='Modification de la piscine',
                            installation='piscine',
                            form=form, url='/api/piscine/',
                            nom_request=nom_request,
                            style_request=style_request)
-
-
-# Après envoit du formulaire
-# TODO
-@bp.route('/update/send_form', methods=['POST'])
-def send_form():
-    return redirect('/')

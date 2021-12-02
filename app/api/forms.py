@@ -3,7 +3,7 @@
 from app.database import Database
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, DecimalField
-from wtforms.validators import DataRequired, Length, ValidationError
+from wtforms.validators import DataRequired, Length, ValidationError, Required, NumberRange
 import re
 
 
@@ -22,11 +22,11 @@ class GlissadeForm(FlaskForm):
     date_maj = StringField('Date', validators=[DataRequired(message=m),
                                                Length(min=1, max=255,
                                                message=e)])
-    ouvert = IntegerField('Ouvert', validators=[DataRequired(message=m),
-                                                Length(min=0, max=1,
+    ouvert = IntegerField('Ouvert', validators=[Required(message=m),
+                                                NumberRange(min=0, max=1,
                                                 message=s)])
-    deblaye = IntegerField('Deblaye', validators=[DataRequired(message=m),
-                                                  Length(min=0, max=1,
+    deblaye = IntegerField('Deblaye', validators=[Required(message=m),
+                                                  NumberRange(min=0, max=1,
                                                   message=s)])
     condition = StringField('Condition', validators=[DataRequired(message=m),
                                                      Length(min=1,
@@ -42,7 +42,7 @@ class GlissadeForm(FlaskForm):
     # Valider si le nom existe déjà
     def validate_nom(self, nom):
         if nom.data != self.current_name:
-            nom = Database().glissade_exists(nom)
+            nom = Database().glissade_exists(nom.data)
             if nom is not None:
                 raise ValidationError('Ce nom est déjà utilisé')
 

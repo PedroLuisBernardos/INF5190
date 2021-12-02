@@ -2,6 +2,8 @@
  * Handler pour l'envoit du formulaire
  * @param {SubmitEvent} event
  */
+ let formulaire = document.querySelector("form");
+ formulaire.id = "recherche";
 document.getElementById("recherche").addEventListener("submit", function(event) {
     var url_fetch = url
     var json_installation = new Object();

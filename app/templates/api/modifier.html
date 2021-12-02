@@ -4,11 +4,11 @@
 
 {% block content %}
     <h1>Modifier {{ installation }}</h1>
-    <form id="recherche" class="form-group" action="{{ url_for('api.send_form') }}" method="POST">
+    <div class="form-group">
         <div class="col-md-4">
             {{ wtf.quick_form(form) }}
         </div>
-    </form>
+    </div>
 
     <script type="text/javascript">
         var url = '{{ url }}'
