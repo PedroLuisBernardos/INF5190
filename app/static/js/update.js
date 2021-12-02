@@ -40,7 +40,6 @@ async function validateForm(json_installation, installation, nom_request, style_
 
         url = '/api/glissade/' + json_installation.nom;
         var reponse = await nom_existe(url, 'glissade', nom_request, style_request);
-        console.log(reponse)
         if (reponse) {
             alert("Le nom de la glissade existe déjà")
         }
@@ -55,7 +54,7 @@ async function validateForm(json_installation, installation, nom_request, style_
             alert("Vous devez entrer entre 1 et 5 caractères pour la clé de l'arrondissement")
         }
 
-        var ISO8601 = new RegExp("/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/")
+        var ISO8601 = new RegExp(/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/)
         var date_maj = (ISO8601.test(json_installation.arrondissement.date_maj))
         if (!date_maj) {
             alert("Vous devez entrer une date respectant le format ISO8601, par exemple: 2021-10-18 13:45:13")
@@ -134,15 +133,13 @@ async function validateForm(json_installation, installation, nom_request, style_
             alert('Vous devez entrer un point_y de cette façon-ci: 304846,2071 ou 5039975909, par exemple')
         }
 
-        var longitude_latitude = new RegExp("/^-?\d{2}\.\d{5,6}$/")
-        var longitude = (longitude_latitude.test(json_installation.longitude) && json_installation.longitude.length == 10)
-        console.log(longitude_latitude.test(json_installation.longitude))
-        console.log(json_installation.longitude.length == 10)
+        var longitude_latitude = new RegExp(/^-?\d{2}\.\d{0,6}$/)
+        var longitude = (longitude_latitude.test(json_installation.longitude))
         if (!longitude) {
             alert("Vous devez entrer une valeur valide, par exemple: -73.49941 ou 45.640521")
         }
 
-        var latitude = (longitude_latitude.test(json_installation.latitude) && json_installation.longitude.length == 10)
+        var latitude = (longitude_latitude.test(json_installation.latitude))
         if (!latitude) {
             alert("Vous devez entrer une valeur valide, par exemple: -73.49941 ou 45.640521")
         }
@@ -205,7 +202,7 @@ document.getElementById("recherche").addEventListener("submit", async function(e
     var validated = await validateForm(json_installation, installation, nom_request, style_request);
 
     if (validated) {
-        fetch(url_fetch, {
+        await fetch(url_fetch, {
             method:'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(json_installation, installation)
