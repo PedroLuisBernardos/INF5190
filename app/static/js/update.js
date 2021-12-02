@@ -136,6 +136,8 @@ async function validateForm(json_installation, installation, nom_request, style_
 
         var longitude_latitude = new RegExp("/^-?\d{2}\.\d{5,6}$/")
         var longitude = (longitude_latitude.test(json_installation.longitude) && json_installation.longitude.length == 10)
+        console.log(longitude_latitude.test(json_installation.longitude))
+        console.log(json_installation.longitude.length == 10)
         if (!longitude) {
             alert("Vous devez entrer une valeur valide, par exemple: -73.49941 ou 45.640521")
         }
