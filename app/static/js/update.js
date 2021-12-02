@@ -3,7 +3,7 @@
  * @param {*} url l'url de l'isntallation
  * @returns true elle existe, false elle n'exise pas
  */
-async function nom_existe(url) {
+async function nom_existe(url, type, nom_request, style_request) {
     let reponse = await fetch(url)
     .then((response) => response.json()
     .then(res => ({status: response.status, data: res})))
@@ -13,12 +13,13 @@ async function nom_existe(url) {
     .catch((error) => {
         console.error('Erreur:', error);
     });
-    
+
     if (reponse.status == 200) {
-        return true;
-    } else {
-        return false;
-    }
+        if ((type === 'glissade' && reponse.data.nom != nom_request) || (type === 'patinoire' && reponse.data.nom_pat != nom_request) || (type === 'piscine' && (reponse.data.nom != nom_request || reponse.data.type != style_request))) {
+            return true;
+        }
+    } 
+    return false;
 }
 
 /**
@@ -27,7 +28,7 @@ async function nom_existe(url) {
  * @param {*} installation type d'installation
  * @returns 
  */
-function validateForm(json_installation, installation) {
+async function validateForm(json_installation, installation, nom_request, style_request) {
     var validated;
     var url;
 
@@ -38,7 +39,7 @@ function validateForm(json_installation, installation) {
         }
 
         url = '/api/glissade/' + json_installation.nom;
-        var reponse = nom_existe(url);
+        var reponse = await nom_existe(url, 'glissade', nom_request, style_request);
         console.log(reponse)
         if (reponse) {
             alert("Le nom de la glissade existe déjà")
@@ -84,8 +85,8 @@ function validateForm(json_installation, installation) {
         }
 
         url = '/api/patinoire/' + json_installation.nom_pat;
-
-        if (nom_existe(url)) {
+        var reponse = await nom_existe(url, 'patinoire', nom_request, style_request);
+        if (reponse) {
             alert("Le nom de la patinoire existe déjà")
         }
 
@@ -113,7 +114,8 @@ function validateForm(json_installation, installation) {
         }
 
         url = '/api/piscine/' + json_installation.style + '/' + json_installation.nom;
-        if (nom_existe(url)) {
+        var reponse = await nom_existe(url, 'piscine', nom_request, style_request);
+        if (reponse) {
             alert("Le nom de la pisicne existe déjà")
         }
 
@@ -157,7 +159,7 @@ formulaire.id = "recherche";
  * Handler pour l'envoit du formulaire
  * @param {SubmitEvent} event
  */
-document.getElementById("recherche").addEventListener("submit", function(event) {
+document.getElementById("recherche").addEventListener("submit", async function(event) {
     var url_fetch = url
     var json_installation = new Object();
 
@@ -198,7 +200,7 @@ document.getElementById("recherche").addEventListener("submit", function(event) 
         url_fetch = url_fetch + style_request + '/' + nom_request
     }
     event.preventDefault()
-    var validated = validateForm(json_installation, installation);
+    var validated = await validateForm(json_installation, installation, nom_request, style_request);
 
     if (validated) {
         fetch(url_fetch, {

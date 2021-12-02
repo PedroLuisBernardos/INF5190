@@ -13,10 +13,10 @@ def index():
     if form.validate_on_submit():
         new_form = ArrondissementForm()
         arrondissement = form.arrondissement.data
-        return render_template("index.html",
+        return render_template("tableau_installations.html",
                                title="Installations selon arrondissement",
                                arrondissement=arrondissement, form=new_form)
-    return render_template("index.html",
+    return render_template("tableau_installations.html",
                            title="Installations selon arrondissement",
                            form=form)
 

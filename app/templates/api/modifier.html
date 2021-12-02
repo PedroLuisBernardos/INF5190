@@ -15,7 +15,9 @@
         var installation = '{{ installation }}'
         var nom_request = '{{ nom_request }}'
         '{% if style_request %}'
-        var style_request = '{{ style_request }}'
+            var style_request = '{{ style_request }}'
+        '{% else %}'
+            var style_request = ""
         '{% endif %}'
     </script>
     <script src="/js/update.js"></script>
