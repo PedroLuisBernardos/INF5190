@@ -5,6 +5,8 @@
 glissades.xml
 patinoires.xml
 piscines.csv
+ennonce/
+Vagrantfile
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
