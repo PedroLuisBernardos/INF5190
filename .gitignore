@@ -2,7 +2,6 @@
 .vagrant/
 .DS_Store
 
-
 glissades.xml
 patinoires.xml
 piscines.csv
