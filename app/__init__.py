@@ -28,7 +28,7 @@ with app.app_context():
 
     # Telecharge
     from app.scheduler import SetUp
-    #SetUp.run()
+    SetUp.run()
 
 # Gestion des erreurs
 from app.errors import bp as errors_bp

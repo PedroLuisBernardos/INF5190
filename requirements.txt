@@ -1,4 +1,3 @@
-gunicorn
 aniso8601==9.0.1
 APScheduler==3.8.1
 attrs==21.2.0

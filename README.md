@@ -1,8 +1,12 @@
-# INF5190 Environnement du projet de session
+# INF5190 Projet de session
+
+Le but de ce projet est d'utiliser des données de la ville de Montréal pour construire une base de données et manipuler les tables avec des rêquetes REST.
 
 ## Crédits
 
 Les icônes ont été prises du site: http://www.onlinewebfonts.com/icon
+
+Ce README a été basé sur le [README](ennonce/README.md) du professeur Jacques Berger
 
 ## :clipboard: Prérequis
 
@@ -107,9 +111,15 @@ Le répertoire où vous avez lancé le `vagrant up` sera disponible dans la VM s
 Uniquement les librairies présentes dans `requirements.txt` sont permises.
 
     $ cd /vagrant
-    $ sudo pip install -r requirements.txt
+    $ make install
 
 Vous êtes prêts à développer.
+
+### Partir l'API
+
+Lancer la commande suivante:
+
+    $ make run
 
 ### Tests dans un fureteur
 
