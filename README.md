@@ -130,3 +130,7 @@ Une fois l'application Flask lancée dans votre VM, utilisez le fureteur de votr
 ordinateur pour accéder à l'application Flask. Vous pouvez y accéder en
 utilisant l'adresse IP de eth1 et en spécifiant le port de Flask. Exemple :
 http://192.168.50.12:5000/
+
+## Pour le correcteur
+
+Voir [ce fichier](ennonce/correction.md) pour consulter la grille d'évaluation
