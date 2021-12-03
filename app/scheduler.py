@@ -20,7 +20,7 @@ class SetUp:
     # Cree les bases de donnees pour les piscines
     # les patinoires et les glissades
     def create_piscine_db():
-        with open('app/static/piscines.csv', newline='') as csvfile:
+        with open(requests.get(Config.urlPiscines), newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='"')
             next(reader)
             for row in reader:
@@ -47,7 +47,7 @@ class SetUp:
         csvfile.close()
 
     def create_patinoire_db():
-        with open('app/static/patinoires.xml', newline='') as xmlfile:
+        with open(requests.get(Config.urlPatinoires), newline='') as xmlfile:
             tree = ET.parse(xmlfile)
             root = tree.getroot()
             for i in range(len(root)):
@@ -73,7 +73,7 @@ class SetUp:
                         #                           resurface, nom_pat)
 
     def create_glissade_db():
-        with open('app/static/glissades.xml', newline='') as xmlfile:
+        with open(requests.get(Config.urlGlissades), newline='') as xmlfile:
             tree = ET.parse(xmlfile)
             root = tree.getroot()
             for i in range(len(root)):

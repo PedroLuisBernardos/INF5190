@@ -2,9 +2,7 @@
 
 ## Crédits
 
-La majorité de cette documentation a été produite par François-Xavier
-Guillemette. Cette documentation est utilisée avec permission de l'auteur et la
-version originale est disponible à l'adresse https://github.com/fxg42/inf2050-exemples-build/blob/master/README.md
+Les icônes ont été prises du site: http://www.onlinewebfonts.com/icon
 
 ## :clipboard: Prérequis
 
