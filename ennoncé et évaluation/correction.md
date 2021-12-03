@@ -142,7 +142,8 @@ NOTE FINALE :                   /100
 
 *Le système est entièrement déployé sur la plateforme infonuagique Heroku.*
 
-*
+* L'application est [disponible ici](https://inf5190-berp01039907.herokuapp.com/)
+* Le fichier `Procfile` est présent dans ce dépôt
 
 <pre>
 
