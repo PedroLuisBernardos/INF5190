@@ -4,9 +4,8 @@ Le but de ce projet est d'utiliser des données de la ville de Montréal pour co
 
 ### Crédits
 
-Les icônes ont été prises du site: http://www.onlinewebfonts.com/icon
-
-Jacques Berger
+- Les icônes ont été prises du site: http://www.onlinewebfonts.com/icon
+- Jacques Berger
 
 ## :clipboard: Prérequis
 
