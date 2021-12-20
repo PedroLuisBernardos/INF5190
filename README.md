@@ -1,6 +1,6 @@
 # INF5190-A21 - Projet de session
 
-Le but de ce projet est d'utiliser des données de la ville de Montréal pour construire une base de données et manipuler les tables avec des rêquetes REST.
+Le but de ce projet est d'utiliser des données de la ville de Montréal pour construire une base de données et manipuler les tables avec des requêtes REST.
 
 ### Crédits
 
@@ -18,7 +18,7 @@ Jacques Berger
 
 ## :wrench: Installation
 
-> :warning: L'exécution de la commande `vagrant up` prend plusieurs minutes à  secompléter. Créez un répertoire vide et placez-y le Vagrantfile et le fichier [requirements.txt](requirements.txt).
+> :warning: L'exécution de la commande `vagrant up` prend plusieurs minutes à se compléter. Créez un répertoire vide et placez-y le Vagrantfile et le fichier [requirements.txt](requirements.txt).
 
 ### Linux / MacOS
 
