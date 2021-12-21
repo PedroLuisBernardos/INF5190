@@ -1,5 +1,14 @@
 # INF5190-A21 - Projet de session
 
+![Version](https://img.shields.io/badge/version-automne2021-success?style=flat)
+![Lisence](https://img.shields.io/badge/lisence-Apache2.0-green?style=flat)
+![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=Python&logoColor=white)
+![Version](https://img.shields.io/badge/version-3.7|3.8|3.9-3776AB?style=flat&)
+![JavaScript](https://img.shields.io/badge/AJAX-JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white)
+![Flask](https://img.shields.io/badge/framework-Flask-000000?style=flat&logo=Flask&logoColor=white)
+![SQLite3](https://img.shields.io/badge/db-SQLite3-003B57?style=flat&logo=SQLite&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/CSS-Bootstrap-7952B3?style=flat&logo=Bootstrap&logoColor=white)
+
 Le but de ce projet est d'utiliser des données de la ville de Montréal pour construire une base de données et manipuler les tables avec des requêtes REST.
 
 ### Crédits
