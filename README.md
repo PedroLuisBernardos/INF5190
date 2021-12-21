@@ -1,7 +1,7 @@
 # INF5190-A21 - Projet de session
 
 ![Version](https://img.shields.io/badge/version-automne2021-success?style=flat)
-![Lisence](https://img.shields.io/badge/lisence-Apache2.0-green?style=flat)
+![License](https://img.shields.io/badge/license-Apache2.0-green?style=flat)
 ![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=Python&logoColor=white)
 ![Version](https://img.shields.io/badge/version-3.7|3.8|3.9-3776AB?style=flat&)
 ![JavaScript](https://img.shields.io/badge/AJAX-JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white)
